@@ -1,9 +1,10 @@
 import { Image } from "expo-image";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { ImageBackground } from "react-native";
 
 const OnboardingScreen = ({ navigation }) => {
   return (
-    <Image
+    <ImageBackground
       source={require("../assets/images/onboardImage.jpg")}
       style={styles.container}
     >
@@ -18,7 +19,7 @@ const OnboardingScreen = ({ navigation }) => {
       >
         <Text style={styles.appButtonText}>Start</Text>
       </TouchableOpacity>
-    </Image>
+    </ImageBackground>
   );
 };
 

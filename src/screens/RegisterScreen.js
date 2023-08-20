@@ -15,15 +15,20 @@ import { Image } from "expo-image";
 import CustomButton from "../components/CustomButton";
 import InputField from "../components/InputField";
 import AuthGoogleFB from "../components/AuthGoogleFB";
+import DatePicker from "../components/DatePicker";
 
-const LoginScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Image
-        source={require("../assets/images/yoga-login.png")}
-        style={styles.image}
+      <Text style={styles.text}>Welcome Onboard!</Text>
+      <Text style={styles.smallText}>
+        Let's help you in completing your routine
+      </Text>
+
+      <InputField
+        label="Full name"
+        icon={<Ionicons name="person" size={17} style={styles.iconStyle} />}
       />
-      <Text style={styles.text}>Welcome Back!</Text>
       <InputField
         label="Email"
         icon={<Entypo name="email" size={17} style={styles.iconStyle} />}
@@ -32,28 +37,29 @@ const LoginScreen = ({ navigation }) => {
       <InputField
         label="Password"
         icon={
-          <Ionicons name="ios-key-outline" size={22} style={styles.iconStyle} />
+          <Ionicons name="ios-key-outline" size={17} style={styles.iconStyle} />
         }
         inputType="password"
       />
+      <InputField
+        label="Confirm password"
+        icon={
+          <Ionicons name="ios-key-outline" size={17} style={styles.iconStyle} />
+        }
+        inputType="password"
+      />
+      <DatePicker />
 
-      <TouchableOpacity onPress={() => console.log("touched")}>
-        <Text style={styles.opacityText}>Forgot password?</Text>
-      </TouchableOpacity>
-
-      <View style={{ marginTop: 25 }}>
-        <CustomButton label="Login" />
+      <View style={{ marginTop: 20 }}>
+        <CustomButton label="Register" />
       </View>
 
       <View style={styles.underButton}>
-        <Text style={styles.underButtonText}>
-          You don't have an account yet?
-        </Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text style={styles.opacityText}>Sign up</Text>
+        <Text style={styles.underButtonText}>Do you have an account?</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.opacityText}>Sign in</Text>
         </TouchableOpacity>
       </View>
-
       <AuthGoogleFB />
     </SafeAreaView>
   );
@@ -67,17 +73,17 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingHorizontal: 25,
   },
-  image: {
-    alignSelf: "center",
-    height: 230,
-    width: 230,
-    marginBottom: 30,
-  },
   text: {
     fontSize: 22,
     alignSelf: "center",
     fontFamily: "Poppins-Bold",
-    marginBottom: 20,
+    marginBottom: 8,
+  },
+  smallText: {
+    fontSize: 15,
+    alignSelf: "center",
+    fontFamily: "Poppins-Bold",
+    marginBottom: 44,
   },
   iconStyle: {
     marginRight: 5,
@@ -104,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
