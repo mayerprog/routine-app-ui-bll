@@ -1,66 +1,95 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   Platform,
   StatusBar,
   TouchableOpacity,
+  ActivityIndicator,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image } from "expo-image";
 import CustomButton from "../components/CustomButton";
 import InputField from "../components/InputField";
 import AuthGoogleFB from "../components/AuthGoogleFB";
 import DatePicker from "../components/DatePicker";
+import { AuthContext } from "../context/AuthContext";
 
 const RegisterScreen = ({ navigation }) => {
+  const { loading, signUp, email, setEmail, password, setPassword } =
+    useContext(AuthContext);
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.text}>Welcome Onboard!</Text>
-      <Text style={styles.smallText}>
-        Let's help you in completing your routine
-      </Text>
+      <KeyboardAvoidingView behavior="padding">
+        <Text style={styles.text}>Welcome Onboard!</Text>
+        <Text style={styles.smallText}>
+          Let's help you in completing your routine
+        </Text>
 
-      <InputField
-        label="Full name"
-        icon={<Ionicons name="person" size={17} style={styles.iconStyle} />}
-      />
-      <InputField
-        label="Email"
-        icon={<Entypo name="email" size={17} style={styles.iconStyle} />}
-        keyboardType="email-address"
-      />
-      <InputField
-        label="Password"
-        icon={
-          <Ionicons name="ios-key-outline" size={17} style={styles.iconStyle} />
-        }
-        inputType="password"
-      />
-      <InputField
-        label="Confirm password"
-        icon={
-          <Ionicons name="ios-key-outline" size={17} style={styles.iconStyle} />
-        }
-        inputType="password"
-      />
-      <DatePicker />
+        <InputField
+          label="Full name"
+          icon={<Ionicons name="person" size={17} style={styles.iconStyle} />}
+        />
+        <InputField
+          label="Email"
+          icon={<Entypo name="email" size={17} style={styles.iconStyle} />}
+          keyboardType="email-address"
+          valueInput={email}
+          actionOnChange={(userEmail) => setEmail(userEmail)}
+        />
+        <InputField
+          label="Password"
+          icon={
+            <Ionicons
+              name="ios-key-outline"
+              size={17}
+              style={styles.iconStyle}
+            />
+          }
+          inputType="password"
+          valuePassword={password}
+          actionOnChange={(userPassword) => setPassword(userPassword)}
+        />
+        <InputField
+          label="Confirm password"
+          icon={
+            <Ionicons
+              name="ios-key-outline"
+              size={17}
+              style={styles.iconStyle}
+            />
+          }
+          inputType="password"
+          valuePassword={password}
+          actionOnChange={(userPassword) => setPassword(userPassword)}
+        />
+        <DatePicker />
 
-      <View style={{ marginTop: 20 }}>
-        <CustomButton label="Register" />
-      </View>
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <View style={{ marginTop: 20 }}>
+            <CustomButton
+              label="Register"
+              email={email}
+              password={password}
+              action={signUp}
+            />
+          </View>
+        )}
 
-      <View style={styles.underButton}>
-        <Text style={styles.underButtonText}>Do you have an account?</Text>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.opacityText}>Sign in</Text>
-        </TouchableOpacity>
-      </View>
-      <AuthGoogleFB />
+        <View style={styles.underButton}>
+          <Text style={styles.underButtonText}>Do you have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={styles.opacityText}>Sign in</Text>
+          </TouchableOpacity>
+        </View>
+        <AuthGoogleFB />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 
-const CustomButton = ({ label }) => {
+const CustomButton = ({ label, action }) => {
   return (
     <TouchableOpacity
-      onPress={() => console.log("Touched")}
+      onPress={action}
       style={styles.loginButtonContainer}
       activeOpacity={0.9}
     >

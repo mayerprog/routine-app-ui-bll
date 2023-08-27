@@ -1,7 +1,15 @@
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import React from "react";
 
-const InputField = ({ label, icon, inputType, keyboardType }) => {
+const InputField = ({
+  label,
+  icon,
+  inputType,
+  keyboardType,
+  valuePassword,
+  valueInput,
+  actionOnChange,
+}) => {
   return (
     <View style={styles.form}>
       {icon}
@@ -11,12 +19,16 @@ const InputField = ({ label, icon, inputType, keyboardType }) => {
           style={styles.input}
           keyboardType={keyboardType}
           secureTextEntry={true}
+          value={valuePassword}
+          onChangeText={(text) => actionOnChange(text)}
         />
       ) : (
         <TextInput
           placeholder={label}
           style={styles.input}
           keyboardType={keyboardType}
+          value={valueInput}
+          onChangeText={(text) => actionOnChange(text)}
         />
       )}
     </View>
