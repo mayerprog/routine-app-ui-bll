@@ -1,12 +1,10 @@
 import { Button, StatusBar, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FIREBASE_AUTH } from "../../firebaseConfig";
-
 const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text>Home Screen</Text>
-      <Button onPress={() => FIREBASE_AUTH.signOut()} title="Log Out" />
+      <Button onPress={() => console.log("signed out")} title="Log Out" />
     </SafeAreaView>
   );
 };

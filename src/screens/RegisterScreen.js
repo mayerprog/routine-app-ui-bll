@@ -19,7 +19,7 @@ import DatePicker from "../components/DatePicker";
 import { AuthContext } from "../context/AuthContext";
 
 const RegisterScreen = ({ navigation }) => {
-  const { loading, signUp, email, setEmail, password, setPassword } =
+  const { email, setEmail, password, setPassword, loading } =
     useContext(AuthContext);
 
   return (
@@ -77,7 +77,7 @@ const RegisterScreen = ({ navigation }) => {
               label="Register"
               email={email}
               password={password}
-              action={signUp}
+              action={{}}
             />
           </View>
         )}

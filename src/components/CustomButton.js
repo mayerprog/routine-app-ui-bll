@@ -4,7 +4,7 @@ import React from "react";
 const CustomButton = ({ label, action }) => {
   return (
     <TouchableOpacity
-      onPress={action}
+      onPress={() => console.log("pressed")}
       style={styles.loginButtonContainer}
       activeOpacity={0.9}
     >

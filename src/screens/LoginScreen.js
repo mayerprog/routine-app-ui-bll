@@ -19,7 +19,7 @@ import AuthGoogleFB from "../components/AuthGoogleFB";
 import { AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
-  const { email, setEmail, password, setPassword, loading, signIn } =
+  const { email, setEmail, password, setPassword, loading } =
     useContext(AuthContext);
 
   return (
@@ -63,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
               label="Login"
               email={email}
               password={password}
-              action={signIn}
+              action={{}}
             />
           </View>
         )}
