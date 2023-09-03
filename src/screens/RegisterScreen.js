@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -16,11 +16,12 @@ import CustomButton from "../components/CustomButton";
 import InputField from "../components/InputField";
 import AuthGoogleFB from "../components/AuthGoogleFB";
 import DatePicker from "../components/DatePicker";
-import { AuthContext } from "../context/AuthContext";
 
 const RegisterScreen = ({ navigation }) => {
-  const { email, setEmail, password, setPassword, loading } =
-    useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,6 +34,7 @@ const RegisterScreen = ({ navigation }) => {
         <InputField
           label="Full name"
           icon={<Ionicons name="person" size={17} style={styles.iconStyle} />}
+          actionOnChange={(userEmail) => setEmail(userEmail)}
         />
         <InputField
           label="Email"

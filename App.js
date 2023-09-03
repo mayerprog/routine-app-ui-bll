@@ -1,9 +1,10 @@
-import { AuthContext, AuthProvider } from "./src/context/AuthContext";
+import { Provider } from "react-redux";
 import AppNav from "./src/navigation/AppNav";
+import { store } from "./src/app/store";
 export default function App() {
   return (
-    <AuthProvider>
+    <Provider store={store}>
       <AppNav />
-    </AuthProvider>
+    </Provider>
   );
 }

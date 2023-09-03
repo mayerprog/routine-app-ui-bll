@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -16,11 +16,12 @@ import { Image } from "expo-image";
 import CustomButton from "../components/CustomButton";
 import InputField from "../components/InputField";
 import AuthGoogleFB from "../components/AuthGoogleFB";
-import { AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ navigation }) => {
-  const { email, setEmail, password, setPassword, loading } =
-    useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <SafeAreaView style={styles.container}>
