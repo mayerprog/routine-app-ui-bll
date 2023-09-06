@@ -16,12 +16,23 @@ import { Image } from "expo-image";
 import CustomButton from "../components/CustomButton";
 import InputField from "../components/InputField";
 import AuthGoogleFB from "../components/AuthGoogleFB";
+import { authAPI } from "../api/usersAPI";
+import { useDispatch } from "react-redux";
+import { setIsAuth } from "../redux/slices/authSlice";
 
 const LoginScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const dipatch = useDispatch();
+
+  async function login(email, password) {
+    const loginResult = await authAPI.login(email, password);
+
+    dipatch(setIsAuth(loginResult));
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -60,12 +71,7 @@ const LoginScreen = ({ navigation }) => {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <View style={{ marginTop: 25 }}>
-            <CustomButton
-              label="Login"
-              email={email}
-              password={password}
-              action={{}}
-            />
+            <CustomButton label="Login" action={() => login(email, password)} />
           </View>
         )}
 
