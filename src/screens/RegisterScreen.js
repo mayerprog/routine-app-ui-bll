@@ -16,12 +16,39 @@ import CustomButton from "../components/CustomButton";
 import InputField from "../components/InputField";
 import AuthGoogleFB from "../components/AuthGoogleFB";
 import DatePicker from "../components/DatePicker";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setBirthDate,
+  setEmail,
+  setFullName,
+  setIsAuth,
+} from "../redux/slices/authSlice";
+import { authAPI } from "../api/usersAPI";
 
 const RegisterScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
-  const [email, setEmail] = useState("");
+  const email = useSelector((state) => state.auth.email);
+  const fullname = useSelector((state) => state.auth.fullname);
+  const birthdate = useSelector((state) => state.auth.birthdate);
+  const dispatch = useDispatch();
+
   const [password, setPassword] = useState("");
+
+  async function register(email, password, fullname, birthdate) {
+    setLoading(true);
+
+    const registerResult = await authAPI.register(
+      email,
+      password,
+      fullname,
+      birthdate
+    );
+    console.log(registerResult);
+
+    dispatch(setIsAuth(registerResult));
+    setLoading(false);
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,14 +61,14 @@ const RegisterScreen = ({ navigation }) => {
         <InputField
           label="Full name"
           icon={<Ionicons name="person" size={17} style={styles.iconStyle} />}
-          actionOnChange={(userEmail) => setEmail(userEmail)}
+          actionOnChange={(name) => dispatch(setFullName(name))}
         />
         <InputField
           label="Email"
           icon={<Entypo name="email" size={17} style={styles.iconStyle} />}
           keyboardType="email-address"
           valueInput={email}
-          actionOnChange={(userEmail) => setEmail(userEmail)}
+          actionOnChange={(userEmail) => dispatch(setEmail(userEmail))}
         />
         <InputField
           label="Password"
@@ -69,7 +96,10 @@ const RegisterScreen = ({ navigation }) => {
           valuePassword={password}
           actionOnChange={(userPassword) => setPassword(userPassword)}
         />
-        <DatePicker />
+        <DatePicker
+          valueDate={birthdate}
+          dateAction={(date) => dispatch(setBirthDate(date))}
+        />
 
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
@@ -79,7 +109,7 @@ const RegisterScreen = ({ navigation }) => {
               label="Register"
               email={email}
               password={password}
-              action={{}}
+              action={() => register(email, password, fullname, birthdate)}
             />
           </View>
         )}

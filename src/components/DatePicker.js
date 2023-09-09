@@ -10,11 +10,11 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import moment from "moment/moment";
 
-const DatePicker = () => {
+const DatePicker = ({ valueDate, dateAction }) => {
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
-  const [dateOfBirth, setDateOfBirth] = useState("");
 
   const toggleDatePicker = () => {
     setShowPicker(!showPicker);
@@ -27,7 +27,7 @@ const DatePicker = () => {
 
       if (Platform.OS === "android") {
         toggleDatePicker();
-        setDateOfBirth(currentDate.toDateString());
+        dateAction(currentDate.toDateString());
       }
     } else {
       toggleDatePicker();
@@ -35,7 +35,8 @@ const DatePicker = () => {
   };
 
   const confirmIOSDate = () => {
-    setDateOfBirth(date.toDateString());
+    const resDate = moment(date).format("YYYY-MM-DD");
+    dateAction(resDate);
     toggleDatePicker();
   };
 
@@ -86,8 +87,7 @@ const DatePicker = () => {
           <Pressable onPress={toggleDatePicker}>
             <TextInput
               placeholder="Date of birth"
-              value={dateOfBirth}
-              onChangeText={setDateOfBirth}
+              value={valueDate}
               editable={false}
               onPressIn={toggleDatePicker}
               style={{ marginTop: 6 }}

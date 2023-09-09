@@ -5,12 +5,14 @@ import { setIsAuth } from "../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 
 const HomeScreen = () => {
-  const dipatch = useDispatch();
+  const dispatch = useDispatch();
 
   async function logout() {
     const logoutResult = await authAPI.logout();
 
-    dipatch(setIsAuth(logoutResult));
+    console.log("logout result", logoutResult);
+
+    dispatch(setIsAuth(logoutResult));
   }
   return (
     <SafeAreaView style={styles.container}>

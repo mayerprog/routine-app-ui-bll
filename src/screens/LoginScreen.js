@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -17,22 +17,35 @@ import CustomButton from "../components/CustomButton";
 import InputField from "../components/InputField";
 import AuthGoogleFB from "../components/AuthGoogleFB";
 import { authAPI } from "../api/usersAPI";
-import { useDispatch } from "react-redux";
-import { setIsAuth } from "../redux/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setEmail, setIsAuth } from "../redux/slices/authSlice";
 
 const LoginScreen = ({ navigation }) => {
+  const isAuthSelector = useSelector((state) => state.auth.isAuth);
   const [loading, setLoading] = useState(false);
+  const email = useSelector((state) => state.auth.email);
 
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const dipatch = useDispatch();
+  const dispatch = useDispatch();
 
-  async function login(email, password) {
+  async function login() {
+    setLoading(true);
     const loginResult = await authAPI.login(email, password);
-
-    dipatch(setIsAuth(loginResult));
+    dispatch(setIsAuth(loginResult));
+    setLoading(false);
   }
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const isAuth = await authAPI.isauth();
+        dispatch(setIsAuth(isAuth));
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
           icon={<Entypo name="email" size={17} style={styles.iconStyle} />}
           keyboardType="email-address"
           valueInput={email}
-          actionOnChange={(userEmail) => setEmail(userEmail)}
+          actionOnChange={(userEmail) => dispatch(setEmail(userEmail))}
         />
         <InputField
           label="Password"
@@ -71,7 +84,7 @@ const LoginScreen = ({ navigation }) => {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <View style={{ marginTop: 25 }}>
-            <CustomButton label="Login" action={() => login(email, password)} />
+            <CustomButton label="Login" action={login} />
           </View>
         )}
 

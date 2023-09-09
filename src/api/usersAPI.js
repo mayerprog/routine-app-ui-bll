@@ -1,9 +1,7 @@
 import axios from "axios";
-import { setUserData } from "../redux/slices/authSlice";
-import { useDispatch } from "react-redux";
 
 const instance = axios.create({
-  baseURL: "http://10.0.2.2:3000/users",
+  baseURL: `http://10.0.0.7:3000/users`,
   withCredentials: true,
 });
 
@@ -11,35 +9,41 @@ export const authAPI = {
   async login(username, password) {
     try {
       const response = await instance.post(`/login`, {
-        username,
-        password,
+        username: username,
+        password: password,
       });
-      console.log("response", response.data);
       return response.data;
     } catch (err) {
-      console.log("login error", err);
+      alert(err);
     }
   },
   async logout() {
-    const response = await instance.delete(`/logout`);
-    return response.data;
+    try {
+      const response = await instance.post(`/logout`);
+      return response.data;
+    } catch (err) {
+      console.log("can't log out" + err);
+    }
   },
   async isauth() {
     try {
       const response = await instance.get(`/isauth`);
-      console.log("response", response);
       return response.data;
     } catch (err) {
-      console.log("some error", err);
+      console.log("not authorized" + err);
     }
   },
-  async me() {
+  async register(username, password, fullname, birthdate) {
     try {
-      const response = await instance.get(`/me`);
-      // let { id, username, fullname } = response.data;
+      const response = await instance.post(`/register`, {
+        username,
+        password,
+        fullname,
+        birthdate,
+      });
       return response.data;
     } catch (err) {
-      console.log("no data", err);
+      console.log("register error", err);
     }
   },
 };
