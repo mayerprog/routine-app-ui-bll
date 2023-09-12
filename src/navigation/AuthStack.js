@@ -2,9 +2,9 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import OnboardingScreen from "../screens/OnboardingScreen";
 import LoginScreen from "../screens/LoginScreen";
-import Fonts from "../hooks/fonts-hook";
 import { Text } from "react-native";
 import RegisterScreen from "../screens/RegisterScreen";
+import Fonts from "../hooks/fonts-hook";
 
 const Stack = createNativeStackNavigator();
 
