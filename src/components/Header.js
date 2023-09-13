@@ -1,9 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import {
+  Button,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import { authAPI } from "../api/usersAPI";
 import { setIsAuth } from "../redux/slices/authSlice";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -13,28 +19,67 @@ const Header = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Header</Text>
-      <Button onPress={logout} title="Log Out" />
+    <View style={styles.header}>
+      <TouchableOpacity onPress={() => console.log("calendar clicked")}>
+        <Image
+          source={require("../assets/images/calendar.png")}
+          style={{ height: 38, width: 38 }}
+        />
+      </TouchableOpacity>
+
+      <View style={{ flexDirection: "row", marginTop: -8, marginLeft: 12 }}>
+        <Image
+          style={styles.doneImg}
+          source={require("../assets/images/done.png")}
+        />
+        <Text style={styles.headerText}>
+          My
+          {"\n"}
+          Routine
+        </Text>
+      </View>
+
+      <View>
+        <TouchableOpacity onPress={logout} style={{ marginTop: -5 }}>
+          <Image
+            source={require("../assets/images/logout.png")}
+            style={{ height: 38, width: 38 }}
+          />
+        </TouchableOpacity>
+        <Text
+          style={{
+            fontFamily: "Lexend-Regular",
+            fontSize: 10,
+            marginTop: -3,
+          }}
+        >
+          Log Out
+        </Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  header: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
-    borderBottomColor: "#ccc",
-    top: 20,
-    bottom: 20,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    borderBottomWidth: 1,
-    paddingBottom: 50,
-    marginBottom: 25,
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    paddingTop: 20,
+    paddingHorizontal: 10,
   },
-  text: {
+  headerText: {
+    fontSize: 22,
+    color: "#1B57B8",
     alignSelf: "center",
+    fontFamily: "Lexend-Regular",
+  },
+  doneImg: {
+    height: 38,
+    width: 38,
+    marginEnd: 10,
+    marginVertical: 10,
   },
 });
 
