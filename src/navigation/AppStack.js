@@ -2,8 +2,8 @@ import React from "react";
 import Fonts from "../hooks/fonts-hook";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "../screens/HomeScreen";
 import { Text } from "react-native";
+import TabNavigator from "./TabNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +13,7 @@ const AppStack = () => {
   }
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Home" component={TabNavigator} />
     </Stack.Navigator>
   );
 };

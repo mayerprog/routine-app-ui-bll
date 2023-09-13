@@ -23,11 +23,11 @@ const Header = () => {
       <TouchableOpacity onPress={() => console.log("calendar clicked")}>
         <Image
           source={require("../assets/images/calendar.png")}
-          style={{ height: 38, width: 38 }}
+          style={{ height: 35, width: 35 }}
         />
       </TouchableOpacity>
 
-      <View style={{ flexDirection: "row", marginTop: -8, marginLeft: 12 }}>
+      <View style={{ flexDirection: "row", marginTop: -9, marginLeft: 12 }}>
         <Image
           style={styles.doneImg}
           source={require("../assets/images/done.png")}
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   headerText: {
-    fontSize: 22,
+    fontSize: 20,
     color: "#1B57B8",
     alignSelf: "center",
     fontFamily: "Lexend-Regular",
