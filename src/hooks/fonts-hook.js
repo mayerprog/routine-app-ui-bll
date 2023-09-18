@@ -8,6 +8,8 @@ export default function Fonts() {
     "Preahvihear-Regular": require("../assets/fonts/Preahvihear-Regular.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
     "Lexend-Regular": require("../assets/fonts/Lexend-Regular.ttf"),
+    "Lexend-SemiBold": require("../assets/fonts/Lexend-SemiBold.ttf"),
+    "Lexend-Medium": require("../assets/fonts/Lexend-Medium.ttf"),
   });
 
   return fontsLoaded;

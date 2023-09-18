@@ -17,11 +17,8 @@ const Header = () => {
     const logoutResult = await authAPI.logout();
     dispatch(setIsAuth(logoutResult));
   }
-
-  const date = new Date();
-
   return (
-    <View style={{ flexDirection: "column" }}>
+    <View>
       <View style={styles.header}>
         <View style={{ flexDirection: "row", marginTop: -11 }}>
           <Image
@@ -36,7 +33,7 @@ const Header = () => {
         </View>
 
         <View>
-          <TouchableOpacity onPress={logout} style={{ marginTop: -6 }}>
+          <TouchableOpacity onPress={logout} style={{ marginTop: -10 }}>
             <Image
               source={require("../assets/images/logout.png")}
               style={{ height: 38, width: 38 }}
@@ -57,17 +54,6 @@ const Header = () => {
       <View style={styles.line}>
         <View style={styles.linesStyle} />
       </View>
-
-      <TouchableOpacity
-        onPress={() => console.log("calendar clicked")}
-        style={{ flexDirection: "row", justifyContent: "center" }}
-      >
-        <Image
-          source={require("../assets/images/calendar.png")}
-          style={{ height: 25, width: 25, marginTop: 17, marginRight: 15 }}
-        />
-        <Text style={styles.date}>{date.toDateString()}</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -75,7 +61,6 @@ const Header = () => {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "flex-start",
     justifyContent: "space-between",
     paddingTop: 20,
@@ -92,13 +77,6 @@ const styles = StyleSheet.create({
     width: 38,
     marginEnd: 10,
     marginVertical: 10,
-  },
-  date: {
-    fontSize: 15,
-    alignSelf: "center",
-    fontFamily: "Poppins-Bold",
-    paddingTop: 20,
-    color: "#6D6D6D",
   },
   line: {
     flexDirection: "row",

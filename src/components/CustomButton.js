@@ -1,21 +1,20 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 
-const CustomButton = ({ label, action }) => {
+const CustomButton = ({ label, action, buttonStyle, textButtonStyle }) => {
   return (
     <TouchableOpacity
       onPress={action}
-      style={styles.loginButtonContainer}
+      style={[styles.loginButtonContainer, buttonStyle]}
       activeOpacity={0.9}
     >
-      <Text style={styles.loginButtonText}>{label}</Text>
+      <Text style={[styles.loginButtonText, textButtonStyle]}>{label}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   loginButtonContainer: {
-    elevation: 10,
     backgroundColor: "#1B57B8",
     borderRadius: 14,
     paddingVertical: 15,

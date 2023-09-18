@@ -1,33 +1,50 @@
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Modal,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Header from "../components/Header";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
+import CurrentDate from "../components/CurrentDate";
+import NewTaskScreen from "./NewTaskScreen";
+import { useState } from "react";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <Header />
-
-      <View style={styles.line}>
-        <View style={styles.linesStyle} />
-      </View>
+      <CurrentDate />
 
       <View style={styles.tasks}>
         <TouchableOpacity
-          onPress={() => console.log("add new task")}
+          onPress={() => setModalVisible(true)}
           style={styles.iconStyle}
         >
-          <Ionicons
-            name="ios-add-circle-sharp"
-            size={65}
-            color="#1B57B8"
+          <Image
+            source={require("../assets/images/add-button.png")}
             style={styles.iconShadow}
           />
         </TouchableOpacity>
+
+        <Modal
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+          animationType="slide"
+          presentationStyle="formSheet"
+        >
+          <NewTaskScreen setModalVisible={() => setModalVisible(false)} />
+        </Modal>
       </View>
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -35,40 +52,25 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  line: {
-    flexDirection: "row",
-    alignItems: "stretch",
-    paddingTop: 15,
-  },
-  linesStyle: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#ccc",
-  },
   tasks: {
-    flex: 1,
-    flexBasis: "90%",
-    flexDirection: "column",
-    backgroundColor: "#7BADFF",
-    borderColor: "rgba(0, 0, 0, 0.1)",
-    borderLeftWidth: 3,
-    borderRightWidth: 3,
-    borderTopWidth: 3,
-    borderBottomWidth: 24,
-    elevation: 2,
+    flexBasis: 655,
+    margin: -5,
+    backgroundColor: "transparent",
+    borderColor: "white",
+    borderWidth: 5,
+    overflow: "hidden",
+    shadowColor: "#484848",
+    shadowRadius: 7,
+    shadowOpacity: 1,
   },
   iconStyle: {
-    alignItems: "center",
+    alignSelf: "center",
     position: "relative",
-    top: 540,
+    top: 550,
   },
   iconShadow: {
-    elevation: 1,
-    shadowOpacity: 0.2,
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
+    height: 60,
+    width: 60,
   },
 });
 

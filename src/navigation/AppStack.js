@@ -4,6 +4,7 @@ import Fonts from "../hooks/fonts-hook";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Text } from "react-native";
 import TabNavigator from "./TabNavigator";
+import NewTaskScreen from "../screens/NewTaskScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ const AppStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={TabNavigator} />
+      <Stack.Screen name="NewTask" component={NewTaskScreen} />
     </Stack.Navigator>
   );
 };
