@@ -14,6 +14,7 @@ import { useState } from "react";
 import Header from "../components/Header";
 import DropDownPicker from "react-native-dropdown-picker";
 import CustomButton from "../components/CustomButton";
+import MediaAttachments from "../components/MediaAttachments";
 
 const NewTaskScreen = ({ setModalVisible }) => {
   const [open, setOpen] = useState(false);
@@ -29,10 +30,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.taskContainer}>
-        {/* <View style={styles.line}>
-          <View style={styles.linesStyle} />
-        </View> */}
-
         <TouchableWithoutFeedback onPress={() => setOpen(false)}>
           <View style={{ top: 15 }}>
             <View>
@@ -88,10 +85,12 @@ const NewTaskScreen = ({ setModalVisible }) => {
               />
             </>
 
+            <MediaAttachments />
+
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "space-evenly",
+                justifyContent: "space-around",
                 paddingVertical: 13,
               }}
             >
@@ -185,7 +184,7 @@ const styles = StyleSheet.create({
     margin: 13,
   },
   buttonStyle: {
-    width: 130,
+    width: 140,
     height: 45,
     backgroundColor: "#4676C5",
     paddingVertical: 13,
