@@ -12,6 +12,7 @@ import Header from "../components/Header";
 import CurrentDate from "../components/CurrentDate";
 import NewTaskScreen from "./NewTaskScreen";
 import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 const HomeScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,10 +27,7 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => setModalVisible(true)}
           style={styles.iconStyle}
         >
-          <Image
-            source={require("../assets/images/add-button.png")}
-            style={styles.iconShadow}
-          />
+          <Ionicons name="add-circle" size={70} color="#1B57B8" />
         </TouchableOpacity>
 
         <Modal
@@ -55,22 +53,24 @@ const styles = StyleSheet.create({
   tasks: {
     flexBasis: 655,
     margin: -5,
-    backgroundColor: "transparent",
+    backgroundColor: "#DCE8F2",
+    // backgroundColor: "#2367D8",
+    // opacity: 0.49,
     borderColor: "white",
     borderWidth: 5,
     overflow: "hidden",
-    shadowColor: "#484848",
+    shadowColor: "black",
     shadowRadius: 7,
-    shadowOpacity: 1,
+    shadowOpacity: 0.9,
+    shadowOffset: {
+      height: 7,
+      width: 0,
+    },
   },
   iconStyle: {
     alignSelf: "center",
     position: "relative",
-    top: 550,
-  },
-  iconShadow: {
-    height: 60,
-    width: 60,
+    top: 520,
   },
 });
 

@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -84,6 +85,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
                 }}
               />
             </>
+
+            <View style={styles.shadowedUnderline} />
 
             <MediaAttachments />
 
@@ -192,6 +195,21 @@ const styles = StyleSheet.create({
   textButtonStyle: {
     fontSize: 16,
     fontFamily: "Lexend-Regular",
+  },
+  shadowedUnderline: {
+    borderWidth: 1.3,
+    alignSelf: "stretch",
+    borderColor: "#0447B3",
+    marginTop: 30,
+    marginBottom: 15,
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    backgroundColor: "#0447B3",
   },
 });
 

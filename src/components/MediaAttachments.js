@@ -15,7 +15,7 @@ const MediaAttachments = () => {
   return (
     <View>
       {cameraPressed && (
-        <View style={[styles.container, { marginBottom: 30, marginTop: 30 }]}>
+        <View style={[styles.container, { marginBottom: 25, marginTop: 25 }]}>
           <Pressable
             hitSlop={10}
             style={({ pressed }) => [
