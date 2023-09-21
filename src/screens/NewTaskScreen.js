@@ -29,8 +29,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
   ]);
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.taskContainer}>
+    <ScrollView style={styles.scrollContainer}>
+      <View style={styles.container}>
         <TouchableWithoutFeedback onPress={() => setOpen(false)}>
           <View style={{ top: 15 }}>
             <View>
@@ -39,7 +39,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
             </View>
 
             <View>
-              <Text style={styles.text}>Task Title</Text>
+              <Text style={styles.text}>Task Title </Text>
               <TextInput
                 style={[styles.textInput, { height: 50 }]}
                 placeholder="Name the task"
@@ -71,7 +71,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
                 setValue={setValue}
                 setItems={setItems}
                 placeholder="Choose the time"
-                style={[styles.textInput, { height: 50 }]}
+                style={[styles.textInput, { height: 50, marginBottom: 5 }]}
                 placeholderStyle={{
                   color: "#ccc",
                   fontSize: 15,
@@ -114,8 +114,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
             </View>
           </View>
         </TouchableWithoutFeedback>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -123,12 +123,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "#fff",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  },
-  taskContainer: {
-    flex: 1,
     alignItems: "center",
+    paddingBottom: 80,
+  },
+  scrollContainer: {
+    flex: 1,
     opacity: 0.8,
     backgroundColor: "#1B57B8",
   },

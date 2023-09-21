@@ -4,6 +4,7 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -69,32 +70,47 @@ const MediaAttachments = () => {
           </Pressable>
         </View>
       )}
+      {linkPressed && (
+        <View style={{ alignItems: "center", marginTop: 15 }}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Link name"
+            placeholderTextColor="#ccc"
+            onChangeText={() => console.log("clicked")}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Link"
+            placeholderTextColor="#ccc"
+            onChangeText={() => console.log("clicked")}
+          />
+        </View>
+      )}
 
       <View style={styles.container}>
         <Pressable
           hitSlop={10}
           onPress={() => setCameraPressed(!cameraPressed)}
         >
-          {({ pressed }) => (
-            <Image
-              source={require("../assets/images/camera.png")}
-              style={[
-                { tintColor: pressed ? "#21A098" : "black" },
-                { height: 45, width: 45 },
-              ]}
-            />
-          )}
+          <Image
+            source={require("../assets/images/camera.png")}
+            style={[
+              { tintColor: cameraPressed ? "#21A098" : "black" },
+              { height: 45, width: 45 },
+            ]}
+          />
         </Pressable>
-        <Pressable hitSlop={10}>
-          {({ pressed }) => (
-            <Image
-              source={require("../assets/images/link.png")}
-              style={[
-                { tintColor: pressed ? "#21A098" : "black" },
-                { height: 40, width: 40 },
-              ]}
-            />
-          )}
+
+        {/* задизейблить одну кнопку, пока работает другая */}
+
+        <Pressable hitSlop={10} onPress={() => setLinkPressed(!linkPressed)}>
+          <Image
+            source={require("../assets/images/link.png")}
+            style={[
+              { tintColor: linkPressed ? "#21A098" : "black" },
+              { height: 40, width: 40 },
+            ]}
+          />
         </Pressable>
       </View>
     </View>
@@ -123,6 +139,17 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.4,
     shadowRadius: 4,
+  },
+  textInput: {
+    fontSize: 16,
+    fontFamily: "Lexend-Regular",
+    borderWidth: 1,
+    borderColor: "#A1A1A1",
+    backgroundColor: "white",
+    width: 380,
+    paddingLeft: 15,
+    height: 45,
+    marginBottom: 5,
   },
 });
 
