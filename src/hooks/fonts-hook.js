@@ -10,6 +10,7 @@ export default function Fonts() {
     "Lexend-Regular": require("../assets/fonts/Lexend-Regular.ttf"),
     "Lexend-SemiBold": require("../assets/fonts/Lexend-SemiBold.ttf"),
     "Lexend-Medium": require("../assets/fonts/Lexend-Medium.ttf"),
+    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
   });
 
   return fontsLoaded;
