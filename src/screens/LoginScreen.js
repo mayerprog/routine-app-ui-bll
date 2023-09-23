@@ -12,13 +12,13 @@ import {
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image } from "expo-image";
 import CustomButton from "../components/CustomButton";
 import InputField from "../components/InputField";
 import AuthGoogleFB from "../components/AuthGoogleFB";
 import { authAPI } from "../api/usersAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail, setIsAuth } from "../redux/slices/authSlice";
+import Logo from "../assets/images/woman-doing-yoga.svg";
 
 const LoginScreen = ({ navigation }) => {
   const isAuthSelector = useSelector((state) => state.auth.isAuth);
@@ -50,10 +50,8 @@ const LoginScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView behavior="padding">
-        <Image
-          source={require("../assets/images/yoga-login.png")}
-          style={styles.image}
-        />
+        <Logo width={300} height={230} style={styles.image} />
+
         <Text style={styles.text}>Welcome Back!</Text>
         <InputField
           label="Email"
@@ -113,8 +111,6 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: "center",
-    height: 230,
-    width: 230,
     marginBottom: 30,
   },
   text: {

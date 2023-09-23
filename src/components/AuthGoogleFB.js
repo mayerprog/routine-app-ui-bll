@@ -1,6 +1,8 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
+import Google from "../assets/images/google.svg";
+import Facebook from "../assets/images/facebook.svg";
 
 const AuthGoogleFB = () => {
   return (
@@ -18,20 +20,14 @@ const AuthGoogleFB = () => {
           onPress={() => console.log("oops")}
           style={styles.mediaOpacity}
         >
-          <Image
-            source={require("../assets/images/google.png")}
-            style={styles.mediaImg}
-          />
+          <Google height={35} width={35} />
           <Text style={styles.mediaText}>Google</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => console.log("oops")}
           style={styles.mediaOpacity}
         >
-          <Image
-            source={require("../assets/images/facebook.png")}
-            style={styles.mediaImg}
-          />
+          <Facebook height={35} width={35} />
           <Text style={styles.mediaText}>Facebook</Text>
         </TouchableOpacity>
       </View>
@@ -77,10 +73,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 4,
-  },
-  mediaImg: {
-    height: 35,
-    width: 35,
   },
 });
 

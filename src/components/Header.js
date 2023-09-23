@@ -10,6 +10,7 @@ import {
 import { useDispatch } from "react-redux";
 import { authAPI } from "../api/usersAPI";
 import { setIsAuth } from "../redux/slices/authSlice";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -20,10 +21,12 @@ const Header = () => {
   return (
     <View>
       <View style={styles.header}>
-        <View style={{ flexDirection: "row", marginTop: -11 }}>
-          <Image
+        <View style={{ flexDirection: "row", marginTop: -13 }}>
+          <Ionicons
+            name="checkmark-done"
+            size={38}
+            color="black"
             style={styles.doneImg}
-            source={require("../assets/images/done.png")}
           />
           <Text style={styles.headerText}>
             My
@@ -33,17 +36,14 @@ const Header = () => {
         </View>
 
         <View>
-          <TouchableOpacity onPress={logout} style={{ marginTop: -10 }}>
-            <Image
-              source={require("../assets/images/logout.png")}
-              style={{ height: 38, width: 38 }}
-            />
+          <TouchableOpacity onPress={logout} style={{ marginTop: -7 }}>
+            <MaterialIcons name="logout" size={35} color="#C94E4E" />
           </TouchableOpacity>
           <Text
             style={{
               fontFamily: "Lexend-Regular",
               fontSize: 10,
-              marginTop: -3,
+              marginTop: 0,
             }}
           >
             Log Out

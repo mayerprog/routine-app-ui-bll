@@ -8,25 +8,27 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import CustomButton from "./CustomButton";
+import { FontAwesome, Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
 const MediaAttachments = () => {
   const [cameraPressed, setCameraPressed] = useState(false);
   const [linkPressed, setLinkPressed] = useState(false);
-  const [cameraDisable, setCamDisable] = useState(false);
-  const [linkDisable, setLinkDisable] = useState(false);
 
   const pressCamera = () => {
     setCameraPressed(!cameraPressed);
-    setLinkDisable(!linkDisable);
+    setLinkPressed(false);
   };
 
   const pressLink = () => {
     setLinkPressed(!linkPressed);
-    setCamDisable(!cameraDisable);
+    setCameraPressed(false);
   };
 
   return (
     <View>
+      {/* зерефакторить код, вынести прессаблконтейнер в отдельный компонент(в том же файле) */}
+
       {cameraPressed && (
         <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
           <View
@@ -43,12 +45,10 @@ const MediaAttachments = () => {
               ]}
             >
               {({ pressed }) => (
-                <Image
-                  source={require("../assets/images/camera-in-container.png")}
-                  style={[
-                    { tintColor: pressed ? "white" : "black" },
-                    { height: 23, width: 23 },
-                  ]}
+                <FontAwesome
+                  name="camera"
+                  size={23}
+                  style={{ color: pressed ? "white" : "black" }}
                 />
               )}
             </Pressable>
@@ -68,12 +68,10 @@ const MediaAttachments = () => {
               ]}
             >
               {({ pressed }) => (
-                <Image
-                  source={require("../assets/images/photo-in-container.png")}
-                  style={[
-                    { tintColor: pressed ? "white" : "black" },
-                    { height: 23, width: 23 },
-                  ]}
+                <FontAwesome
+                  name="image"
+                  size={23}
+                  style={{ color: pressed ? "white" : "black" }}
                 />
               )}
             </Pressable>
@@ -93,12 +91,10 @@ const MediaAttachments = () => {
               ]}
             >
               {({ pressed }) => (
-                <Image
-                  source={require("../assets/images/doc-in-container.png")}
-                  style={[
-                    { tintColor: pressed ? "white" : "black" },
-                    { height: 23, width: 23 },
-                  ]}
+                <Ionicons
+                  name="document-attach"
+                  size={24}
+                  style={{ color: pressed ? "white" : "black" }}
                 />
               )}
             </Pressable>
@@ -106,7 +102,6 @@ const MediaAttachments = () => {
           </View>
         </View>
       )}
-      {/* зерефакторить код, вынести прессаблконтейнер в отдельный компонент(в том же файле) */}
       {linkPressed && (
         <View style={{ alignItems: "center", marginTop: 15 }}>
           <TextInput
@@ -121,27 +116,35 @@ const MediaAttachments = () => {
             placeholderTextColor="#ccc"
             onChangeText={() => console.log("clicked")}
           />
+          <CustomButton
+            label="Add"
+            buttonStyle={[styles.buttonStyle, { backgroundColor: "#A2C5FF" }]}
+            textButtonStyle={styles.textButtonStyle}
+          />
         </View>
       )}
 
       <View style={styles.container}>
-        <Pressable hitSlop={10} onPress={pressCamera} disabled={cameraDisable}>
-          <Image
-            source={require("../assets/images/camera.png")}
-            style={[
-              { tintColor: cameraPressed ? "#21A098" : "black" },
-              { height: 45, width: 45 },
-            ]}
+        <Pressable hitSlop={10} onPress={pressCamera}>
+          <FontAwesome
+            name="camera"
+            size={45}
+            style={{ color: cameraPressed ? "#21A098" : "black" }}
           />
         </Pressable>
 
-        <Pressable hitSlop={10} onPress={pressLink} disabled={linkDisable}>
-          <Image
+        <Pressable hitSlop={10} onPress={pressLink}>
+          {/* <Image
             source={require("../assets/images/link.png")}
             style={[
               { tintColor: linkPressed ? "#21A098" : "black" },
               { height: 40, width: 40 },
             ]}
+          /> */}
+          <FontAwesome5
+            name="link"
+            size={42}
+            color={linkPressed ? "#21A098" : "black"}
           />
         </Pressable>
       </View>
@@ -158,8 +161,8 @@ const styles = StyleSheet.create({
   pressableContainer: {
     width: 80,
     height: 50,
-    paddingHorizontal: 28,
-    paddingVertical: 13,
+    paddingHorizontal: 26,
+    paddingVertical: 12,
     borderRadius: 25,
     borderColor: "black",
     borderWidth: 1,
@@ -187,6 +190,20 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     height: 45,
     marginBottom: 5,
+  },
+  buttonStyle: {
+    width: 95,
+    height: 40,
+    marginTop: 7,
+    paddingBottom: 5,
+    paddingTop: 11,
+    borderColor: "#1B57B8",
+    borderWidth: 0.5,
+  },
+  textButtonStyle: {
+    fontSize: 14,
+    fontFamily: "Lexend-Regular",
+    color: "#1B57B8",
   },
 });
 

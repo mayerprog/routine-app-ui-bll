@@ -1,9 +1,5 @@
 import {
-  Dimensions,
-  Platform,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -12,7 +8,6 @@ import {
 } from "react-native";
 import { useState } from "react";
 
-import Header from "../components/Header";
 import DropDownPicker from "react-native-dropdown-picker";
 import CustomButton from "../components/CustomButton";
 import MediaAttachments from "../components/MediaAttachments";
@@ -83,6 +78,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
                   fontFamily: "Lexend-Regular",
                   color: "#414243",
                 }}
+                //перенести в отдельный компонент
               />
             </>
 
