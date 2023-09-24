@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useDebugValue, useState } from "react";
 import {
   Image,
   Pressable,
@@ -14,6 +14,9 @@ import { FontAwesome, Ionicons, FontAwesome5 } from "@expo/vector-icons";
 const MediaAttachments = () => {
   const [cameraPressed, setCameraPressed] = useState(false);
   const [linkPressed, setLinkPressed] = useState(false);
+  const [cameraColor, setCameraColor] = useState("black");
+  const [mediaColor, setMediaColor] = useState("black");
+  const [docColor, setDocColor] = useState("black");
 
   const pressCamera = () => {
     setCameraPressed(!cameraPressed);
@@ -31,75 +34,39 @@ const MediaAttachments = () => {
 
       {cameraPressed && (
         <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Pressable
-              hitSlop={10}
-              style={({ pressed }) => [
-                styles.pressableContainer,
-                { backgroundColor: pressed ? "#21A098" : "#1B57B8" },
-              ]}
-            >
-              {({ pressed }) => (
-                <FontAwesome
-                  name="camera"
-                  size={23}
-                  style={{ color: pressed ? "white" : "black" }}
-                />
-              )}
-            </Pressable>
-            <Text style={styles.pressableContainerText}>Take a picture</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Pressable
-              hitSlop={10}
-              style={({ pressed }) => [
-                styles.pressableContainer,
-                { backgroundColor: pressed ? "#21A098" : "#1B57B8" },
-              ]}
-            >
-              {({ pressed }) => (
-                <FontAwesome
-                  name="image"
-                  size={23}
-                  style={{ color: pressed ? "white" : "black" }}
-                />
-              )}
-            </Pressable>
-            <Text style={styles.pressableContainerText}>Media</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Pressable
-              hitSlop={10}
-              style={({ pressed }) => [
-                styles.pressableContainer,
-                { backgroundColor: pressed ? "#21A098" : "#1B57B8" },
-              ]}
-            >
-              {({ pressed }) => (
-                <Ionicons
-                  name="document-attach"
-                  size={24}
-                  style={{ color: pressed ? "white" : "black" }}
-                />
-              )}
-            </Pressable>
-            <Text style={styles.pressableContainerText}>Document</Text>
-          </View>
+          <PressableContainer
+            icon={
+              <FontAwesome
+                name="camera"
+                size={23}
+                style={{ color: cameraColor }}
+              />
+            }
+            containerText="Take a picture"
+            setIconColor={setCameraColor}
+          />
+          <PressableContainer
+            icon={
+              <FontAwesome
+                name="image"
+                size={23}
+                style={{ color: mediaColor }}
+              />
+            }
+            containerText="Media"
+            setIconColor={setMediaColor}
+          />
+          <PressableContainer
+            icon={
+              <Ionicons
+                name="document-attach"
+                size={24}
+                style={{ color: docColor }}
+              />
+            }
+            containerText="Document"
+            setIconColor={setDocColor}
+          />
         </View>
       )}
       {linkPressed && (
@@ -129,25 +96,50 @@ const MediaAttachments = () => {
           <FontAwesome
             name="camera"
             size={43}
-            style={{ color: cameraPressed ? "#21A098" : "black" }}
+            color={cameraPressed ? "#21A098" : "black"}
+            style={styles.imgShadow}
           />
         </Pressable>
 
         <Pressable hitSlop={10} onPress={pressLink}>
-          {/* <Image
-            source={require("../assets/images/link.png")}
-            style={[
-              { tintColor: linkPressed ? "#21A098" : "black" },
-              { height: 40, width: 40 },
-            ]}
-          /> */}
           <FontAwesome5
             name="link"
             size={40}
             color={linkPressed ? "#21A098" : "black"}
+            style={styles.imgShadow}
           />
         </Pressable>
       </View>
+    </View>
+  );
+};
+
+const PressableContainer = ({ containerText, icon, setIconColor }) => {
+  const handlePressIn = () => {
+    setIconColor("white");
+  };
+  const handlePressOut = () => {
+    setIconColor("black");
+  };
+  return (
+    <View
+      style={{
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Pressable
+        hitSlop={10}
+        style={({ pressed }) => [
+          styles.pressableContainer,
+          { backgroundColor: pressed ? "#21A098" : "#1B57B8" },
+        ]}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+      >
+        {icon}
+      </Pressable>
+      <Text style={styles.pressableContainerText}>{containerText}</Text>
     </View>
   );
 };
@@ -204,6 +196,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Lexend-Regular",
     color: "#1B57B8",
+  },
+  imgShadow: {
+    backgroundColor: "transparent",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
   },
 });
 
