@@ -37,7 +37,7 @@ const Header = () => {
 
         <View>
           <TouchableOpacity onPress={logout} style={{ marginTop: -7 }}>
-            <MaterialIcons name="logout" size={35} color="#C94E4E" />
+            <MaterialIcons name="logout" size={35} color="black" />
           </TouchableOpacity>
           <Text
             style={{

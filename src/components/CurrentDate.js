@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import Calendar from "../assets/images/calendar.svg";
 
 const CurrentDate = () => {
   const date = new Date();
@@ -14,16 +14,12 @@ const CurrentDate = () => {
         height: 50,
       }}
     >
-      <Image
-        source={require("../assets/images/calendar.png")}
-        style={{ height: 25, width: 25, marginTop: 12, marginRight: 15 }}
+      <Calendar
+        width={25}
+        height={25}
+        style={{ marginTop: 12, marginRight: 10 }}
       />
-      {/* <FontAwesome
-        name="calendar"
-        size={25}
-        color="#1B57B8"
-        style={{ marginTop: 12, marginRight: 15 }}
-      /> */}
+
       <Text style={styles.date}>{date.toDateString()}</Text>
     </TouchableOpacity>
   );

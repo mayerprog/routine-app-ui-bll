@@ -128,7 +128,7 @@ const MediaAttachments = () => {
         <Pressable hitSlop={10} onPress={pressCamera}>
           <FontAwesome
             name="camera"
-            size={45}
+            size={43}
             style={{ color: cameraPressed ? "#21A098" : "black" }}
           />
         </Pressable>
@@ -143,7 +143,7 @@ const MediaAttachments = () => {
           /> */}
           <FontAwesome5
             name="link"
-            size={42}
+            size={40}
             color={linkPressed ? "#21A098" : "black"}
           />
         </Pressable>
