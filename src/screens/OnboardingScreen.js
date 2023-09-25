@@ -1,38 +1,42 @@
 import { Image } from "expo-image";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  ImageBackground,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const OnboardingScreen = ({ navigation }) => {
   return (
-    <ImageBackground
-      source={require("../assets/images/onboardImage.jpg")}
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <Image
-        source={require("../assets/images/login-quote.png")}
-        style={styles.image}
-      />
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Login")}
-        style={styles.appButtonContainer}
-        activeOpacity={0.9}
+        source={require("../assets/images/onboardImage.jpg")}
+        style={styles.backgroundImage}
       >
-        <Text style={styles.appButtonText}>Start</Text>
-      </TouchableOpacity>
-    </ImageBackground>
+        <Image
+          source={require("../assets/images/login-quote.png")}
+          style={styles.image}
+        />
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Login")}
+          style={styles.appButtonContainer}
+          activeOpacity={0.9}
+        >
+          <Text style={styles.appButtonText}>Start</Text>
+        </TouchableOpacity>
+      </Image>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  backgroundImage: {
+    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    contentFit: "cover", // To scale the image to cover the entire background
+    position: "absolute",
+    width: "100%",
+    height: "100%",
   },
   image: {
     height: 250,

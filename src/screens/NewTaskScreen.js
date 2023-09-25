@@ -1,4 +1,5 @@
 import {
+  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
@@ -7,6 +8,14 @@ import {
   View,
 } from "react-native";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setTitle,
+  setDescription,
+  setLink,
+  setLinkName,
+  addLinks,
+} from "../redux/slices/taskSlice";
 
 import DropDownPicker from "react-native-dropdown-picker";
 import CustomButton from "../components/CustomButton";
@@ -14,9 +23,17 @@ import MediaAttachments from "../components/MediaAttachments";
 
 const NewTaskScreen = ({ setModalVisible }) => {
   const [open, setOpen] = useState(false);
+  const title = useSelector((state) => state.task.title);
+  const description = useSelector((state) => state.task.description);
+  const linkData = useSelector((state) => state.task.linkData);
+  const linkName = useSelector((state) => state.task.linkName);
+  const dispatch = useDispatch();
 
   return (
-    <ScrollView style={styles.scrollContainer}>
+    <ScrollView
+      style={styles.scrollContainer}
+      // automaticallyAdjustKeyboardInsets={true}
+    >
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={() => setOpen(false)}>
           <View style={{ top: 15 }}>
@@ -31,7 +48,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
                 style={[styles.textInput, { height: 50 }]}
                 placeholder="Name the task"
                 placeholderTextColor="#ccc"
-                onChangeText={() => console.log("clicked")}
+                value={title}
+                onChangeText={(taskTitle) => dispatch(setTitle(taskTitle))}
               />
             </View>
 
@@ -43,7 +61,10 @@ const NewTaskScreen = ({ setModalVisible }) => {
                 multiline={true}
                 placeholder="Add description..."
                 placeholderTextColor="#ccc"
-                onChangeText={() => console.log("clicked")}
+                value={description}
+                onChangeText={(taskDescription) =>
+                  dispatch(setDescription(taskDescription))
+                }
               />
             </View>
 
@@ -54,7 +75,14 @@ const NewTaskScreen = ({ setModalVisible }) => {
 
             <View style={styles.shadowedUnderline} />
 
-            <MediaAttachments />
+            <MediaAttachments
+              linkData={linkData}
+              linkName={linkName}
+              setLink={setLink}
+              setLinkName={setLinkName}
+              addLinks={addLinks}
+              dispatch={dispatch}
+            />
 
             <View
               style={{
@@ -125,7 +153,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingBottom: 80,
   },
   scrollContainer: {
     flex: 1,

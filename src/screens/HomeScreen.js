@@ -1,5 +1,6 @@
 import {
   Image,
+  KeyboardAvoidingView,
   Modal,
   Platform,
   SafeAreaView,
@@ -36,7 +37,12 @@ const HomeScreen = ({ navigation }) => {
           animationType="slide"
           presentationStyle="formSheet"
         >
-          <NewTaskScreen setModalVisible={() => setModalVisible(false)} />
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={{ flex: 1 }}
+          >
+            <NewTaskScreen setModalVisible={() => setModalVisible(false)} />
+          </KeyboardAvoidingView>
         </Modal>
       </View>
     </SafeAreaView>

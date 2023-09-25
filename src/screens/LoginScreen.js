@@ -9,8 +9,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
 } from "react-native";
-import { Entypo } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../components/CustomButton";
 import InputField from "../components/InputField";
@@ -21,7 +20,6 @@ import { setEmail, setIsAuth } from "../redux/slices/authSlice";
 import Logo from "../assets/images/woman-doing-yoga.svg";
 
 const LoginScreen = ({ navigation }) => {
-  const isAuthSelector = useSelector((state) => state.auth.isAuth);
   const [loading, setLoading] = useState(false);
   const email = useSelector((state) => state.auth.email);
 

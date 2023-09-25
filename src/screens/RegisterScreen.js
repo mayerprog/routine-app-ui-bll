@@ -61,6 +61,7 @@ const RegisterScreen = ({ navigation }) => {
         <InputField
           label="Full name"
           icon={<Ionicons name="person" size={17} style={styles.iconStyle} />}
+          valueInput={fullname}
           actionOnChange={(name) => dispatch(setFullName(name))}
         />
         <InputField

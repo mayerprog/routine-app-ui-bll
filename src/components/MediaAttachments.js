@@ -1,17 +1,25 @@
 import React, { useDebugValue, useState } from "react";
 import {
   Image,
+  KeyboardAvoidingView,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import CustomButton from "./CustomButton";
 import { FontAwesome, Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
 
-const MediaAttachments = () => {
+const MediaAttachments = ({
+  linkData,
+  linkName,
+  setLinkName,
+  setLink,
+  addLinks,
+  dispatch,
+}) => {
   const [cameraPressed, setCameraPressed] = useState(false);
   const [linkPressed, setLinkPressed] = useState(false);
   const [cameraColor, setCameraColor] = useState("black");
@@ -28,10 +36,13 @@ const MediaAttachments = () => {
     setCameraPressed(false);
   };
 
+  const makeLinkObj = () => {
+    const newObject = { name: linkName, link: linkData };
+    dispatch(addLinks(newObject));
+  };
+
   return (
     <View>
-      {/* зерефакторить код, вынести прессаблконтейнер в отдельный компонент(в том же файле) */}
-
       {cameraPressed && (
         <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
           <PressableContainer
@@ -75,18 +86,21 @@ const MediaAttachments = () => {
             style={styles.textInput}
             placeholder="Link name"
             placeholderTextColor="#ccc"
-            onChangeText={() => console.log("clicked")}
+            value={linkName}
+            onChangeText={(taskLinkName) => dispatch(setLinkName(taskLinkName))}
           />
           <TextInput
             style={styles.textInput}
             placeholder="Link"
             placeholderTextColor="#ccc"
-            onChangeText={() => console.log("clicked")}
+            value={linkData}
+            onChangeText={(taskLinkData) => dispatch(setLink(taskLinkData))}
           />
           <CustomButton
             label="Add"
             buttonStyle={[styles.buttonStyle, { backgroundColor: "#A2C5FF" }]}
             textButtonStyle={styles.textButtonStyle}
+            action={makeLinkObj}
           />
         </View>
       )}
