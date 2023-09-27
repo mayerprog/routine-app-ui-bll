@@ -26,6 +26,7 @@ export const taskSlice = createSlice({
     },
     addLinks: (state, action) => {
       state.links = [...state.links, action.payload];
+
       console.log(state.links);
     },
   },

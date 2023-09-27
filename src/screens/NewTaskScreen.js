@@ -27,6 +27,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
   const description = useSelector((state) => state.task.description);
   const linkData = useSelector((state) => state.task.linkData);
   const linkName = useSelector((state) => state.task.linkName);
+  const links = useSelector((state) => state.task.links);
   const dispatch = useDispatch();
 
   return (
@@ -82,6 +83,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
               setLinkName={setLinkName}
               addLinks={addLinks}
               dispatch={dispatch}
+              links={links}
             />
 
             <View
@@ -153,6 +155,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 50,
   },
   scrollContainer: {
     flex: 1,

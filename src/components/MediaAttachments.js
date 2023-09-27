@@ -9,12 +9,18 @@ import {
   View,
 } from "react-native";
 import CustomButton from "./CustomButton";
-import { FontAwesome, Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  Ionicons,
+  FontAwesome5,
+  AntDesign,
+} from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 
 const MediaAttachments = ({
   linkData,
   linkName,
+  links,
   setLinkName,
   setLink,
   addLinks,
@@ -39,10 +45,13 @@ const MediaAttachments = ({
   const makeLinkObj = () => {
     const newObject = { name: linkName, link: linkData };
     dispatch(addLinks(newObject));
+    dispatch(setLinkName(""));
+    dispatch(setLink(""));
   };
 
   return (
     <View>
+      {/* выделить камеру и линки в отдельные компоненты */}
       {cameraPressed && (
         <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
           <PressableContainer
@@ -82,6 +91,16 @@ const MediaAttachments = ({
       )}
       {linkPressed && (
         <View style={{ alignItems: "center", marginTop: 15 }}>
+          {links.map((l, index) => (
+            <View style={{ marginBottom: 8 }} key={index}>
+              <View style={{ flexDirection: "row" }}>
+                <AntDesign name="link" size={17} color="#D4D4D4" />
+                <Text style={styles.linkText}>{l.name}</Text>
+              </View>
+            </View>
+          ))}
+          {/* узнать как сделать фокус на полях при вводе */}
+          {/* сделать так, чтобы кнопка сразу добавляла без лишнего нажатия на нее */}
           <TextInput
             style={styles.textInput}
             placeholder="Link name"
@@ -220,6 +239,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.4,
     shadowRadius: 4,
+  },
+  linkText: {
+    fontFamily: "Roboto-Medium",
+    fontSize: 17,
+    color: "#06214E",
+    marginLeft: 8,
+    marginBottom: 5,
   },
 });
 
