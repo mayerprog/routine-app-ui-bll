@@ -1,5 +1,6 @@
 import {
   KeyboardAvoidingView,
+  Keyboard,
   ScrollView,
   StyleSheet,
   Text,
@@ -22,7 +23,6 @@ import CustomButton from "../components/CustomButton";
 import MediaAttachments from "../components/MediaAttachments";
 
 const NewTaskScreen = ({ setModalVisible }) => {
-  const [open, setOpen] = useState(false);
   const title = useSelector((state) => state.task.title);
   const description = useSelector((state) => state.task.description);
   const linkData = useSelector((state) => state.task.linkData);
@@ -33,89 +33,87 @@ const NewTaskScreen = ({ setModalVisible }) => {
   return (
     <ScrollView
       style={styles.scrollContainer}
-      // automaticallyAdjustKeyboardInsets={true}
+      automaticallyAdjustKeyboardInsets={true}
+      keyboardShouldPersistTaps="handled"
     >
       <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={() => setOpen(false)}>
-          <View style={{ top: 15 }}>
-            <View>
-              <Text style={styles.header}>New Task</Text>
-              <View style={styles.underLine} />
-            </View>
-
-            <View>
-              <Text style={styles.text}>Task Title</Text>
-              <TextInput
-                style={[styles.textInput, { height: 50 }]}
-                placeholder="Name the task"
-                placeholderTextColor="#ccc"
-                value={title}
-                onChangeText={(taskTitle) => dispatch(setTitle(taskTitle))}
-              />
-            </View>
-
-            <View>
-              <Text style={styles.text}>Description</Text>
-              <TextInput
-                style={[styles.textInput, { height: 150, paddingTop: 10 }]}
-                maxLength={1000}
-                multiline={true}
-                placeholder="Add description..."
-                placeholderTextColor="#ccc"
-                value={description}
-                onChangeText={(taskDescription) =>
-                  dispatch(setDescription(taskDescription))
-                }
-              />
-            </View>
-
-            <>
-              <Text style={styles.text}>When?</Text>
-              <ChooseTimeComponent setOpen={setOpen} open={open} />
-            </>
-
-            <View style={styles.shadowedUnderline} />
-
-            <MediaAttachments
-              linkData={linkData}
-              linkName={linkName}
-              setLink={setLink}
-              setLinkName={setLinkName}
-              addLinks={addLinks}
-              dispatch={dispatch}
-              links={links}
-            />
-
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-around",
-                paddingVertical: 13,
-              }}
-            >
-              <CustomButton
-                label="Cancel"
-                buttonStyle={styles.buttonStyle}
-                textButtonStyle={styles.textButtonStyle}
-                action={setModalVisible}
-              />
-              <CustomButton
-                label="Create"
-                buttonStyle={[
-                  styles.buttonStyle,
-                  { backgroundColor: "#002594" },
-                ]}
-                textButtonStyle={styles.textButtonStyle}
-              />
-            </View>
+        {/* <TouchableWithoutFeedback onPress={() => setOpen(false)}> */}
+        <View style={{ top: 15 }}>
+          <View>
+            <Text style={styles.header}>New Task</Text>
+            <View style={styles.underLine} />
           </View>
-        </TouchableWithoutFeedback>
+
+          <View>
+            <Text style={styles.text}>Task Title</Text>
+            <TextInput
+              style={[styles.textInput, { height: 50 }]}
+              placeholder="Name the task"
+              placeholderTextColor="#ccc"
+              value={title}
+              onChangeText={(taskTitle) => dispatch(setTitle(taskTitle))}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.text}>Description</Text>
+            <TextInput
+              style={[styles.textInput, { height: 150, paddingTop: 10 }]}
+              maxLength={1000}
+              multiline={true}
+              placeholder="Add description..."
+              placeholderTextColor="#ccc"
+              value={description}
+              onChangeText={(taskDescription) =>
+                dispatch(setDescription(taskDescription))
+              }
+            />
+          </View>
+
+          <>
+            <Text style={styles.text}>When?</Text>
+            <ChooseTimeComponent />
+          </>
+
+          <View style={styles.shadowedUnderline} />
+
+          <MediaAttachments
+            linkData={linkData}
+            linkName={linkName}
+            setLink={setLink}
+            setLinkName={setLinkName}
+            addLinks={addLinks}
+            dispatch={dispatch}
+            links={links}
+          />
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              paddingVertical: 13,
+            }}
+          >
+            <CustomButton
+              label="Cancel"
+              buttonStyle={styles.buttonStyle}
+              textButtonStyle={styles.textButtonStyle}
+              action={setModalVisible}
+            />
+            <CustomButton
+              label="Create"
+              buttonStyle={[styles.buttonStyle, { backgroundColor: "#002594" }]}
+              textButtonStyle={styles.textButtonStyle}
+            />
+          </View>
+        </View>
+        {/* </TouchableWithoutFeedback> */}
       </View>
     </ScrollView>
   );
 };
 
-const ChooseTimeComponent = ({ setOpen, open }) => {
+const ChooseTimeComponent = () => {
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
     { label: "Every day", value: "everyday" },
@@ -124,6 +122,8 @@ const ChooseTimeComponent = ({ setOpen, open }) => {
     { label: "Every weekend", value: "everyweekend" },
     { label: "Other", value: "other" },
   ]);
+  const [open, setOpen] = useState(false);
+
   return (
     <DropDownPicker
       listMode="SCROLLVIEW"

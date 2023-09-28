@@ -4,8 +4,8 @@ const initialState = {
   title: null,
   description: null,
   links: [],
-  linkData: null,
-  linkName: null,
+  linkData: "",
+  linkName: "",
 };
 
 export const taskSlice = createSlice({
@@ -26,8 +26,6 @@ export const taskSlice = createSlice({
     },
     addLinks: (state, action) => {
       state.links = [...state.links, action.payload];
-
-      console.log(state.links);
     },
   },
 });

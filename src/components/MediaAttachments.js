@@ -1,7 +1,6 @@
 import React, { useDebugValue, useState } from "react";
 import {
-  Image,
-  KeyboardAvoidingView,
+  Keyboard,
   Pressable,
   StyleSheet,
   Text,
@@ -43,11 +42,18 @@ const MediaAttachments = ({
   };
 
   const makeLinkObj = () => {
+    Keyboard.dismiss();
     const newObject = { name: linkName, link: linkData };
     dispatch(addLinks(newObject));
     dispatch(setLinkName(""));
     dispatch(setLink(""));
   };
+
+  let isButtonDisabled;
+
+  if (linkData === "" || linkName === "") {
+    isButtonDisabled = true;
+  }
 
   return (
     <View>
@@ -99,8 +105,6 @@ const MediaAttachments = ({
               </View>
             </View>
           ))}
-          {/* узнать как сделать фокус на полях при вводе */}
-          {/* сделать так, чтобы кнопка сразу добавляла без лишнего нажатия на нее */}
           <TextInput
             style={styles.textInput}
             placeholder="Link name"
@@ -120,6 +124,7 @@ const MediaAttachments = ({
             buttonStyle={[styles.buttonStyle, { backgroundColor: "#A2C5FF" }]}
             textButtonStyle={styles.textButtonStyle}
             action={makeLinkObj}
+            buttonDisabled={isButtonDisabled}
           />
         </View>
       )}
