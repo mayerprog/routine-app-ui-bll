@@ -7,14 +7,9 @@ import {
   TextInput,
   View,
 } from "react-native";
-import CustomButton from "./CustomButton";
-import {
-  FontAwesome,
-  Ionicons,
-  FontAwesome5,
-  AntDesign,
-} from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { FontAwesome, FontAwesome5, AntDesign } from "@expo/vector-icons";
+import MediaContainer from "./MediaContainer";
+import LinkContainer from "./LinkContainer";
 
 const MediaAttachments = ({
   linkData,
@@ -27,9 +22,6 @@ const MediaAttachments = ({
 }) => {
   const [cameraPressed, setCameraPressed] = useState(false);
   const [linkPressed, setLinkPressed] = useState(false);
-  const [cameraColor, setCameraColor] = useState("black");
-  const [mediaColor, setMediaColor] = useState("black");
-  const [docColor, setDocColor] = useState("black");
 
   const pressCamera = () => {
     setCameraPressed(!cameraPressed);
@@ -41,92 +33,19 @@ const MediaAttachments = ({
     setCameraPressed(false);
   };
 
-  const makeLinkObj = () => {
-    Keyboard.dismiss();
-    const newObject = { name: linkName, link: linkData };
-    dispatch(addLinks(newObject));
-    dispatch(setLinkName(""));
-    dispatch(setLink(""));
-  };
-
-  let isButtonDisabled;
-
-  if (linkData === "" || linkName === "") {
-    isButtonDisabled = true;
-  }
-
   return (
     <View>
-      {/* выделить камеру и линки в отдельные компоненты */}
-      {cameraPressed && (
-        <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
-          <PressableContainer
-            icon={
-              <FontAwesome
-                name="camera"
-                size={23}
-                style={{ color: cameraColor }}
-              />
-            }
-            containerText="Take a picture"
-            setIconColor={setCameraColor}
-          />
-          <PressableContainer
-            icon={
-              <FontAwesome
-                name="image"
-                size={23}
-                style={{ color: mediaColor }}
-              />
-            }
-            containerText="Media"
-            setIconColor={setMediaColor}
-          />
-          <PressableContainer
-            icon={
-              <Ionicons
-                name="document-attach"
-                size={24}
-                style={{ color: docColor }}
-              />
-            }
-            containerText="Document"
-            setIconColor={setDocColor}
-          />
-        </View>
-      )}
+      {cameraPressed && <MediaContainer />}
       {linkPressed && (
-        <View style={{ alignItems: "center", marginTop: 15 }}>
-          {links.map((l, index) => (
-            <View style={{ marginBottom: 8 }} key={index}>
-              <View style={{ flexDirection: "row" }}>
-                <AntDesign name="link" size={17} color="#D4D4D4" />
-                <Text style={styles.linkText}>{l.name}</Text>
-              </View>
-            </View>
-          ))}
-          <TextInput
-            style={styles.textInput}
-            placeholder="Link name"
-            placeholderTextColor="#ccc"
-            value={linkName}
-            onChangeText={(taskLinkName) => dispatch(setLinkName(taskLinkName))}
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholder="Link"
-            placeholderTextColor="#ccc"
-            value={linkData}
-            onChangeText={(taskLinkData) => dispatch(setLink(taskLinkData))}
-          />
-          <CustomButton
-            label="Add"
-            buttonStyle={[styles.buttonStyle, { backgroundColor: "#A2C5FF" }]}
-            textButtonStyle={styles.textButtonStyle}
-            action={makeLinkObj}
-            buttonDisabled={isButtonDisabled}
-          />
-        </View>
+        <LinkContainer
+          linkData={linkData}
+          linkName={linkName}
+          setLink={setLink}
+          setLinkName={setLinkName}
+          addLinks={addLinks}
+          dispatch={dispatch}
+          links={links}
+        />
       )}
 
       <View style={styles.container}>
@@ -152,88 +71,11 @@ const MediaAttachments = ({
   );
 };
 
-const PressableContainer = ({ containerText, icon, setIconColor }) => {
-  const handlePressIn = () => {
-    setIconColor("white");
-  };
-  const handlePressOut = () => {
-    setIconColor("black");
-  };
-  return (
-    <View
-      style={{
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <Pressable
-        hitSlop={10}
-        style={({ pressed }) => [
-          styles.pressableContainer,
-          { backgroundColor: pressed ? "#21A098" : "#1B57B8" },
-        ]}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-      >
-        {icon}
-      </Pressable>
-      <Text style={styles.pressableContainerText}>{containerText}</Text>
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-around",
     margin: 20,
-  },
-  pressableContainer: {
-    width: 80,
-    height: 50,
-    paddingHorizontal: 26,
-    paddingVertical: 12,
-    borderRadius: 25,
-    borderColor: "black",
-    borderWidth: 1,
-    backgroundColor: "#1B57B8",
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-  },
-  pressableContainerText: {
-    fontFamily: "Roboto-Regular",
-    fontSize: 14,
-    marginTop: 6,
-  },
-  textInput: {
-    fontSize: 16,
-    fontFamily: "Lexend-Regular",
-    borderWidth: 1,
-    borderColor: "#A1A1A1",
-    backgroundColor: "white",
-    width: 380,
-    paddingLeft: 15,
-    height: 45,
-    marginBottom: 5,
-  },
-  buttonStyle: {
-    width: 95,
-    height: 40,
-    marginTop: 7,
-    paddingBottom: 5,
-    paddingTop: 11,
-    borderColor: "#1B57B8",
-    borderWidth: 0.5,
-  },
-  textButtonStyle: {
-    fontSize: 14,
-    fontFamily: "Lexend-Regular",
-    color: "#1B57B8",
   },
   imgShadow: {
     backgroundColor: "transparent",
@@ -244,13 +86,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.4,
     shadowRadius: 4,
-  },
-  linkText: {
-    fontFamily: "Roboto-Medium",
-    fontSize: 17,
-    color: "#06214E",
-    marginLeft: 8,
-    marginBottom: 5,
   },
 });
 
