@@ -26,11 +26,23 @@ export const taskSlice = createSlice({
     },
     addLinks: (state, action) => {
       state.links = [...state.links, action.payload];
+      state.links.map((l, index) => {
+        l.id = index;
+      });
+    },
+    removeLinks: (state, action) => {
+      state.links = state.links.filter((item) => item.id !== action.payload);
     },
   },
 });
 
-export const { setTitle, setDescription, setLink, setLinkName, addLinks } =
-  taskSlice.actions;
+export const {
+  setTitle,
+  setDescription,
+  setLink,
+  setLinkName,
+  addLinks,
+  removeLinks,
+} = taskSlice.actions;
 
 export default taskSlice.reducer;

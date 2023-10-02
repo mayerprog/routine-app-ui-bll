@@ -15,6 +15,7 @@ import {
   setDescription,
   setLink,
   setLinkName,
+  removeLinks,
   addLinks,
 } from "../redux/slices/taskSlice";
 
@@ -83,6 +84,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
             setLink={setLink}
             setLinkName={setLinkName}
             addLinks={addLinks}
+            removeLinks={removeLinks}
             dispatch={dispatch}
             links={links}
           />

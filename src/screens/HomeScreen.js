@@ -59,19 +59,19 @@ const styles = StyleSheet.create({
   tasks: {
     flexBasis: 655,
     margin: -5,
-    backgroundColor: "#DCE8F2",
+    // backgroundColor: "#DCE8F2",
     // backgroundColor: "#2367D8",
     // opacity: 0.49,
     borderColor: "white",
     borderWidth: 5,
-    overflow: "hidden",
-    shadowColor: "black",
-    shadowRadius: 7,
-    shadowOpacity: 0.9,
-    shadowOffset: {
-      height: 7,
-      width: 0,
-    },
+    // overflow: "hidden",
+    // shadowColor: "black",
+    // shadowRadius: 7,
+    // shadowOpacity: 0.9,
+    // shadowOffset: {
+    //   height: 7,
+    //   width: 0,
+    // },
   },
   iconStyle: {
     alignSelf: "center",

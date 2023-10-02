@@ -18,6 +18,7 @@ const MediaAttachments = ({
   setLinkName,
   setLink,
   addLinks,
+  removeLinks,
   dispatch,
 }) => {
   const [cameraPressed, setCameraPressed] = useState(false);
@@ -43,6 +44,7 @@ const MediaAttachments = ({
           setLink={setLink}
           setLinkName={setLinkName}
           addLinks={addLinks}
+          removeLinks={removeLinks}
           dispatch={dispatch}
           links={links}
         />

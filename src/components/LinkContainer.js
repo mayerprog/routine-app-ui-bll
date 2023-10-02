@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, Keyboard } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Keyboard,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import CustomButton from "./CustomButton";
 
 const LinkContainer = ({
@@ -10,8 +18,11 @@ const LinkContainer = ({
   setLinkName,
   setLink,
   addLinks,
+  removeLinks,
   dispatch,
 }) => {
+  let isButtonDisabled;
+
   const makeLinkObj = () => {
     Keyboard.dismiss();
     const newObject = { name: linkName, link: linkData };
@@ -20,7 +31,9 @@ const LinkContainer = ({
     dispatch(setLink(""));
   };
 
-  let isButtonDisabled;
+  const handleRemoveItem = (linkIdToRemove) => {
+    dispatch(removeLinks(linkIdToRemove));
+  };
 
   if (linkData === "" || linkName === "") {
     isButtonDisabled = true;
@@ -32,6 +45,13 @@ const LinkContainer = ({
           <View style={{ flexDirection: "row" }}>
             <AntDesign name="link" size={17} color="#D4D4D4" />
             <Text style={styles.linkText}>{l.name}</Text>
+            <TouchableOpacity
+              style={{ marginTop: 1 }}
+              onPress={() => handleRemoveItem(l.id)}
+              hitSlop={5}
+            >
+              <MaterialIcons name="cancel" size={18} color="#800B35" />
+            </TouchableOpacity>
           </View>
         </View>
       ))}
@@ -64,9 +84,10 @@ const styles = StyleSheet.create({
   linkText: {
     fontFamily: "Roboto-Medium",
     fontSize: 16,
-    color: "#CACACA",
+    color: "#EEEEEE",
     marginLeft: 7,
     marginBottom: 5,
+    marginRight: 12,
   },
   textInput: {
     fontSize: 16,
