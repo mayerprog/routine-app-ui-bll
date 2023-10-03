@@ -1,5 +1,11 @@
 import { Image } from "expo-image";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const OnboardingScreen = ({ navigation }) => {
   return (
@@ -12,13 +18,14 @@ const OnboardingScreen = ({ navigation }) => {
           source={require("../assets/images/login-quote.png")}
           style={styles.image}
         />
-        <TouchableOpacity
+        <TouchableHighlight
           onPress={() => navigation.navigate("Login")}
           style={styles.appButtonContainer}
-          activeOpacity={0.9}
+          underlayColor="#C7E0E8"
+          activeOpacity={0.3}
         >
           <Text style={styles.appButtonText}>Start</Text>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </Image>
     </View>
   );

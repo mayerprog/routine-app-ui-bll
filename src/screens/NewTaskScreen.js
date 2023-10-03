@@ -101,11 +101,13 @@ const NewTaskScreen = ({ setModalVisible }) => {
               buttonStyle={styles.buttonStyle}
               textButtonStyle={styles.textButtonStyle}
               action={setModalVisible}
+              underlayColor="#5884CD"
             />
             <CustomButton
               label="Create"
               buttonStyle={[styles.buttonStyle, { backgroundColor: "#002594" }]}
               textButtonStyle={styles.textButtonStyle}
+              underlayColor="#5884CD"
             />
           </View>
         </View>

@@ -113,6 +113,7 @@ const RegisterScreen = ({ navigation }) => {
                 label="Register"
                 email={email}
                 password={password}
+                underlayColor="#739AD9"
                 action={() => register(email, password, fullname, birthdate)}
               />
             </View>

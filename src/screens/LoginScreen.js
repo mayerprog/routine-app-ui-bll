@@ -83,7 +83,11 @@ const LoginScreen = ({ navigation }) => {
             <ActivityIndicator size="large" color="#0000ff" />
           ) : (
             <View style={{ marginTop: 25 }}>
-              <CustomButton label="Login" action={login} />
+              <CustomButton
+                label="Login"
+                action={login}
+                underlayColor="#739AD9"
+              />
             </View>
           )}
 

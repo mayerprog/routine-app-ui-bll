@@ -74,6 +74,7 @@ const LinkContainer = ({
         buttonStyle={[styles.buttonStyle, { backgroundColor: "#A2C5FF" }]}
         textButtonStyle={styles.textButtonStyle}
         action={makeLinkObj}
+        underlayColor="#5884CD"
         buttonDisabled={isButtonDisabled}
       />
     </View>
