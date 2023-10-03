@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -52,77 +54,79 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior="padding">
-        <Text style={styles.text}>Welcome Onboard!</Text>
-        <Text style={styles.smallText}>
-          Let's help you in completing your routine
-        </Text>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <KeyboardAvoidingView behavior="padding">
+          <Text style={styles.text}>Welcome Onboard!</Text>
+          <Text style={styles.smallText}>
+            Let's help you in completing your routine
+          </Text>
 
-        <InputField
-          label="Full name"
-          icon={<Ionicons name="person" size={17} style={styles.iconStyle} />}
-          valueInput={fullname}
-          actionOnChange={(name) => dispatch(setFullName(name))}
-        />
-        <InputField
-          label="Email"
-          icon={<Entypo name="email" size={17} style={styles.iconStyle} />}
-          keyboardType="email-address"
-          valueInput={email}
-          actionOnChange={(userEmail) => dispatch(setEmail(userEmail))}
-        />
-        <InputField
-          label="Password"
-          icon={
-            <Ionicons
-              name="ios-key-outline"
-              size={17}
-              style={styles.iconStyle}
-            />
-          }
-          inputType="password"
-          valuePassword={password}
-          actionOnChange={(userPassword) => setPassword(userPassword)}
-        />
-        <InputField
-          label="Confirm password"
-          icon={
-            <Ionicons
-              name="ios-key-outline"
-              size={17}
-              style={styles.iconStyle}
-            />
-          }
-          inputType="password"
-          valuePassword={password}
-          actionOnChange={(userPassword) => setPassword(userPassword)}
-        />
-        <DatePicker
-          valueDate={birthdate}
-          dateAction={(date) => dispatch(setBirthDate(date))}
-        />
+          <InputField
+            label="Full name"
+            icon={<Ionicons name="person" size={17} style={styles.iconStyle} />}
+            valueInput={fullname}
+            actionOnChange={(name) => dispatch(setFullName(name))}
+          />
+          <InputField
+            label="Email"
+            icon={<Entypo name="email" size={17} style={styles.iconStyle} />}
+            keyboardType="email-address"
+            valueInput={email}
+            actionOnChange={(userEmail) => dispatch(setEmail(userEmail))}
+          />
+          <InputField
+            label="Password"
+            icon={
+              <Ionicons
+                name="ios-key-outline"
+                size={17}
+                style={styles.iconStyle}
+              />
+            }
+            inputType="password"
+            valuePassword={password}
+            actionOnChange={(userPassword) => setPassword(userPassword)}
+          />
+          <InputField
+            label="Confirm password"
+            icon={
+              <Ionicons
+                name="ios-key-outline"
+                size={17}
+                style={styles.iconStyle}
+              />
+            }
+            inputType="password"
+            valuePassword={password}
+            actionOnChange={(userPassword) => setPassword(userPassword)}
+          />
+          <DatePicker
+            valueDate={birthdate}
+            dateAction={(date) => dispatch(setBirthDate(date))}
+          />
 
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <View style={{ marginTop: 20 }}>
-            <CustomButton
-              label="Register"
-              email={email}
-              password={password}
-              action={() => register(email, password, fullname, birthdate)}
-            />
+          {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            <View style={{ marginTop: 20 }}>
+              <CustomButton
+                label="Register"
+                email={email}
+                password={password}
+                action={() => register(email, password, fullname, birthdate)}
+              />
+            </View>
+          )}
+
+          <View style={styles.underButton}>
+            <Text style={styles.underButtonText}>Do you have an account?</Text>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.opacityText}>Sign in</Text>
+            </TouchableOpacity>
           </View>
-        )}
-
-        <View style={styles.underButton}>
-          <Text style={styles.underButtonText}>Do you have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.opacityText}>Sign in</Text>
-          </TouchableOpacity>
-        </View>
-        <AuthGoogleFB />
-      </KeyboardAvoidingView>
+          <AuthGoogleFB />
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };

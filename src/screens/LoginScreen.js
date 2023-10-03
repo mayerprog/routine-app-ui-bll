@@ -7,6 +7,8 @@ import {
   StatusBar,
   TouchableOpacity,
   ActivityIndicator,
+  TouchableWithoutFeedback,
+  Keyboard,
   KeyboardAvoidingView,
 } from "react-native";
 import { Entypo, Ionicons } from "@expo/vector-icons";
@@ -47,54 +49,56 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior="padding">
-        <Logo width={300} height={230} style={styles.image} />
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <KeyboardAvoidingView behavior="padding">
+          <Logo width={300} height={230} style={styles.image} />
 
-        <Text style={styles.text}>Welcome Back!</Text>
-        <InputField
-          label="Email"
-          icon={<Entypo name="email" size={17} style={styles.iconStyle} />}
-          keyboardType="email-address"
-          valueInput={email}
-          actionOnChange={(userEmail) => dispatch(setEmail(userEmail))}
-        />
-        <InputField
-          label="Password"
-          icon={
-            <Ionicons
-              name="ios-key-outline"
-              size={22}
-              style={styles.iconStyle}
-            />
-          }
-          inputType="password"
-          valuePassword={password}
-          actionOnChange={(userPassword) => setPassword(userPassword)}
-        />
+          <Text style={styles.text}>Welcome Back!</Text>
+          <InputField
+            label="Email"
+            icon={<Entypo name="email" size={17} style={styles.iconStyle} />}
+            keyboardType="email-address"
+            valueInput={email}
+            actionOnChange={(userEmail) => dispatch(setEmail(userEmail))}
+          />
+          <InputField
+            label="Password"
+            icon={
+              <Ionicons
+                name="ios-key-outline"
+                size={22}
+                style={styles.iconStyle}
+              />
+            }
+            inputType="password"
+            valuePassword={password}
+            actionOnChange={(userPassword) => setPassword(userPassword)}
+          />
 
-        <TouchableOpacity onPress={() => console.log("touched")}>
-          <Text style={styles.opacityText}>Forgot password?</Text>
-        </TouchableOpacity>
-
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <View style={{ marginTop: 25 }}>
-            <CustomButton label="Login" action={login} />
-          </View>
-        )}
-
-        <View style={styles.underButton}>
-          <Text style={styles.underButtonText}>
-            You don't have an account yet?
-          </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text style={styles.opacityText}>Sign up</Text>
+          <TouchableOpacity onPress={() => console.log("touched")}>
+            <Text style={styles.opacityText}>Forgot password?</Text>
           </TouchableOpacity>
-        </View>
 
-        <AuthGoogleFB />
-      </KeyboardAvoidingView>
+          {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            <View style={{ marginTop: 25 }}>
+              <CustomButton label="Login" action={login} />
+            </View>
+          )}
+
+          <View style={styles.underButton}>
+            <Text style={styles.underButtonText}>
+              You don't have an account yet?
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+              <Text style={styles.opacityText}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
+
+          <AuthGoogleFB />
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
