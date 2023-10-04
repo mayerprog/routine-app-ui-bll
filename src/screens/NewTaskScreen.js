@@ -1,6 +1,4 @@
 import {
-  KeyboardAvoidingView,
-  Keyboard,
   ScrollView,
   StyleSheet,
   Text,
@@ -8,7 +6,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setTitle,
@@ -19,9 +16,9 @@ import {
   addLinks,
 } from "../redux/slices/taskSlice";
 
-import DropDownPicker from "react-native-dropdown-picker";
 import CustomButton from "../components/CustomButton";
 import MediaAttachments from "../components/MediaAttachments";
+import ChooseTimeComponent from "../components/ChooseTimeComponent";
 
 const NewTaskScreen = ({ setModalVisible }) => {
   const title = useSelector((state) => state.task.title);
@@ -117,43 +114,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
   );
 };
 
-const ChooseTimeComponent = () => {
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "Every day", value: "everyday" },
-    { label: "Every week", value: "everyweek" },
-    { label: "Every weekday", value: "everyweekday" },
-    { label: "Every weekend", value: "everyweekend" },
-    { label: "Other", value: "other" },
-  ]);
-  const [open, setOpen] = useState(false);
-
-  return (
-    <DropDownPicker
-      listMode="SCROLLVIEW"
-      open={open}
-      value={value}
-      items={items}
-      setOpen={setOpen}
-      setValue={setValue}
-      setItems={setItems}
-      placeholder="Choose the time"
-      style={[styles.textInput, { height: 50, marginBottom: 5 }]}
-      placeholderStyle={{
-        color: "#ccc",
-        fontSize: 15,
-        fontFamily: "Lexend-Regular",
-      }}
-      dropDownContainerStyle={styles.dropDownContainerStyle}
-      textStyle={{
-        fontSize: 15,
-        fontFamily: "Lexend-Regular",
-        color: "#414243",
-      }}
-    />
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -208,13 +168,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#A1A1A1",
     backgroundColor: "white",
-    borderRadius: 12,
-    width: 380,
-    paddingLeft: 15,
-    margin: 13,
-  },
-  dropDownContainerStyle: {
-    borderColor: "#A1A1A1",
     borderRadius: 12,
     width: 380,
     paddingLeft: 15,

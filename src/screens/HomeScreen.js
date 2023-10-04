@@ -1,11 +1,14 @@
 import {
+  FlatList,
   Image,
   KeyboardAvoidingView,
   Modal,
   Platform,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -14,6 +17,7 @@ import CurrentDate from "../components/CurrentDate";
 import NewTaskScreen from "./NewTaskScreen";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import TaskComponent from "../components/TaskComponent";
 
 const HomeScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,7 +27,9 @@ const HomeScreen = ({ navigation }) => {
       <Header />
       <CurrentDate />
 
-      <View style={styles.tasks}>
+      <View style={styles.tasksArea}>
+        <TaskComponent />
+
         <TouchableOpacity
           onPress={() => setModalVisible(true)}
           style={styles.iconStyle}
@@ -47,31 +53,18 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
     backgroundColor: "#fff",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  tasks: {
-    flexBasis: 655,
-    margin: -5,
-    // backgroundColor: "#DCE8F2",
-    // backgroundColor: "#2367D8",
-    // opacity: 0.49,
-    borderColor: "white",
-    borderWidth: 5,
-    // overflow: "hidden",
-    // shadowColor: "black",
-    // shadowRadius: 7,
-    // shadowOpacity: 0.9,
-    // shadowOffset: {
-    //   height: 7,
-    //   width: 0,
-    // },
+  tasksArea: {
+    flex: 1,
   },
   iconStyle: {
+    flex: 1,
     alignSelf: "center",
+    justifyContent: "flex-end",
     position: "relative",
-    top: 520,
+    bottom: 30,
   },
 });
 
