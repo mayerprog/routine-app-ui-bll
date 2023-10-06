@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Fonts from "../hooks/fonts-hook";
 
 import HomeScreen from "../screens/HomeScreen";
@@ -15,6 +15,7 @@ const TabNavigator = () => {
   if (!Fonts()) {
     return <Text>Loading...</Text>; // or a loading screen
   }
+
   return (
     <Tab.Navigator
       screenOptions={{

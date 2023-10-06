@@ -1,47 +1,29 @@
+import axios from "axios";
+
 const instance = axios.create({
   baseURL: "http://192.168.0.157:3000/tasks",
   withCredentials: true,
 });
 
 export const tasksAPI = {
-  async login(username, password) {
+  async createTask(title, description, links) {
     try {
-      const response = await instance.post(`/login`, {
-        username: username,
-        password: password,
+      const response = await instance.post(`/createTask`, {
+        title: title,
+        description: description,
+        links: links,
       });
       return response.data;
     } catch (err) {
       alert(err);
     }
   },
-  async logout() {
+  async getAll() {
     try {
-      const response = await instance.post(`/logout`);
+      const response = await instance.get(`/getAll`);
       return response.data;
     } catch (err) {
-      console.log("can't log out" + err);
-    }
-  },
-  async isauth() {
-    try {
-      const response = await instance.get(`/isauth`);
-      return response.data;
-    } catch (err) {
-      console.log("not authorized" + err);
-    }
-  },
-  async register(username, password, fullname, birthdate) {
-    try {
-      const response = await instance.post(`/register`, {
-        username,
-        password,
-        fullname,
-        birthdate,
-      });
-      return response.data;
-    } catch (err) {
-      console.log("register error", err);
+      alert(err);
     }
   },
 };

@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,19 +15,34 @@ import {
   setLinkName,
   removeLinks,
   addLinks,
+  addTasks,
 } from "../redux/slices/taskSlice";
 
 import CustomButton from "../components/CustomButton";
 import MediaAttachments from "../components/MediaAttachments";
 import ChooseTimeComponent from "../components/ChooseTimeComponent";
+import { tasksAPI } from "../api/tasksAPI";
+import { setTasks } from "../redux/slices/taskSlice";
+
+import { useState } from "react";
 
 const NewTaskScreen = ({ setModalVisible }) => {
+  const [loading, setLoading] = useState(false);
+
   const title = useSelector((state) => state.task.title);
   const description = useSelector((state) => state.task.description);
   const linkData = useSelector((state) => state.task.linkData);
   const linkName = useSelector((state) => state.task.linkName);
   const links = useSelector((state) => state.task.links);
   const dispatch = useDispatch();
+
+  async function createTask() {
+    setLoading(true);
+    const newSavedTask = await tasksAPI.createTask(title, description, links);
+    dispatch(addTasks(newSavedTask));
+    setModalVisible(false);
+    setLoading(false);
+  }
 
   return (
     <ScrollView
@@ -97,15 +113,23 @@ const NewTaskScreen = ({ setModalVisible }) => {
               label="Cancel"
               buttonStyle={styles.buttonStyle}
               textButtonStyle={styles.textButtonStyle}
-              action={setModalVisible}
+              action={() => setModalVisible(false)}
               underlayColor="#5884CD"
             />
-            <CustomButton
-              label="Create"
-              buttonStyle={[styles.buttonStyle, { backgroundColor: "#002594" }]}
-              textButtonStyle={styles.textButtonStyle}
-              underlayColor="#5884CD"
-            />
+            {loading ? (
+              <ActivityIndicator size="large" color="#0000ff" />
+            ) : (
+              <CustomButton
+                label="Create"
+                buttonStyle={[
+                  styles.buttonStyle,
+                  { backgroundColor: "#002594" },
+                ]}
+                textButtonStyle={styles.textButtonStyle}
+                underlayColor="#5884CD"
+                action={createTask}
+              />
+            )}
           </View>
         </View>
         {/* </TouchableWithoutFeedback> */}

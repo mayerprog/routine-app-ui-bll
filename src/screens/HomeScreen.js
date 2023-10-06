@@ -15,12 +15,29 @@ import {
 import Header from "../components/Header";
 import CurrentDate from "../components/CurrentDate";
 import NewTaskScreen from "./NewTaskScreen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import TaskComponent from "../components/TaskComponent";
+import TaskLinkComponent from "../components/TaskLinkComponent";
+import { tasksAPI } from "../api/tasksAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { setTasks } from "../redux/slices/taskSlice";
 
 const HomeScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.task.tasks);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const getAll = await tasksAPI.getAll();
+        dispatch(setTasks(getAll));
+        // console.log(tasks);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -28,14 +45,7 @@ const HomeScreen = ({ navigation }) => {
       <CurrentDate />
 
       <View style={styles.tasksArea}>
-        <TaskComponent />
-
-        <TouchableOpacity
-          onPress={() => setModalVisible(true)}
-          style={styles.iconStyle}
-        >
-          <Ionicons name="add-circle" size={70} color="#1B57B8" />
-        </TouchableOpacity>
+        <TaskLinkComponent tasks={tasks} setModalVisible={setModalVisible} />
 
         <Modal
           visible={modalVisible}
@@ -43,7 +53,7 @@ const HomeScreen = ({ navigation }) => {
           animationType="slide"
           presentationStyle="formSheet"
         >
-          <NewTaskScreen setModalVisible={() => setModalVisible(false)} />
+          <NewTaskScreen setModalVisible={setModalVisible} />
         </Modal>
       </View>
     </SafeAreaView>
@@ -60,11 +70,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   iconStyle: {
-    flex: 1,
     alignSelf: "center",
     justifyContent: "flex-end",
     position: "relative",
-    bottom: 30,
   },
 });
 

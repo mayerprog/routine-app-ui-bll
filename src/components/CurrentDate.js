@@ -12,7 +12,6 @@ const CurrentDate = () => {
         flexDirection: "row",
         justifyContent: "center",
         height: 50,
-        marginBottom: 20,
       }}
     >
       <Calendar
