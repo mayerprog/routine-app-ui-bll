@@ -51,7 +51,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
       keyboardShouldPersistTaps="handled"
     >
       <View style={styles.container}>
-        {/* <TouchableWithoutFeedback onPress={() => setOpen(false)}> */}
         <View style={{ top: 15 }}>
           <View>
             <Text style={styles.header}>New Task</Text>
@@ -132,7 +131,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
             )}
           </View>
         </View>
-        {/* </TouchableWithoutFeedback> */}
       </View>
     </ScrollView>
   );
