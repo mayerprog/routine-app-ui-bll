@@ -35,17 +35,21 @@ const NewTaskScreen = ({ setModalVisible }) => {
   const dispatch = useDispatch();
 
   async function createTask() {
-    setLoading(true);
-    const newSavedTask = await tasksAPI.createTask(
-      title,
-      description,
-      selectedDate,
-      links
-    );
-    dispatch(addTasks(newSavedTask));
-    dispatch(removeAllLinks());
-    setModalVisible(false);
-    setLoading(false);
+    if (title === "") alert("Please add title");
+    else if (selectedDate === "") alert("Please choose date");
+    else {
+      setLoading(true);
+      const newSavedTask = await tasksAPI.createTask(
+        title,
+        description,
+        selectedDate,
+        links
+      );
+      dispatch(addTasks(newSavedTask));
+      dispatch(removeAllLinks());
+      setModalVisible(false);
+      setLoading(false);
+    }
   }
 
   return (
@@ -120,7 +124,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
               underlayColor="#5884CD"
             />
             {loading ? (
-              <ActivityIndicator size="large" color="#0000ff" />
+              <ActivityIndicator size="large" color="#0000ff" style={{}} />
             ) : (
               <CustomButton
                 label="Create"

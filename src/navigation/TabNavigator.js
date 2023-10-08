@@ -8,10 +8,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const tasks = useSelector((state) => state.task.tasks);
+
   if (!Fonts()) {
     return <Text>Loading...</Text>; // or a loading screen
   }
@@ -30,7 +33,7 @@ const TabNavigator = () => {
         name="Home2"
         component={HomeScreen}
         options={{
-          tabBarBadge: 3, // amount of tasks
+          tabBarBadge: tasks.length, // amount of tasks
           tabBarBadgeStyle: { backgroundColor: "#F8C33B", marginTop: 5 },
           tabBarIcon: ({ color, size }) => (
             <Feather name="grid" size={size} color={color} />
