@@ -13,41 +13,40 @@ import {
 } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
-const TaskLinkComponent = ({ tasks, setModalVisible }) => {
-  const handleDoubleTap = () => {
-    console.log("task opened");
-  };
+const TaskListComponent = ({ tasks, setModalVisible }) => {
+  // const handleDoubleTap = () => {
+  //   console.log("task opened");
+  // };
 
   return (
+    // <GestureHandlerRootView>
+    //   <TapGestureHandler
+    //     onHandlerStateChange={({ nativeEvent }) => {
+    //       if (nativeEvent.state === State.ACTIVE) {
+    //         handleDoubleTap();
+    //       }
+    //     }}
+    //     numberOfTaps={2}
+    //     style={styles.taskContainer}
+    //   >
     <>
       <FlatList
         data={tasks}
         renderItem={({ item, index, separators }) => (
-          <GestureHandlerRootView>
-            <TapGestureHandler
-              onHandlerStateChange={({ nativeEvent }) => {
-                if (nativeEvent.state === State.ACTIVE) {
-                  handleDoubleTap();
-                }
-              }}
-              numberOfTaps={2}
+          <View style={styles.taskContainer} key={index}>
+            <Text
+              style={[
+                styles.text,
+                { fontSize: 16, fontFamily: "Lexend-SemiBold" },
+              ]}
             >
-              <View style={styles.taskContainer} key={index}>
-                <Text
-                  style={[
-                    styles.text,
-                    { fontSize: 16, fontFamily: "Lexend-SemiBold" },
-                  ]}
-                >
-                  {item.title}
-                </Text>
-                <Text style={styles.text}>{item.description}</Text>
-                <View style={styles.shadowedUnderline} />
+              {item.title}
+            </Text>
+            <Text style={styles.text}>{item.description}</Text>
+            <View style={styles.shadowedUnderline} />
 
-                <Text style={styles.text}>Everyday</Text>
-              </View>
-            </TapGestureHandler>
-          </GestureHandlerRootView>
+            <Text style={styles.text}>{item.date}</Text>
+          </View>
         )}
         ListFooterComponent={
           <TouchableOpacity
@@ -65,6 +64,8 @@ const TaskLinkComponent = ({ tasks, setModalVisible }) => {
         }}
       />
     </>
+    //   </TapGestureHandler>
+    // </GestureHandlerRootView>
   );
 };
 
@@ -117,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TaskLinkComponent;
+export default TaskListComponent;

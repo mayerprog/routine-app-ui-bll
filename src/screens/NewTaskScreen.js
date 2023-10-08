@@ -9,13 +9,10 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setTitle,
-  setDescription,
-  setLink,
-  setLinkName,
   removeLinks,
   addLinks,
   addTasks,
+  removeAllLinks,
 } from "../redux/slices/taskSlice";
 
 import CustomButton from "../components/CustomButton";
@@ -28,18 +25,25 @@ import { useState } from "react";
 
 const NewTaskScreen = ({ setModalVisible }) => {
   const [loading, setLoading] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [linkData, setLinkData] = useState("");
+  const [linkName, setLinkName] = useState("");
 
-  const title = useSelector((state) => state.task.title);
-  const description = useSelector((state) => state.task.description);
-  const linkData = useSelector((state) => state.task.linkData);
-  const linkName = useSelector((state) => state.task.linkName);
   const links = useSelector((state) => state.task.links);
   const dispatch = useDispatch();
 
   async function createTask() {
     setLoading(true);
-    const newSavedTask = await tasksAPI.createTask(title, description, links);
+    const newSavedTask = await tasksAPI.createTask(
+      title,
+      description,
+      selectedDate,
+      links
+    );
     dispatch(addTasks(newSavedTask));
+    dispatch(removeAllLinks());
     setModalVisible(false);
     setLoading(false);
   }
@@ -64,7 +68,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
               placeholder="Name the task"
               placeholderTextColor="#ccc"
               value={title}
-              onChangeText={(taskTitle) => dispatch(setTitle(taskTitle))}
+              onChangeText={(taskTitle) => setTitle(taskTitle)}
             />
           </View>
 
@@ -78,14 +82,14 @@ const NewTaskScreen = ({ setModalVisible }) => {
               placeholderTextColor="#ccc"
               value={description}
               onChangeText={(taskDescription) =>
-                dispatch(setDescription(taskDescription))
+                setDescription(taskDescription)
               }
             />
           </View>
 
           <>
             <Text style={styles.text}>When?</Text>
-            <ChooseTimeComponent />
+            <ChooseTimeComponent setSelectedDate={setSelectedDate} />
           </>
 
           <View style={styles.shadowedUnderline} />
@@ -93,7 +97,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
           <MediaAttachments
             linkData={linkData}
             linkName={linkName}
-            setLink={setLink}
+            setLinkData={setLinkData}
             setLinkName={setLinkName}
             addLinks={addLinks}
             removeLinks={removeLinks}
@@ -131,6 +135,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
             )}
           </View>
         </View>
+        {/* </TouchableWithoutFeedback> */}
       </View>
     </ScrollView>
   );

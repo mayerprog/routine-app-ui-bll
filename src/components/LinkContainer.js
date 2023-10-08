@@ -16,7 +16,7 @@ const LinkContainer = ({
   linkName,
   links,
   setLinkName,
-  setLink,
+  setLinkData,
   addLinks,
   removeLinks,
   dispatch,
@@ -27,8 +27,8 @@ const LinkContainer = ({
     Keyboard.dismiss();
     const newObject = { name: linkName, link: linkData };
     dispatch(addLinks(newObject));
-    dispatch(setLinkName(""));
-    dispatch(setLink(""));
+    setLinkName("");
+    setLinkData("");
   };
 
   const handleRemoveItem = (linkIdToRemove) => {
@@ -60,14 +60,14 @@ const LinkContainer = ({
         placeholder="Link name"
         placeholderTextColor="#ccc"
         value={linkName}
-        onChangeText={(taskLinkName) => dispatch(setLinkName(taskLinkName))}
+        onChangeText={(taskLinkName) => setLinkName(taskLinkName)}
       />
       <TextInput
         style={styles.textInput}
         placeholder="Link"
         placeholderTextColor="#ccc"
         value={linkData}
-        onChangeText={(taskLinkData) => dispatch(setLink(taskLinkData))}
+        onChangeText={(taskLinkData) => setLinkData(taskLinkData)}
       />
       <CustomButton
         label="Add"

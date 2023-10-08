@@ -1,17 +1,18 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://192.168.0.157:3000/tasks",
+  baseURL: "http://192.168.3.13:3000/tasks",
   withCredentials: true,
 });
 
 export const tasksAPI = {
-  async createTask(title, description, links) {
+  async createTask(title, description, selectedDate, links) {
     try {
       const response = await instance.post(`/createTask`, {
         title: title,
         description: description,
         links: links,
+        date: selectedDate,
       });
       return response.data;
     } catch (err) {

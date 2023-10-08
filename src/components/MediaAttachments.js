@@ -16,7 +16,7 @@ const MediaAttachments = ({
   linkName,
   links,
   setLinkName,
-  setLink,
+  setLinkData,
   addLinks,
   removeLinks,
   dispatch,
@@ -41,7 +41,7 @@ const MediaAttachments = ({
         <LinkContainer
           linkData={linkData}
           linkName={linkName}
-          setLink={setLink}
+          setLinkData={setLinkData}
           setLinkName={setLinkName}
           addLinks={addLinks}
           removeLinks={removeLinks}

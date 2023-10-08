@@ -17,12 +17,12 @@ import CurrentDate from "../components/CurrentDate";
 import NewTaskScreen from "./NewTaskScreen";
 import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import TaskLinkComponent from "../components/TaskLinkComponent";
+import TaskListComponent from "../components/TaskListComponent";
 import { tasksAPI } from "../api/tasksAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setTasks } from "../redux/slices/taskSlice";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.task.tasks);
@@ -45,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
       <CurrentDate />
 
       <View style={styles.tasksArea}>
-        <TaskLinkComponent tasks={tasks} setModalVisible={setModalVisible} />
+        <TaskListComponent tasks={tasks} setModalVisible={setModalVisible} />
 
         <Modal
           visible={modalVisible}

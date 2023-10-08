@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
-const ChooseTimeComponent = () => {
+const ChooseTimeComponent = ({ setSelectedDate }) => {
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
     { label: "Every day", value: "everyday" },
@@ -12,6 +12,10 @@ const ChooseTimeComponent = () => {
     { label: "Other", value: "other" },
   ]);
   const [open, setOpen] = useState(false);
+
+  const handleSelectDate = (date) => {
+    setSelectedDate(date.label);
+  };
 
   return (
     <DropDownPicker
@@ -30,6 +34,7 @@ const ChooseTimeComponent = () => {
         fontFamily: "Lexend-Regular",
       }}
       dropDownContainerStyle={styles.dropDownContainerStyle}
+      onSelectItem={handleSelectDate}
       textStyle={{
         fontSize: 15,
         fontFamily: "Lexend-Regular",
