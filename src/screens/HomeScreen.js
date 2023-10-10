@@ -21,6 +21,7 @@ import TaskListComponent from "../components/TaskListComponent";
 import { tasksAPI } from "../api/tasksAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setTasks } from "../redux/slices/taskSlice";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const HomeScreen = ({}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -45,7 +46,9 @@ const HomeScreen = ({}) => {
       <CurrentDate />
 
       <View style={styles.tasksArea}>
-        <TaskListComponent tasks={tasks} setModalVisible={setModalVisible} />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <TaskListComponent tasks={tasks} setModalVisible={setModalVisible} />
+        </GestureHandlerRootView>
 
         <Modal
           visible={modalVisible}
@@ -68,11 +71,6 @@ const styles = StyleSheet.create({
   },
   tasksArea: {
     flex: 1,
-  },
-  iconStyle: {
-    alignSelf: "center",
-    justifyContent: "flex-end",
-    position: "relative",
   },
 });
 

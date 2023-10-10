@@ -36,6 +36,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
 
   async function createTask() {
     if (title === "") alert("Please add title");
+    else if (description === "") alert("Please add description");
     else if (selectedDate === "") alert("Please choose date");
     else {
       setLoading(true);
