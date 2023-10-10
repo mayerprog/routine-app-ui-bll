@@ -47,7 +47,6 @@ const FlatListItem = ({ task, simultaneousHandlers }) => {
       <View style={styles.iconContainer}>
         <FontAwesome5 name="trash-alt" size={50} color="red" />
       </View>
-
       <PanGestureHandler
         onGestureEvent={panGesture}
         simultaneousHandlers={simultaneousHandlers}
@@ -80,7 +79,6 @@ const TaskListComponent = ({ tasks, setModalVisible }) => {
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
-          backgroundColor: "#00ff00",
           flexDirection: "column",
           justifyContent: "space-between",
         }}
@@ -105,6 +103,7 @@ const TaskListComponent = ({ tasks, setModalVisible }) => {
 
 const styles = StyleSheet.create({
   task: {
+    width: "100%",
     alignItems: "center",
     marginVertical: 5,
   },
@@ -156,8 +155,7 @@ const styles = StyleSheet.create({
     height: "30%",
   },
   iconContainer: {
-    width: 70,
-    height: 70,
+    height: "100%",
     position: "absolute",
     right: "10%",
     justifyContent: "center",
