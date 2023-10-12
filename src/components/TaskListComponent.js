@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Dimensions,
 } from "react-native";
 import {
   GestureHandlerRootView,
@@ -13,6 +14,7 @@ import {
   State,
 } from "react-native-gesture-handler";
 import Animated, {
+  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -22,16 +24,36 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import { Ionicons } from "@expo/vector-icons";
 
-const FlatListItem = ({ task, simultaneousHandlers }) => {
-  const translateX = useSharedValue(0); //the value shared between js side and native side
+const TaskListItem = ({ task, simultaneousHandlers, setScrollEnabled }) => {
+  const [height, setHeight] = useState();
+
+  const translateX = useSharedValue(0);
+  const itemHeight = useSharedValue(height);
+  const marginVertical = useSharedValue(5);
+  const opacity = useSharedValue(1);
+
+  const { width: SCREEN_WIDTH } = Dimensions.get("window");
+  const TRANSLATE_X_THRESHOLD = -SCREEN_WIDTH * 0.3; //30% of the screen
+
   const panGesture = useAnimatedGestureHandler({
     // the hook that helps to handle every type of gesture
     onActive: (event) => {
-      translateX.value = event.translationX; //event to scroll from right to left
+      translateX.value = withTiming(event.translationX, { duration: 120 });
       //when panGesture is active, we will store event.translationX value in translateX.value
+      if (translateX.value < -SCREEN_WIDTH * 0.3) {
+        runOnJS(setScrollEnabled)(false);
+      }
     },
     onEnd: () => {
-      translateX.value = withTiming(0); //withTiming used for animation effect
+      const shouldBeDismissed = translateX.value < TRANSLATE_X_THRESHOLD;
+      if (shouldBeDismissed) {
+        translateX.value = withTiming(-SCREEN_WIDTH);
+        itemHeight.value = withTiming(0);
+        marginVertical.value = withTiming(0);
+        opacity.value = withTiming(0);
+      } else {
+        translateX.value = withTiming(0);
+      }
     },
   });
 
@@ -42,11 +64,31 @@ const FlatListItem = ({ task, simultaneousHandlers }) => {
       },
     ],
   }));
+
+  const rIconContainerStyle = useAnimatedStyle(() => {
+    const opacity = withTiming(translateX.value < -SCREEN_WIDTH * 0.2 ? 1 : 0);
+    return { opacity };
+  });
+
+  const rTaskContainerStyle = useAnimatedStyle(() => {
+    return {
+      height: itemHeight.value,
+      marginVertical: marginVertical.value,
+      opacity: opacity.value,
+    };
+  });
+
   return (
-    <View style={styles.task}>
-      <View style={styles.iconContainer}>
-        <FontAwesome5 name="trash-alt" size={50} color="red" />
-      </View>
+    <Animated.View
+      style={[styles.task, rTaskContainerStyle]}
+      onLayout={({ nativeEvent }) => {
+        const { height } = nativeEvent.layout;
+        setHeight(height);
+      }}
+    >
+      <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
+        <FontAwesome5 name="trash-alt" size={40} color="red" />
+      </Animated.View>
       <PanGestureHandler
         onGestureEvent={panGesture}
         simultaneousHandlers={simultaneousHandlers}
@@ -68,12 +110,13 @@ const FlatListItem = ({ task, simultaneousHandlers }) => {
           <Text style={styles.text}>{task.date}</Text>
         </Animated.View>
       </PanGestureHandler>
-    </View>
+    </Animated.View>
   );
 };
 
 const TaskListComponent = ({ tasks, setModalVisible }) => {
   const scrollRef = useRef(null);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
   return (
     <>
       <ScrollView
@@ -83,12 +126,14 @@ const TaskListComponent = ({ tasks, setModalVisible }) => {
           justifyContent: "space-between",
         }}
         ref={scrollRef}
+        scrollEnabled={scrollEnabled}
       >
         {tasks.map((task, index) => (
-          <FlatListItem
+          <TaskListItem
             task={task}
             key={index}
             simultaneousHandlers={scrollRef}
+            setScrollEnabled={setScrollEnabled}
           />
         ))}
         <View style={styles.sumIconStyle}>
