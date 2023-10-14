@@ -34,13 +34,17 @@ const TaskListItem = ({ task, simultaneousHandlers, setScrollEnabled }) => {
 
   const { width: SCREEN_WIDTH } = Dimensions.get("window");
   const TRANSLATE_X_THRESHOLD = -SCREEN_WIDTH * 0.3; //30% of the screen
+  const SCROLLING_THRESHOLD = SCREEN_WIDTH * 0.01;
 
   const panGesture = useAnimatedGestureHandler({
     // the hook that helps to handle every type of gesture
     onActive: (event) => {
       translateX.value = withTiming(event.translationX, { duration: 120 });
       //when panGesture is active, we will store event.translationX value in translateX.value
-      if (translateX.value < -SCREEN_WIDTH * 0.3) {
+      if (
+        translateX.value < -SCROLLING_THRESHOLD ||
+        translateX.value > SCROLLING_THRESHOLD
+      ) {
         runOnJS(setScrollEnabled)(false);
       }
     },
@@ -53,6 +57,12 @@ const TaskListItem = ({ task, simultaneousHandlers, setScrollEnabled }) => {
         opacity.value = withTiming(0);
       } else {
         translateX.value = withTiming(0);
+      }
+      if (
+        translateX.value > -SCROLLING_THRESHOLD ||
+        translateX.value < SCROLLING_THRESHOLD
+      ) {
+        runOnJS(setScrollEnabled)(true);
       }
     },
   });
