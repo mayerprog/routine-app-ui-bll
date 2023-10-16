@@ -20,7 +20,7 @@ import { Ionicons } from "@expo/vector-icons";
 import TaskListComponent from "../components/TaskListComponent";
 import { tasksAPI } from "../api/tasksAPI";
 import { useDispatch, useSelector } from "react-redux";
-import { setTasks } from "../redux/slices/taskSlice";
+import { setTasks, removeTasks } from "../redux/slices/taskSlice";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const HomeScreen = ({}) => {
@@ -33,7 +33,7 @@ const HomeScreen = ({}) => {
       try {
         const getAll = await tasksAPI.getAll();
         dispatch(setTasks(getAll));
-        // console.log(tasks);
+        console.log(getAll);
       } catch (err) {
         console.log(err);
       }
@@ -47,7 +47,11 @@ const HomeScreen = ({}) => {
 
       <View style={styles.tasksArea}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <TaskListComponent tasks={tasks} setModalVisible={setModalVisible} />
+          <TaskListComponent
+            tasks={tasks}
+            setModalVisible={setModalVisible}
+            removeTasks={removeTasks}
+          />
         </GestureHandlerRootView>
 
         <Modal

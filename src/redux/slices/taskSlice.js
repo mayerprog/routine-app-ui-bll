@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import _ from "lodash";
 
 const initialState = {
   links: [],
@@ -27,10 +28,19 @@ export const taskSlice = createSlice({
     addTasks: (state, action) => {
       state.tasks = [...state.tasks, action.payload];
     },
+    removeTasks: (state, action) => {
+      state.tasks = state.tasks.filter((task) => task._id !== action.payload);
+    },
   },
 });
 
-export const { addLinks, removeLinks, removeAllLinks, setTasks, addTasks } =
-  taskSlice.actions;
+export const {
+  addLinks,
+  removeLinks,
+  removeAllLinks,
+  setTasks,
+  addTasks,
+  removeTasks,
+} = taskSlice.actions;
 
 export default taskSlice.reducer;

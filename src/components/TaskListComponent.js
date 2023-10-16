@@ -23,9 +23,16 @@ import Animated, {
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import { Ionicons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
 
-const TaskListItem = ({ task, simultaneousHandlers, setScrollEnabled }) => {
+const TaskListItem = ({
+  task,
+  simultaneousHandlers,
+  setScrollEnabled,
+  removeTasks,
+}) => {
   const [height, setHeight] = useState();
+  const dispatch = useDispatch();
 
   const translateX = useSharedValue(0);
   const itemHeight = useSharedValue(height);
@@ -33,13 +40,17 @@ const TaskListItem = ({ task, simultaneousHandlers, setScrollEnabled }) => {
   const opacity = useSharedValue(1);
 
   const { width: SCREEN_WIDTH } = Dimensions.get("window");
-  const TRANSLATE_X_THRESHOLD = -SCREEN_WIDTH * 0.3; //30% of the screen
-  const SCROLLING_THRESHOLD = SCREEN_WIDTH * 0.01;
+  const TRANSLATE_X_THRESHOLD = -SCREEN_WIDTH * 0.3;
+  const SCROLLING_THRESHOLD = SCREEN_WIDTH * 0.001;
+
+  const handleRemoveTask = () => {
+    dispatch(removeTasks(task._id));
+  };
 
   const panGesture = useAnimatedGestureHandler({
     // the hook that helps to handle every type of gesture
     onActive: (event) => {
-      translateX.value = withTiming(event.translationX, { duration: 120 });
+      translateX.value = withTiming(event.translationX, { duration: 50 });
       //when panGesture is active, we will store event.translationX value in translateX.value
       if (
         translateX.value < -SCROLLING_THRESHOLD ||
@@ -54,7 +65,11 @@ const TaskListItem = ({ task, simultaneousHandlers, setScrollEnabled }) => {
         translateX.value = withTiming(-SCREEN_WIDTH);
         itemHeight.value = withTiming(0);
         marginVertical.value = withTiming(0);
-        opacity.value = withTiming(0);
+        opacity.value = withTiming(0, undefined, (isFinished) => {
+          if (isFinished && removeTasks) {
+            runOnJS(handleRemoveTask)();
+          }
+        });
       } else {
         translateX.value = withTiming(0);
       }
@@ -76,7 +91,7 @@ const TaskListItem = ({ task, simultaneousHandlers, setScrollEnabled }) => {
   }));
 
   const rIconContainerStyle = useAnimatedStyle(() => {
-    const opacity = withTiming(translateX.value < -SCREEN_WIDTH * 0.2 ? 1 : 0);
+    const opacity = withTiming(translateX.value < -SCREEN_WIDTH * 0.1 ? 1 : 0);
     return { opacity };
   });
 
@@ -124,7 +139,7 @@ const TaskListItem = ({ task, simultaneousHandlers, setScrollEnabled }) => {
   );
 };
 
-const TaskListComponent = ({ tasks, setModalVisible }) => {
+const TaskListComponent = ({ tasks, setModalVisible, removeTasks }) => {
   const scrollRef = useRef(null);
   const [scrollEnabled, setScrollEnabled] = useState(true);
   return (
@@ -141,9 +156,10 @@ const TaskListComponent = ({ tasks, setModalVisible }) => {
         {tasks.map((task, index) => (
           <TaskListItem
             task={task}
-            key={index}
+            key={task._id}
             simultaneousHandlers={scrollRef}
             setScrollEnabled={setScrollEnabled}
+            removeTasks={removeTasks}
           />
         ))}
         <View style={styles.sumIconStyle}>
@@ -160,7 +176,7 @@ const styles = StyleSheet.create({
   task: {
     width: "100%",
     alignItems: "center",
-    marginVertical: 5,
+    // marginVertical: 5,
   },
   taskContainer: {
     backgroundColor: "#4676C5",
