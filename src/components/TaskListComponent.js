@@ -24,6 +24,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
+import { tasksAPI } from "../api/tasksAPI";
 
 const TaskListItem = ({
   task,
@@ -41,9 +42,10 @@ const TaskListItem = ({
 
   const { width: SCREEN_WIDTH } = Dimensions.get("window");
   const TRANSLATE_X_THRESHOLD = -SCREEN_WIDTH * 0.3;
-  const SCROLLING_THRESHOLD = SCREEN_WIDTH * 0.001;
+  const SCROLLING_THRESHOLD = SCREEN_WIDTH * 0.01;
 
-  const handleRemoveTask = () => {
+  const handleRemoveTask = async () => {
+    await tasksAPI.deleteOne(task._id);
     dispatch(removeTasks(task._id));
   };
 

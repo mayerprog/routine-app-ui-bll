@@ -27,4 +27,12 @@ export const tasksAPI = {
       alert(err);
     }
   },
+  async deleteOne(id) {
+    try {
+      const response = await instance.delete(`/deleteOne/${id}`);
+      return response.data;
+    } catch (err) {
+      alert(err);
+    }
+  },
 };

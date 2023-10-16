@@ -33,7 +33,6 @@ const HomeScreen = ({}) => {
       try {
         const getAll = await tasksAPI.getAll();
         dispatch(setTasks(getAll));
-        console.log(getAll);
       } catch (err) {
         console.log(err);
       }
