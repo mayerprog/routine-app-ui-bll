@@ -22,6 +22,8 @@ import { tasksAPI } from "../api/tasksAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setTasks, removeTasks } from "../redux/slices/taskSlice";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { authAPI } from "../api/usersAPI";
+import { setIsAuth } from "../redux/slices/authSlice";
 
 const HomeScreen = ({}) => {
   const [modalVisible, setModalVisible] = useState(false);

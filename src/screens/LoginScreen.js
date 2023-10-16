@@ -36,16 +36,16 @@ const LoginScreen = ({ navigation }) => {
     setLoading(false);
   }
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const isAuth = await authAPI.isauth();
-        dispatch(setIsAuth(isAuth));
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const isAuth = await authAPI.isauth();
+  //       dispatch(setIsAuth(isAuth));
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   })();
+  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>

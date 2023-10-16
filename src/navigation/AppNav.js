@@ -9,6 +9,19 @@ import { setIsAuth } from "../redux/slices/authSlice";
 export default function AppNav() {
   const isAuthSelector = useSelector((state) => state.auth.isAuth);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const isAuth = await authAPI.isauth();
+        dispatch(setIsAuth(isAuth));
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
   return (
     <NavigationContainer>
       {isAuthSelector ? <AppStack /> : <AuthStack />}

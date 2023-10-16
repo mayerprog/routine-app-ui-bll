@@ -6,6 +6,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { setIsAuth } from "../redux/slices/authSlice";
+import { authAPI } from "../api/usersAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 const OnboardingScreen = ({ navigation }) => {
   return (
