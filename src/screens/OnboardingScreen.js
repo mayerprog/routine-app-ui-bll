@@ -1,15 +1,5 @@
 import { Image } from "expo-image";
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { setIsAuth } from "../redux/slices/authSlice";
-import { authAPI } from "../api/usersAPI";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
 const OnboardingScreen = ({ navigation }) => {
   return (

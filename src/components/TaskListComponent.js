@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  TouchableWithoutFeedback,
 } from "react-native";
 import {
   GestureHandlerRootView,
   PanGestureHandler,
   ScrollView,
   State,
+  TapGestureHandler,
 } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
@@ -33,6 +35,8 @@ const TaskListItem = ({
   removeTasks,
 }) => {
   const [height, setHeight] = useState();
+  const [lastTap, setLastTap] = useState(null);
+
   const dispatch = useDispatch();
 
   const translateX = useSharedValue(0);
@@ -47,6 +51,18 @@ const TaskListItem = ({
   const handleRemoveTask = async () => {
     await tasksAPI.deleteOne(task._id);
     dispatch(removeTasks(task._id));
+  };
+
+  const handleDoubleTap = () => {
+    const currentTime = new Date().getTime();
+
+    if (lastTap && currentTime - lastTap < 300) {
+      // You can adjust the time threshold as needed
+      // Double tap detected
+      console.log("Double tap detected");
+    }
+
+    setLastTap(currentTime);
   };
 
   const panGesture = useAnimatedGestureHandler({
@@ -116,26 +132,29 @@ const TaskListItem = ({
       <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
         <FontAwesome5 name="trash-alt" size={40} color="red" />
       </Animated.View>
+
       <PanGestureHandler
         onGestureEvent={panGesture}
         simultaneousHandlers={simultaneousHandlers}
       >
-        <Animated.View style={[styles.taskContainer, rStyle]}>
-          <Text
-            style={[
-              styles.text,
-              { fontSize: 16, fontFamily: "Lexend-SemiBold" },
-            ]}
-          >
-            {task.title}
-          </Text>
-          <Text style={[styles.text, { marginTop: 7 }]} numberOfLines={2}>
-            {task.description}
-          </Text>
-          <View style={styles.shadowedUnderline} />
+        <TouchableWithoutFeedback onPress={handleDoubleTap}>
+          <Animated.View style={[styles.taskContainer, rStyle]}>
+            <Text
+              style={[
+                styles.text,
+                { fontSize: 16, fontFamily: "Lexend-SemiBold" },
+              ]}
+            >
+              {task.title}
+            </Text>
+            <Text style={[styles.text, { marginTop: 7 }]} numberOfLines={2}>
+              {task.description}
+            </Text>
+            <View style={styles.shadowedUnderline} />
 
-          <Text style={styles.text}>{task.date}</Text>
-        </Animated.View>
+            <Text style={styles.text}>{task.date}</Text>
+          </Animated.View>
+        </TouchableWithoutFeedback>
       </PanGestureHandler>
     </Animated.View>
   );
