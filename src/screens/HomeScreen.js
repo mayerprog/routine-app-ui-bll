@@ -25,7 +25,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { authAPI } from "../api/usersAPI";
 import { setIsAuth } from "../redux/slices/authSlice";
 
-const HomeScreen = ({}) => {
+const HomeScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.task.tasks);
@@ -52,6 +52,7 @@ const HomeScreen = ({}) => {
             tasks={tasks}
             setModalVisible={setModalVisible}
             removeTasks={removeTasks}
+            navigation={navigation}
           />
         </GestureHandlerRootView>
 

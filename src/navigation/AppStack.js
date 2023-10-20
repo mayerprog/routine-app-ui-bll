@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Text } from "react-native";
 import TabNavigator from "./TabNavigator";
 import NewTaskScreen from "../screens/NewTaskScreen";
+import InTaskScreen from "../screens/InTaskScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ const AppStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={TabNavigator} />
       <Stack.Screen name="NewTask" component={NewTaskScreen} />
+      <Stack.Screen name="InTask" component={InTaskScreen} />
     </Stack.Navigator>
   );
 };

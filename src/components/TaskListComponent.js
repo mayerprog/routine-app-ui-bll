@@ -4,12 +4,10 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  FlatList,
   Dimensions,
   TouchableWithoutFeedback,
 } from "react-native";
 import {
-  GestureHandlerRootView,
   PanGestureHandler,
   ScrollView,
   State,
@@ -33,6 +31,7 @@ const TaskListItem = ({
   simultaneousHandlers,
   setScrollEnabled,
   removeTasks,
+  navigation,
 }) => {
   const [height, setHeight] = useState();
   const [lastTap, setLastTap] = useState(null);
@@ -54,22 +53,14 @@ const TaskListItem = ({
   };
 
   const handleDoubleTap = () => {
-    const currentTime = new Date().getTime();
+    navigation.navigate("InTask", { task: task });
 
-    if (lastTap && currentTime - lastTap < 300) {
-      // You can adjust the time threshold as needed
-      // Double tap detected
-      console.log("Double tap detected");
-    }
-
-    setLastTap(currentTime);
+    console.log("task opened");
   };
 
   const panGesture = useAnimatedGestureHandler({
-    // the hook that helps to handle every type of gesture
     onActive: (event) => {
       translateX.value = withTiming(event.translationX, { duration: 50 });
-      //when panGesture is active, we will store event.translationX value in translateX.value
       if (
         translateX.value < -SCROLLING_THRESHOLD ||
         translateX.value > SCROLLING_THRESHOLD
@@ -122,22 +113,28 @@ const TaskListItem = ({
   });
 
   return (
-    <Animated.View
-      style={[styles.task, rTaskContainerStyle]}
-      onLayout={({ nativeEvent }) => {
-        const { height } = nativeEvent.layout;
-        setHeight(height);
+    <TapGestureHandler
+      onHandlerStateChange={({ nativeEvent }) => {
+        if (nativeEvent.state === State.ACTIVE) {
+          handleDoubleTap();
+        }
       }}
+      numberOfTaps={2}
     >
-      <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
-        <FontAwesome5 name="trash-alt" size={40} color="red" />
-      </Animated.View>
-
-      <PanGestureHandler
-        onGestureEvent={panGesture}
-        simultaneousHandlers={simultaneousHandlers}
+      <Animated.View
+        style={[styles.task, rTaskContainerStyle]}
+        onLayout={({ nativeEvent }) => {
+          const { height } = nativeEvent.layout;
+          setHeight(height);
+        }}
       >
-        <TouchableWithoutFeedback onPress={handleDoubleTap}>
+        <Animated.View style={[styles.iconContainer, rIconContainerStyle]}>
+          <FontAwesome5 name="trash-alt" size={40} color="red" />
+        </Animated.View>
+        <PanGestureHandler
+          onGestureEvent={panGesture}
+          simultaneousHandlers={simultaneousHandlers}
+        >
           <Animated.View style={[styles.taskContainer, rStyle]}>
             <Text
               style={[
@@ -154,13 +151,18 @@ const TaskListItem = ({
 
             <Text style={styles.text}>{task.date}</Text>
           </Animated.View>
-        </TouchableWithoutFeedback>
-      </PanGestureHandler>
-    </Animated.View>
+        </PanGestureHandler>
+      </Animated.View>
+    </TapGestureHandler>
   );
 };
 
-const TaskListComponent = ({ tasks, setModalVisible, removeTasks }) => {
+const TaskListComponent = ({
+  tasks,
+  setModalVisible,
+  removeTasks,
+  navigation,
+}) => {
   const scrollRef = useRef(null);
   const [scrollEnabled, setScrollEnabled] = useState(true);
   return (
@@ -181,6 +183,7 @@ const TaskListComponent = ({ tasks, setModalVisible, removeTasks }) => {
             simultaneousHandlers={scrollRef}
             setScrollEnabled={setScrollEnabled}
             removeTasks={removeTasks}
+            navigation={navigation}
           />
         ))}
         <View style={styles.sumIconStyle}>
