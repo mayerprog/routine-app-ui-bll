@@ -81,7 +81,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
             <Text style={styles.text}>Description</Text>
             <TextInput
               style={[styles.textInput, { height: 150, paddingTop: 10 }]}
-              maxLength={1000}
+              maxLength={2000}
               multiline={true}
               placeholder="Add description..."
               placeholderTextColor="#ccc"
@@ -140,7 +140,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
             )}
           </View>
         </View>
-        {/* </TouchableWithoutFeedback> */}
       </View>
     </ScrollView>
   );

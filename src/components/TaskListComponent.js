@@ -34,7 +34,6 @@ const TaskListItem = ({
   navigation,
 }) => {
   const [height, setHeight] = useState();
-  const [lastTap, setLastTap] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -54,8 +53,6 @@ const TaskListItem = ({
 
   const handleDoubleTap = () => {
     navigation.navigate("InTask", { task: task });
-
-    console.log("task opened");
   };
 
   const panGesture = useAnimatedGestureHandler({

@@ -35,4 +35,12 @@ export const tasksAPI = {
       alert(err);
     }
   },
+  async updateTask(id, updatedTask) {
+    try {
+      const response = await instance.put(`/updateTask/${id}`, updatedTask);
+      return response.data;
+    } catch (err) {
+      alert(err);
+    }
+  },
 };

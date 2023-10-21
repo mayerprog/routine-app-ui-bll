@@ -29,6 +29,17 @@ const LoginScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const isAuth = await authAPI.isauth();
+        dispatch(setIsAuth(isAuth));
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
   async function login() {
     setLoading(true);
     const loginResult = await authAPI.login(email, password);
