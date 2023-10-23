@@ -87,6 +87,7 @@ const InTaskScreen = ({ route, navigation }) => {
                 <TouchableOpacity
                   onPress={() => checkIfURLCanBeOpened(link.link)}
                   key={link._id}
+                  hitSlop={{ top: 10, bottom: 10, left: 35, right: 35 }}
                 >
                   <Text style={styles.linkText}>{link.name}</Text>
                 </TouchableOpacity>
@@ -163,6 +164,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     marginVertical: 15,
+    minHeight: 160,
+    maxHeight: "auto",
   },
   shadowedUnderline: {
     marginHorizontal: 15,
