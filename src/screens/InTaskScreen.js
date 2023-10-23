@@ -2,7 +2,6 @@ import {
   ActivityIndicator,
   Linking,
   Platform,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -12,11 +11,13 @@ import {
   View,
 } from "react-native";
 import ChooseTimeComponent from "../components/ChooseTimeComponent";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import CustomButton from "../components/CustomButton";
 import { useDispatch } from "react-redux";
 import { editTask } from "../redux/slices/taskSlice";
 import { tasksAPI } from "../api/tasksAPI";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
 const InTaskScreen = ({ route, navigation }) => {
   const { task } = route.params;
@@ -49,11 +50,11 @@ const InTaskScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top", "right", "left"]}>
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
-          paddingTop: 20,
+          paddingBottom: 70,
         }}
         keyboardShouldPersistTaps="handled"
       >
@@ -87,8 +88,19 @@ const InTaskScreen = ({ route, navigation }) => {
                 <TouchableOpacity
                   onPress={() => checkIfURLCanBeOpened(link.link)}
                   key={link._id}
-                  hitSlop={{ top: 10, bottom: 10, left: 35, right: 35 }}
+                  hitSlop={{ top: 10, bottom: 10, left: 45, right: 45 }}
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
                 >
+                  <AntDesign
+                    name="link"
+                    size={17}
+                    color="#474B57"
+                    style={{ alignSelf: "flex-end", marginEnd: 10 }}
+                  />
+
                   <Text style={styles.linkText}>{link.name}</Text>
                 </TouchableOpacity>
               ))
@@ -151,7 +163,6 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flex: 1,
-    flexGrow: 1,
     justifyContent: "flex-start",
   },
   textStyle: {
@@ -190,9 +201,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   linkText: {
-    alignSelf: "center",
     fontSize: 17,
-    marginTop: 10,
+    marginTop: 15,
     textDecorationLine: "underline",
     color: "#1B57B8",
   },
