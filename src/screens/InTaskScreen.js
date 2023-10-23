@@ -51,10 +51,13 @@ const InTaskScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingTop: 20,
+        }}
         keyboardShouldPersistTaps="handled"
       >
-        <View>
+        <View style={{}}>
           <TextInput
             style={[
               styles.textStyle,
@@ -64,7 +67,6 @@ const InTaskScreen = ({ route, navigation }) => {
             defaultValue={title}
             onChangeText={(taskTitle) => setTitle(taskTitle)}
           />
-
           <TextInput
             style={[styles.textStyle, { paddingHorizontal: 12 }]}
             multiline={true}
@@ -79,18 +81,20 @@ const InTaskScreen = ({ route, navigation }) => {
         <View style={styles.contentContainer}>
           <Text style={styles.labelText}>Links</Text>
           <View style={styles.shadowedUnderline} />
-          {task.links.length ? (
-            task.links.map((link) => (
-              <TouchableOpacity
-                onPress={() => checkIfURLCanBeOpened(link.link)}
-                key={link._id}
-              >
-                <Text style={styles.linkText}>{link.name}</Text>
-              </TouchableOpacity>
-            ))
-          ) : (
-            <Text style={styles.nothingAddedText}>{"No Links added"}</Text>
-          )}
+          <View style={{ alignItems: "center" }}>
+            {task.links.length ? (
+              task.links.map((link) => (
+                <TouchableOpacity
+                  onPress={() => checkIfURLCanBeOpened(link.link)}
+                  key={link._id}
+                >
+                  <Text style={styles.linkText}>{link.name}</Text>
+                </TouchableOpacity>
+              ))
+            ) : (
+              <Text style={styles.nothingAddedText}>{"No Links added"}</Text>
+            )}
+          </View>
         </View>
 
         <View style={styles.contentContainer}>
@@ -109,9 +113,9 @@ const InTaskScreen = ({ route, navigation }) => {
 
         <View
           style={{
+            flexGrow: 1,
             flexDirection: "row",
             justifyContent: "space-around",
-            paddingVertical: 30,
           }}
         >
           <CustomButton
@@ -156,6 +160,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   contentContainer: {
+    flex: 1,
     justifyContent: "flex-start",
     marginVertical: 15,
   },
