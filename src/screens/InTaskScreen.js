@@ -1,6 +1,9 @@
 import {
   ActivityIndicator,
+  Alert,
+  Keyboard,
   Linking,
+  Modal,
   Platform,
   ScrollView,
   StatusBar,
@@ -10,14 +13,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { removeLinks, addLinks } from "../redux/slices/taskSlice";
 import ChooseTimeComponent from "../components/ChooseTimeComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import CustomButton from "../components/CustomButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editTask } from "../redux/slices/taskSlice";
 import { tasksAPI } from "../api/tasksAPI";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import ModalAddLinks from "../components/ModalAddLinks";
 
 const InTaskScreen = ({ route, navigation }) => {
   const { task } = route.params;
@@ -25,7 +30,8 @@ const InTaskScreen = ({ route, navigation }) => {
   const [description, setDescription] = useState(task.description);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  let updatedTask = { ...task, links: [...task.links] };
+
+  let updatedTask = { ...task, links: [...task.links] }; //deep copy
 
   const checkIfURLCanBeOpened = async (url) => {
     try {
@@ -58,7 +64,7 @@ const InTaskScreen = ({ route, navigation }) => {
         }}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={{}}>
+        <View>
           <TextInput
             style={[
               styles.textStyle,
@@ -68,6 +74,7 @@ const InTaskScreen = ({ route, navigation }) => {
             defaultValue={title}
             onChangeText={(taskTitle) => setTitle(taskTitle)}
           />
+
           <TextInput
             style={[styles.textStyle, { paddingHorizontal: 12 }]}
             multiline={true}
@@ -78,36 +85,16 @@ const InTaskScreen = ({ route, navigation }) => {
           />
         </View>
 
-        {/* create reused component if necessary */}
         <View style={styles.contentContainer}>
           <Text style={styles.labelText}>Links</Text>
           <View style={styles.shadowedUnderline} />
-          <View style={{ alignItems: "center" }}>
-            {task.links.length ? (
-              task.links.map((link) => (
-                <TouchableOpacity
-                  onPress={() => checkIfURLCanBeOpened(link.link)}
-                  key={link._id}
-                  hitSlop={{ top: 10, bottom: 10, left: 45, right: 45 }}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <AntDesign
-                    name="link"
-                    size={17}
-                    color="#474B57"
-                    style={{ alignSelf: "flex-end", marginEnd: 10 }}
-                  />
-
-                  <Text style={styles.linkText}>{link.name}</Text>
-                </TouchableOpacity>
-              ))
-            ) : (
-              <Text style={styles.nothingAddedText}>{"No Links added"}</Text>
-            )}
-          </View>
+          <InTaskLinks
+            task={task}
+            checkIfURLCanBeOpened={checkIfURLCanBeOpened}
+            addLinks={addLinks}
+            removeLinks={removeLinks}
+            dispatch={dispatch}
+          />
         </View>
 
         <View style={styles.contentContainer}>
@@ -155,6 +142,92 @@ const InTaskScreen = ({ route, navigation }) => {
   );
 };
 
+const InTaskLinks = ({
+  task,
+  checkIfURLCanBeOpened,
+  addLinks,
+  removeLinks,
+  dispatch,
+}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  return (
+    <View style={{ flex: 1 }}>
+      {task.links.length ? (
+        task.links.map((link) => (
+          <View
+            key={link._id}
+            style={{
+              flexDirection: "row",
+              paddingStart: 30,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => checkIfURLCanBeOpened(link.link)}
+              hitSlop={{ top: 10, bottom: 10, left: 45, right: 45 }}
+              style={{
+                flexDirection: "row",
+              }}
+            >
+              <AntDesign
+                name="link"
+                size={17}
+                color="#474B57"
+                style={{ alignSelf: "flex-end", marginEnd: 10 }}
+              />
+              <Text style={styles.linkText}>{link.name}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => console.log("click")}
+              hitSlop={7}
+              style={{
+                alignSelf: "flex-end",
+                marginStart: 20,
+              }}
+            >
+              <MaterialIcons name="cancel" size={23} color="#800B35" />
+            </TouchableOpacity>
+          </View>
+        ))
+      ) : (
+        <Text style={styles.nothingAddedText}>{"No Links added"}</Text>
+      )}
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <ModalAddLinks
+              addLinks={addLinks}
+              removeLinks={removeLinks}
+              dispatch={dispatch}
+              setModalVisible={setModalVisible}
+              task={task}
+            />
+          </View>
+        </View>
+      </Modal>
+      <TouchableOpacity
+        onPress={() => setModalVisible(true)}
+        style={{
+          marginTop: 30,
+          justifyContent: "flex-end",
+          alignItems: "center",
+          flexGrow: 1,
+          flex: 1,
+        }}
+      >
+        <Ionicons name="add-circle-sharp" size={40} color="black" />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -174,7 +247,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     justifyContent: "flex-start",
-    marginVertical: 15,
+    marginVertical: 10,
     minHeight: 160,
     maxHeight: "auto",
   },
@@ -215,6 +288,28 @@ const styles = StyleSheet.create({
   textButtonStyle: {
     fontSize: 16,
     fontFamily: "Lexend-Regular",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+  },
+  textInputStyle: {
+    borderRadius: 30,
+    width: 200,
   },
 });
 

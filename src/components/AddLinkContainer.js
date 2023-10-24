@@ -11,7 +11,7 @@ import {
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import CustomButton from "./CustomButton";
 
-const LinkContainer = ({
+const AddLinkContainer = ({
   linkData,
   linkName,
   links,
@@ -117,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LinkContainer;
+export default AddLinkContainer;

@@ -8,8 +8,8 @@ import {
   View,
 } from "react-native";
 import { FontAwesome, FontAwesome5, AntDesign } from "@expo/vector-icons";
-import MediaContainer from "./MediaContainer";
-import LinkContainer from "./LinkContainer";
+import AddMediaContainer from "./AddMediaContainer";
+import AddLinkContainer from "./AddLinkContainer";
 
 const MediaAttachments = ({
   linkData,
@@ -36,9 +36,9 @@ const MediaAttachments = ({
 
   return (
     <View>
-      {cameraPressed && <MediaContainer />}
+      {cameraPressed && <AddMediaContainer />}
       {linkPressed && (
-        <LinkContainer
+        <AddLinkContainer
           linkData={linkData}
           linkName={linkName}
           setLinkData={setLinkData}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
-const MediaContainer = () => {
+const AddMediaContainer = () => {
   const [cameraColor, setCameraColor] = useState("black");
   const [mediaColor, setMediaColor] = useState("black");
   const [docColor, setDocColor] = useState("black");
@@ -97,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MediaContainer;
+export default AddMediaContainer;
