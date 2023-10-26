@@ -13,10 +13,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { removeLinks, addLinks } from "../redux/slices/taskSlice";
+import { addInTaskLinks, removeInTaskLinks } from "../redux/slices/taskSlice";
 import ChooseTimeComponent from "../components/ChooseTimeComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomButton from "../components/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { editTask } from "../redux/slices/taskSlice";
@@ -30,8 +30,13 @@ const InTaskScreen = ({ route, navigation }) => {
   const [description, setDescription] = useState(task.description);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const links = useSelector((state) => state.task.links);
 
   let updatedTask = { ...task, links: [...task.links] }; //deep copy
+
+  useEffect(() => {
+    dispatch(addInTaskLinks(task.links));
+  }, []);
 
   const checkIfURLCanBeOpened = async (url) => {
     try {
@@ -89,11 +94,10 @@ const InTaskScreen = ({ route, navigation }) => {
           <Text style={styles.labelText}>Links</Text>
           <View style={styles.shadowedUnderline} />
           <InTaskLinks
-            task={task}
             checkIfURLCanBeOpened={checkIfURLCanBeOpened}
-            addLinks={addLinks}
-            removeLinks={removeLinks}
             dispatch={dispatch}
+            links={links}
+            removeInTaskLinks={removeInTaskLinks}
           />
         </View>
 
@@ -143,17 +147,20 @@ const InTaskScreen = ({ route, navigation }) => {
 };
 
 const InTaskLinks = ({
-  task,
+  links,
   checkIfURLCanBeOpened,
   addLinks,
   removeLinks,
   dispatch,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const handleRemoveItem = (linkIdToRemove) => {
+    dispatch(removeInTaskLinks(linkIdToRemove));
+  };
   return (
     <View style={{ flex: 1 }}>
-      {task.links.length ? (
-        task.links.map((link) => (
+      {links.length ? (
+        links.map((link) => (
           <View
             key={link._id}
             style={{
@@ -162,29 +169,26 @@ const InTaskLinks = ({
             }}
           >
             <TouchableOpacity
-              onPress={() => checkIfURLCanBeOpened(link.link)}
-              hitSlop={{ top: 10, bottom: 10, left: 45, right: 45 }}
-              style={{
-                flexDirection: "row",
-              }}
-            >
-              <AntDesign
-                name="link"
-                size={17}
-                color="#474B57"
-                style={{ alignSelf: "flex-end", marginEnd: 10 }}
-              />
-              <Text style={styles.linkText}>{link.name}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => console.log("click")}
+              onPress={() => handleRemoveItem(link._id)}
               hitSlop={7}
               style={{
                 alignSelf: "flex-end",
-                marginStart: 20,
+                marginEnd: 30,
               }}
             >
-              <MaterialIcons name="cancel" size={23} color="#800B35" />
+              <MaterialIcons name="cancel" size={23} color="#ccc" />
+            </TouchableOpacity>
+            <AntDesign
+              name="link"
+              size={17}
+              color="#474B57"
+              style={{ alignSelf: "flex-end", marginEnd: 10 }}
+            />
+            <TouchableOpacity
+              onPress={() => checkIfURLCanBeOpened(link.link)}
+              hitSlop={{ top: 10, bottom: 10, left: 45, right: 45 }}
+            >
+              <Text style={styles.linkText}>{link.name}</Text>
             </TouchableOpacity>
           </View>
         ))
@@ -207,7 +211,6 @@ const InTaskLinks = ({
               removeLinks={removeLinks}
               dispatch={dispatch}
               setModalVisible={setModalVisible}
-              task={task}
             />
           </View>
         </View>
