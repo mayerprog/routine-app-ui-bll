@@ -35,7 +35,6 @@ const InTaskScreen = ({ route, navigation }) => {
   let updatedTask = { ...task, links: [...task.links] }; //deep copy
 
   useEffect(() => {
-    console.log(task.links);
     dispatch(addInTaskLinks(task.links));
   }, []);
 
@@ -170,6 +169,7 @@ const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
               style={{
                 alignSelf: "flex-end",
                 marginEnd: 30,
+                marginBottom: -3,
               }}
             >
               <MaterialIcons name="cancel" size={23} color="#ccc" />
@@ -201,26 +201,17 @@ const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
         }}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <ModalAddLinks
-              dispatch={dispatch}
-              setModalVisible={setModalVisible}
-            />
-          </View>
+          <ModalAddLinks
+            dispatch={dispatch}
+            setModalVisible={setModalVisible}
+          />
         </View>
       </Modal>
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={{
-          marginTop: 30,
-          justifyContent: "flex-end",
-          alignItems: "center",
-          flexGrow: 1,
-          flex: 1,
-        }}
-      >
-        <Ionicons name="add-circle-sharp" size={40} color="black" />
-      </TouchableOpacity>
+      <View style={styles.addIconStyle}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <Ionicons name="add-circle-sharp" size={40} color="black" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -230,6 +221,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  addIconStyle: {
+    marginTop: 30,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    flexGrow: 1,
+    flex: 1,
   },
   infoContainer: {
     flex: 1,
@@ -290,19 +288,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    marginBottom: 150,
   },
   textInputStyle: {
     borderRadius: 30,

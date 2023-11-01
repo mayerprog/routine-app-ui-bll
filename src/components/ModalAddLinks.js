@@ -33,7 +33,7 @@ const ModalAddLinks = ({
   //   isButtonDisabled = true;
   // }
   return (
-    <View style={{ alignItems: "center", marginTop: 15 }}>
+    <View style={styles.container}>
       <TextInput
         style={styles.textInput}
         placeholder="Link name"
@@ -52,14 +52,6 @@ const ModalAddLinks = ({
         label="Add"
         buttonStyle={[styles.buttonStyle, { backgroundColor: "#A2C5FF" }]}
         textButtonStyle={styles.textButtonStyle}
-        action={makeLinkObj}
-        underlayColor="#5884CD"
-        buttonDisabled={isButtonDisabled}
-      />
-      <CustomButton
-        label="Cancel"
-        buttonStyle={[styles.buttonStyle, { backgroundColor: "#A2C5FF" }]}
-        textButtonStyle={styles.textButtonStyle}
         action={() => setModalVisible(false)}
         underlayColor="#5884CD"
         buttonDisabled={isButtonDisabled}
@@ -69,6 +61,20 @@ const ModalAddLinks = ({
 };
 
 const styles = StyleSheet.create({
+  container: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
   linkText: {
     fontFamily: "Roboto-Medium",
     fontSize: 16,
