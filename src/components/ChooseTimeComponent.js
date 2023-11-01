@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
-const ChooseTimeComponent = ({ setSelectedDate }) => {
+const ChooseTimeComponent = ({
+  setSelectedDate,
+  dropDownDirection,
+  dropDownMargin,
+  placeholderValue,
+}) => {
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
     { label: "Every day", value: "everyday" },
@@ -20,20 +25,24 @@ const ChooseTimeComponent = ({ setSelectedDate }) => {
   return (
     <DropDownPicker
       listMode="SCROLLVIEW"
+      dropDownDirection={dropDownDirection}
       open={open}
       value={value}
       items={items}
       setOpen={setOpen}
       setValue={setValue}
       setItems={setItems}
-      placeholder="Choose the time"
+      placeholder={placeholderValue}
       style={[styles.textInput, { height: 50, marginBottom: 5 }]}
       placeholderStyle={{
-        color: "#ccc",
+        color: "#404040",
         fontSize: 15,
         fontFamily: "Lexend-Regular",
       }}
-      dropDownContainerStyle={styles.dropDownContainerStyle}
+      dropDownContainerStyle={[
+        styles.dropDownContainerStyle,
+        { margin: dropDownMargin },
+      ]}
       onSelectItem={handleSelectDate}
       textStyle={{
         fontSize: 15,
@@ -55,13 +64,14 @@ const styles = StyleSheet.create({
     width: 380,
     paddingLeft: 15,
     margin: 13,
+    alignSelf: "center",
   },
   dropDownContainerStyle: {
     borderColor: "#A1A1A1",
     borderRadius: 12,
     width: 380,
     paddingLeft: 15,
-    margin: 13,
+    alignSelf: "center",
   },
 });
 

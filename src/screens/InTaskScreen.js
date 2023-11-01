@@ -35,6 +35,7 @@ const InTaskScreen = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const links = useSelector((state) => state.task.links);
+  const [selectedDate, setSelectedDate] = useState("");
 
   let updatedTask = { ...task, links: [...task.links] }; //deep copy
 
@@ -60,6 +61,7 @@ const InTaskScreen = ({ route, navigation }) => {
     updatedTask.title = title;
     updatedTask.description = description;
     updatedTask.links = links;
+    updatedTask.date = selectedDate;
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask);
     navigation.goBack();
@@ -115,9 +117,14 @@ const InTaskScreen = ({ route, navigation }) => {
         <View style={styles.contentContainer}>
           <Text style={styles.labelText}>When?</Text>
           <View style={styles.shadowedUnderline} />
-          <Text style={styles.nothingAddedText}>{task.date}</Text>
-          {/* When being edited <ChooseTimeComponent /> must come up */}
-          {/* <ChooseTimeComponent /> */}
+          <View style={{ marginTop: 15 }}>
+            <ChooseTimeComponent
+              setSelectedDate={setSelectedDate}
+              dropDownDirection="TOP"
+              dropDownMargin={5}
+              placeholderValue={task.date}
+            />
+          </View>
         </View>
 
         <View
