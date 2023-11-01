@@ -21,7 +21,7 @@ import ChooseTimeComponent from "../components/ChooseTimeComponent";
 import { tasksAPI } from "../api/tasksAPI";
 import { setTasks } from "../redux/slices/taskSlice";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const NewTaskScreen = ({ setModalVisible }) => {
   const [loading, setLoading] = useState(false);
@@ -33,6 +33,10 @@ const NewTaskScreen = ({ setModalVisible }) => {
 
   const links = useSelector((state) => state.task.links);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(removeAllLinks());
+  }, []);
 
   async function createTask() {
     if (title === "") alert("Please add title");
@@ -47,7 +51,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
         links
       );
       dispatch(addTasks(newSavedTask));
-      dispatch(removeAllLinks());
       setModalVisible(false);
       setLoading(false);
     }

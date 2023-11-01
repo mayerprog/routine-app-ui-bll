@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { addInTaskLinks, removeInTaskLinks } from "../redux/slices/taskSlice";
+import { addInTaskLinks, removeLinks } from "../redux/slices/taskSlice";
 import ChooseTimeComponent from "../components/ChooseTimeComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
@@ -35,6 +35,7 @@ const InTaskScreen = ({ route, navigation }) => {
   let updatedTask = { ...task, links: [...task.links] }; //deep copy
 
   useEffect(() => {
+    console.log(task.links);
     dispatch(addInTaskLinks(task.links));
   }, []);
 
@@ -55,6 +56,7 @@ const InTaskScreen = ({ route, navigation }) => {
     setLoading(true);
     updatedTask.title = title;
     updatedTask.description = description;
+    updatedTask.links = links;
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask);
     setLoading(false);
@@ -97,7 +99,7 @@ const InTaskScreen = ({ route, navigation }) => {
             checkIfURLCanBeOpened={checkIfURLCanBeOpened}
             dispatch={dispatch}
             links={links}
-            removeInTaskLinks={removeInTaskLinks}
+            removeLinks={removeLinks}
           />
         </View>
 
@@ -146,23 +148,17 @@ const InTaskScreen = ({ route, navigation }) => {
   );
 };
 
-const InTaskLinks = ({
-  links,
-  checkIfURLCanBeOpened,
-  addLinks,
-  removeLinks,
-  dispatch,
-}) => {
+const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const handleRemoveItem = (linkIdToRemove) => {
-    dispatch(removeInTaskLinks(linkIdToRemove));
+    dispatch(removeLinks(linkIdToRemove));
   };
   return (
     <View style={{ flex: 1 }}>
       {links.length ? (
-        links.map((link) => (
+        links.map((link, index) => (
           <View
-            key={link._id}
+            key={index}
             style={{
               flexDirection: "row",
               paddingStart: 30,
@@ -207,8 +203,6 @@ const InTaskLinks = ({
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <ModalAddLinks
-              addLinks={addLinks}
-              removeLinks={removeLinks}
               dispatch={dispatch}
               setModalVisible={setModalVisible}
             />

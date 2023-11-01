@@ -11,51 +11,29 @@ import {
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import CustomButton from "./CustomButton";
 
-const AddLinkContainer = ({
-  linkData,
-  linkName,
+const ModalAddLinks = ({
   links,
-  setLinkName,
-  setLinkData,
-  addLinks,
-  removeLinks,
   dispatch,
+  linkName,
+  linkData,
   setModalVisible,
 }) => {
   let isButtonDisabled;
 
   const makeLinkObj = () => {
-    Keyboard.dismiss();
-    const newObject = { name: linkName, link: linkData };
-    dispatch(addLinks(newObject));
-    setLinkName("");
-    setLinkData("");
+    // Keyboard.dismiss();
+    // const newObject = { name: linkName, link: linkData };
+    // dispatch(addLinks(newObject));
+    // setLinkName("");
+    // setLinkData("");
+    console.log("click");
   };
 
-  const handleRemoveItem = (linkIdToRemove) => {
-    dispatch(removeLinks(linkIdToRemove));
-  };
-
-  if (linkData === "" || linkName === "") {
-    isButtonDisabled = true;
-  }
+  // if (linkData === "" || linkName === "") {
+  //   isButtonDisabled = true;
+  // }
   return (
     <View style={{ alignItems: "center", marginTop: 15 }}>
-      {links.map((l, index) => (
-        <View style={{ marginBottom: 8 }} key={index}>
-          <View style={{ flexDirection: "row" }}>
-            <AntDesign name="link" size={17} color="#D4D4D4" />
-            <Text style={styles.linkText}>{l.name}</Text>
-            <TouchableOpacity
-              style={{ marginTop: 1 }}
-              onPress={() => handleRemoveItem(l.id)}
-              hitSlop={5}
-            >
-              <MaterialIcons name="cancel" size={18} color="#800B35" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      ))}
       <TextInput
         style={styles.textInput}
         placeholder="Link name"
@@ -126,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddLinkContainer;
+export default ModalAddLinks;

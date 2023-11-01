@@ -13,7 +13,11 @@ import { useEffect, useState } from "react";
 import TaskListComponent from "../components/TaskListComponent";
 import { tasksAPI } from "../api/tasksAPI";
 import { useDispatch, useSelector } from "react-redux";
-import { setTasks, removeTasks } from "../redux/slices/taskSlice";
+import {
+  setTasks,
+  removeTasks,
+  removeAllLinks,
+} from "../redux/slices/taskSlice";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const HomeScreen = ({ navigation }) => {
