@@ -12,26 +12,29 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import CustomButton from "./CustomButton";
 
 const ModalAddLinks = ({
-  links,
-  dispatch,
-  linkName,
   linkData,
+  linkName,
+  setLinkName,
+  setLinkData,
+  dispatch,
   setModalVisible,
+  modalVisible,
+  addLinks,
 }) => {
   let isButtonDisabled;
 
   const makeLinkObj = () => {
-    // Keyboard.dismiss();
-    // const newObject = { name: linkName, link: linkData };
-    // dispatch(addLinks(newObject));
-    // setLinkName("");
-    // setLinkData("");
-    console.log("click");
+    const newObject = { name: linkName, link: linkData };
+    dispatch(addLinks(newObject));
+    setModalVisible(!modalVisible);
+    setLinkName("");
+    setLinkData("");
   };
 
-  // if (linkData === "" || linkName === "") {
-  //   isButtonDisabled = true;
-  // }
+  if (linkData === "" || linkName === "") {
+    isButtonDisabled = true;
+  }
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -52,9 +55,19 @@ const ModalAddLinks = ({
         label="Add"
         buttonStyle={[styles.buttonStyle, { backgroundColor: "#A2C5FF" }]}
         textButtonStyle={styles.textButtonStyle}
-        action={() => setModalVisible(false)}
+        action={() => makeLinkObj()}
         underlayColor="#5884CD"
         buttonDisabled={isButtonDisabled}
+      />
+      <CustomButton
+        label="Cancel"
+        buttonStyle={[
+          styles.buttonStyle,
+          { backgroundColor: "#DEEDFB", marginTop: 15 },
+        ]}
+        textButtonStyle={styles.textButtonStyle}
+        action={() => setModalVisible(!modalVisible)}
+        underlayColor="#5884CD"
       />
     </View>
   );
@@ -62,10 +75,9 @@ const ModalAddLinks = ({
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#6F90C5",
     borderRadius: 20,
-    padding: 35,
+    padding: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -89,7 +101,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#A1A1A1",
     backgroundColor: "white",
-    width: 380,
+    width: 320,
     paddingLeft: 15,
     height: 45,
     marginBottom: 5,
@@ -100,6 +112,7 @@ const styles = StyleSheet.create({
     marginTop: 7,
     paddingBottom: 5,
     paddingTop: 11,
+    paddingHorizontal: 5,
     borderColor: "#1B57B8",
     borderWidth: 0.5,
   },

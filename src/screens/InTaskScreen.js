@@ -13,7 +13,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { addInTaskLinks, removeLinks } from "../redux/slices/taskSlice";
+import {
+  addInTaskLinks,
+  removeLinks,
+  addLinks,
+} from "../redux/slices/taskSlice";
 import ChooseTimeComponent from "../components/ChooseTimeComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
@@ -58,6 +62,7 @@ const InTaskScreen = ({ route, navigation }) => {
     updatedTask.links = links;
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask);
+    navigation.goBack();
     setLoading(false);
   };
 
@@ -98,7 +103,6 @@ const InTaskScreen = ({ route, navigation }) => {
             checkIfURLCanBeOpened={checkIfURLCanBeOpened}
             dispatch={dispatch}
             links={links}
-            removeLinks={removeLinks}
           />
         </View>
 
@@ -149,6 +153,9 @@ const InTaskScreen = ({ route, navigation }) => {
 
 const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [linkData, setLinkData] = useState("");
+  const [linkName, setLinkName] = useState("");
+
   const handleRemoveItem = (linkIdToRemove) => {
     dispatch(removeLinks(linkIdToRemove));
   };
@@ -204,12 +211,18 @@ const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
           <ModalAddLinks
             dispatch={dispatch}
             setModalVisible={setModalVisible}
+            modalVisible={modalVisible}
+            addLinks={addLinks}
+            linkData={linkData}
+            linkName={linkName}
+            setLinkData={setLinkData}
+            setLinkName={setLinkName}
           />
         </View>
       </Modal>
       <View style={styles.addIconStyle}>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Ionicons name="add-circle-sharp" size={40} color="black" />
+        <TouchableOpacity onPress={() => setModalVisible(true)} hitSlop={45}>
+          <Ionicons name="add-circle-sharp" size={45} color="black" />
         </TouchableOpacity>
       </View>
     </View>
