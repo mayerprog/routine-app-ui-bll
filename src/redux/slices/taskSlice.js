@@ -12,16 +12,12 @@ export const taskSlice = createSlice({
   reducers: {
     addLinks: (state, action) => {
       state.links = [...state.links, action.payload];
-      state.links.map((l, index) => {
-        if (!l.id) l.id = index;
-      });
+      state.links.map((l, index) => (l.id = index));
     },
     removeLinks: (state, action) => {
-      if (state.links[0]._id) {
-        state.links = state.links.filter((item) => item._id !== action.payload);
-      } else {
-        state.links = state.links.filter((item) => item.id !== action.payload);
-      }
+      state.links = state.links.filter((item) => item.id !== action.payload);
+      state.links.map((l, index) => (l.id = index));
+      console.log(state.links);
     },
     addInTaskLinks: (state, action) => {
       state.links = action.payload;
@@ -56,6 +52,7 @@ export const {
   removeTasks,
   editTask,
   addInTaskLinks,
+  removeLinksInTask,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;

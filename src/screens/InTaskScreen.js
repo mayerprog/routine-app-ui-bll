@@ -179,7 +179,7 @@ const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
             }}
           >
             <TouchableOpacity
-              onPress={() => handleRemoveItem(link._id)}
+              onPress={() => handleRemoveItem(link.id)}
               hitSlop={7}
               style={{
                 alignSelf: "flex-end",
