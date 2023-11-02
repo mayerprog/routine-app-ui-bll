@@ -100,7 +100,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
             <ChooseTimeComponent
               setSelectedDate={setSelectedDate}
               dropDownDirection="BOTTOM"
-              dropDownMargin={13}
               placeholderValue="Choose the time"
             />
           </>

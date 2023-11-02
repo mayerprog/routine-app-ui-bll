@@ -114,14 +114,13 @@ const InTaskScreen = ({ route, navigation }) => {
           <Text style={styles.nothingAddedText}>No Media added</Text>
         </View>
 
-        <View style={styles.contentContainer}>
+        <View style={[styles.contentContainer, { zIndex: 1000 }]}>
           <Text style={styles.labelText}>When?</Text>
           <View style={styles.shadowedUnderline} />
           <View style={{ marginTop: 15 }}>
             <ChooseTimeComponent
               setSelectedDate={setSelectedDate}
-              dropDownDirection="TOP"
-              dropDownMargin={5}
+              dropDownDirection="BOTTOM"
               placeholderValue={task.date}
             />
           </View>
@@ -132,6 +131,8 @@ const InTaskScreen = ({ route, navigation }) => {
             flexGrow: 1,
             flexDirection: "row",
             justifyContent: "space-around",
+            paddingTop: 25,
+            paddingBottom: 10,
           }}
         >
           <CustomButton

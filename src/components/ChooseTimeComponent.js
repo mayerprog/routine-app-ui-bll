@@ -5,7 +5,6 @@ import DropDownPicker from "react-native-dropdown-picker";
 const ChooseTimeComponent = ({
   setSelectedDate,
   dropDownDirection,
-  dropDownMargin,
   placeholderValue,
 }) => {
   const [value, setValue] = useState(null);
@@ -39,10 +38,7 @@ const ChooseTimeComponent = ({
         fontSize: 15,
         fontFamily: "Lexend-Regular",
       }}
-      dropDownContainerStyle={[
-        styles.dropDownContainerStyle,
-        { margin: dropDownMargin },
-      ]}
+      dropDownContainerStyle={[styles.dropDownContainerStyle]}
       onSelectItem={handleSelectDate}
       textStyle={{
         fontSize: 15,
@@ -72,6 +68,7 @@ const styles = StyleSheet.create({
     width: 380,
     paddingLeft: 15,
     alignSelf: "center",
+    margin: 13,
   },
 });
 
