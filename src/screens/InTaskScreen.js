@@ -35,7 +35,7 @@ const InTaskScreen = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const links = useSelector((state) => state.task.links);
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(task.date);
 
   let updatedTask = { ...task, links: [...task.links] }; //deep copy
 

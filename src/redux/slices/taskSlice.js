@@ -17,7 +17,6 @@ export const taskSlice = createSlice({
     removeLinks: (state, action) => {
       state.links = state.links.filter((item) => item.id !== action.payload);
       state.links.map((l, index) => (l.id = index));
-      console.log(state.links);
     },
     addInTaskLinks: (state, action) => {
       state.links = action.payload;
