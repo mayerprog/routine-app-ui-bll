@@ -27,7 +27,7 @@
         "expo-image-picker",
         {
           "photosPermission": "Select and upload images.",
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"	
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
         }
       ]
     ]

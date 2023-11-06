@@ -20,6 +20,7 @@ const MediaAttachments = ({
   addLinks,
   removeLinks,
   dispatch,
+  selectImage,
 }) => {
   const [cameraPressed, setCameraPressed] = useState(false);
   const [linkPressed, setLinkPressed] = useState(false);
@@ -36,7 +37,7 @@ const MediaAttachments = ({
 
   return (
     <View>
-      {cameraPressed && <AddMediaContainer />}
+      {cameraPressed && <AddMediaContainer selectImage={selectImage} />}
       {linkPressed && (
         <AddLinkContainer
           linkData={linkData}

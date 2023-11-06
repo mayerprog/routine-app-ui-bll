@@ -14,6 +14,7 @@ import {
   addTasks,
   removeAllLinks,
 } from "../redux/slices/taskSlice";
+import * as ImagePicker from "expo-image-picker";
 
 import CustomButton from "../components/CustomButton";
 import MediaAttachments from "../components/MediaAttachments";
@@ -55,6 +56,29 @@ const NewTaskScreen = ({ setModalVisible }) => {
       setLoading(false);
     }
   }
+
+  const selectImage = async (useLibrary) => {
+    let result;
+
+    const options = {
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    };
+
+    if (useLibrary) {
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+      result = await ImagePicker.launchImageLibraryAsync(options);
+    } else {
+      await ImagePicker.requestCameraPermissionsAsync();
+      result = await ImagePicker.launchCameraAsync(options);
+    }
+
+    if (!result.canceled) {
+      console.log(result.assets[0].uri);
+    }
+  };
 
   return (
     <ScrollView
@@ -115,6 +139,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
             removeLinks={removeLinks}
             dispatch={dispatch}
             links={links}
+            selectImage={selectImage}
           />
 
           <View

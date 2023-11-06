@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
-const AddMediaContainer = () => {
+const AddMediaContainer = ({ selectImage }) => {
   const [cameraColor, setCameraColor] = useState("black");
   const [mediaColor, setMediaColor] = useState("black");
   const [docColor, setDocColor] = useState("black");
@@ -14,6 +14,7 @@ const AddMediaContainer = () => {
         }
         containerText="Take a picture"
         setIconColor={setCameraColor}
+        selectItem={() => selectImage(true)}
       />
       <PressableContainer
         icon={
@@ -21,6 +22,7 @@ const AddMediaContainer = () => {
         }
         containerText="Media"
         setIconColor={setMediaColor}
+        selectItem={() => selectImage(false)}
       />
       <PressableContainer
         icon={
@@ -37,7 +39,12 @@ const AddMediaContainer = () => {
   );
 };
 
-const PressableContainer = ({ containerText, icon, setIconColor }) => {
+const PressableContainer = ({
+  containerText,
+  icon,
+  setIconColor,
+  selectItem,
+}) => {
   const handlePressIn = () => {
     setIconColor("white");
   };
@@ -59,6 +66,7 @@ const PressableContainer = ({ containerText, icon, setIconColor }) => {
         ]}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
+        onPress={selectItem}
       >
         {icon}
       </Pressable>
