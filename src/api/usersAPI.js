@@ -5,6 +5,8 @@ const instance = axios.create({
   withCredentials: true,
 });
 
+//`http://192.168.10.125:3000/users`
+
 export const authAPI = {
   async login(username, password) {
     try {

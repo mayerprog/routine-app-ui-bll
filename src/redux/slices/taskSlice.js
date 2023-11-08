@@ -3,6 +3,7 @@ import _ from "lodash";
 
 const initialState = {
   links: [],
+  images: ["image name"],
   tasks: [],
 };
 
@@ -10,13 +11,17 @@ export const taskSlice = createSlice({
   name: "task",
   initialState,
   reducers: {
+    addImages: (state, action) => {
+      state.images = [...state.images, action.payload];
+      state.images.map((img, index) => (img.id = index));
+    },
     addLinks: (state, action) => {
       state.links = [...state.links, action.payload];
-      state.links.map((l, index) => (l.id = index));
+      state.links.map((link, index) => (link.id = index));
     },
     removeLinks: (state, action) => {
       state.links = state.links.filter((item) => item.id !== action.payload);
-      state.links.map((l, index) => (l.id = index));
+      state.links.map((link, index) => (link.id = index));
     },
     addInTaskLinks: (state, action) => {
       state.links = action.payload;
@@ -51,7 +56,7 @@ export const {
   removeTasks,
   editTask,
   addInTaskLinks,
-  removeLinksInTask,
+  addImages,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;

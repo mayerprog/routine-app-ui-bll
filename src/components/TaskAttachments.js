@@ -11,7 +11,7 @@ import { FontAwesome, FontAwesome5, AntDesign } from "@expo/vector-icons";
 import AddMediaContainer from "./AddMediaContainer";
 import AddLinkContainer from "./AddLinkContainer";
 
-const MediaAttachments = ({
+const TaskAttachments = ({
   linkData,
   linkName,
   links,
@@ -37,7 +37,7 @@ const MediaAttachments = ({
 
   return (
     <View>
-      {cameraPressed && <AddMediaContainer selectImage={selectImage} />}
+      {cameraPressed && <AddMediaContainer />}
       {linkPressed && (
         <AddLinkContainer
           linkData={linkData}
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MediaAttachments;
+export default TaskAttachments;
