@@ -24,7 +24,8 @@ export const tasksAPI = {
   async uploadImage(formData) {
     try {
       const response = await instance.post(`/uploadImage`, formData);
-      console.log("Image uploaded", response.data.imageName);
+      console.log("Image uploaded", response.data.image.data);
+      return response.data.image.name;
     } catch (err) {
       alert(err);
     }

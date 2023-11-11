@@ -24,6 +24,8 @@ const AddMediaContainer = ({}) => {
   const images = useSelector((state) => state.task.images);
   const dispatch = useDispatch();
 
+  let uploadedImage;
+
   const selectImage = async (useLibrary) => {
     let result;
 
@@ -50,8 +52,6 @@ const AddMediaContainer = ({}) => {
   };
 
   const createFormData = (uri) => {
-    // console.log("uri", uri);
-
     const fileName = uri.split("/").pop();
     const fileType = fileName.split(".").pop();
     const formData = new FormData();
@@ -65,9 +65,10 @@ const AddMediaContainer = ({}) => {
 
   const postImage = async ({ uri }) => {
     const data = createFormData(uri);
-    console.log("data", data._parts);
+    // console.log("data", data._parts);
 
-    await tasksAPI.uploadImage(data);
+    uploadedImage = await tasksAPI.uploadImage(data);
+    console.log("imgName", uploadedImage);
   };
 
   return (
@@ -88,9 +89,14 @@ const AddMediaContainer = ({}) => {
         </View>
       ))}
       <CustomButton label="Add media" action={() => postImage(imageData)} />
-      {imageData && (
-        <Image source={{ uri: imageData.uri }} style={styles.image} />
-      )}
+      {/* {imageData && ( */}
+      <Image
+        source={{
+          uri: "http://192.168.10.125:3000/uploads/1699732294614-540F258C-1ED9-486F-81DE-336C9D9D08A8.jpg",
+        }}
+        style={styles.image}
+      />
+      {/* )} */}
 
       <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
         <PressableContainer
