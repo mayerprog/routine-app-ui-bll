@@ -5,12 +5,15 @@ import {
   StyleSheet,
   Pressable,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { addImages } from "../redux/slices/taskSlice";
+import CustomButton from "./CustomButton";
+import { tasksAPI } from "../api/tasksAPI";
 
 const AddMediaContainer = ({}) => {
   const [cameraColor, setCameraColor] = useState("black");
@@ -24,9 +27,6 @@ const AddMediaContainer = ({}) => {
   const selectImage = async (useLibrary) => {
     let result;
 
-    const formData = new FormData();
-    formData.append("image", imageData);
-
     const options = {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -34,20 +34,40 @@ const AddMediaContainer = ({}) => {
       quality: 1,
     };
 
-    if (useLibrary) {
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-      result = await ImagePicker.launchImageLibraryAsync(options);
-    } else {
-      await ImagePicker.requestCameraPermissionsAsync();
-      result = await ImagePicker.launchCameraAsync(options);
+    try {
+      if (useLibrary) {
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+        result = await ImagePicker.launchImageLibraryAsync(options);
+      } else {
+        result = await ImagePicker.launchCameraAsync(options);
+      }
+      if (!result.canceled) {
+        setImageData(result.assets[0]);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    if (!result.canceled) {
-      // setImageData(result.assets[0].uri);
-      dispatch(addImages(result.assets[0].uri));
-      console.log(imageData);
-      // await tasksAPI.uploadImage(formData);
-    }
+  const createFormData = (uri) => {
+    // console.log("uri", uri);
+
+    const fileName = uri.split("/").pop();
+    const fileType = fileName.split(".").pop();
+    const formData = new FormData();
+    formData.append("image", {
+      name: fileName,
+      uri,
+      type: `image/${fileType}`,
+    });
+    return formData;
+  };
+
+  const postImage = async ({ uri }) => {
+    const data = createFormData(uri);
+    console.log("data", data._parts);
+
+    await tasksAPI.uploadImage(data);
   };
 
   return (
@@ -67,6 +87,11 @@ const AddMediaContainer = ({}) => {
           </View>
         </View>
       ))}
+      <CustomButton label="Add media" action={() => postImage(imageData)} />
+      {imageData && (
+        <Image source={{ uri: imageData.uri }} style={styles.image} />
+      )}
+
       <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
         <PressableContainer
           icon={
@@ -175,6 +200,12 @@ const styles = StyleSheet.create({
     marginLeft: 7,
     marginBottom: 5,
     marginRight: 12,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginBottom: 16,
+    borderRadius: 50,
   },
 });
 

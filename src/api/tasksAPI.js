@@ -3,6 +3,7 @@ import axios from "axios";
 const instance = axios.create({
   baseURL: "http://192.168.10.125:3000/tasks",
   withCredentials: true,
+  headers: { "Content-Type": "multipart/form-data" },
 });
 
 export const tasksAPI = {
@@ -22,10 +23,8 @@ export const tasksAPI = {
   },
   async uploadImage(formData) {
     try {
-      const response = await instance.post(`/uploadImage`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      return response.data;
+      const response = await instance.post(`/uploadImage`, formData);
+      console.log("Image uploaded", response.data.imageName);
     } catch (err) {
       alert(err);
     }

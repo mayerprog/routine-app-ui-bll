@@ -3,7 +3,7 @@ import _ from "lodash";
 
 const initialState = {
   links: [],
-  images: ["image name"],
+  images: [],
   tasks: [],
 };
 
@@ -14,6 +14,7 @@ export const taskSlice = createSlice({
     addImages: (state, action) => {
       state.images = [...state.images, action.payload];
       state.images.map((img, index) => (img.id = index));
+      // console.log(state.images);
     },
     addLinks: (state, action) => {
       state.links = [...state.links, action.payload];
