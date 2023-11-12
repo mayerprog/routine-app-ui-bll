@@ -1,11 +1,12 @@
 import axios from "axios";
+const { baseURL } = require("../../config");
+
+const path = "/users";
 
 const instance = axios.create({
-  baseURL: `http://192.168.10.125:3000/users`,
+  baseURL: baseURL + path,
   withCredentials: true,
 });
-
-//`http://192.168.10.125:3000/users`
 
 export const authAPI = {
   async login(username, password) {

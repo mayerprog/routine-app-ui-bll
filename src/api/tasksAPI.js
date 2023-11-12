@@ -1,7 +1,10 @@
 import axios from "axios";
+const { baseURL } = require("../../config");
+
+const path = "/tasks";
 
 const instance = axios.create({
-  baseURL: "http://192.168.10.125:3000/tasks",
+  baseURL: baseURL + path,
   withCredentials: true,
   headers: { "Content-Type": "multipart/form-data" },
 });

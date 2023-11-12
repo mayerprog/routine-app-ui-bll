@@ -14,6 +14,7 @@ import * as ImagePicker from "expo-image-picker";
 import { addImages } from "../redux/slices/taskSlice";
 import CustomButton from "./CustomButton";
 import { tasksAPI } from "../api/tasksAPI";
+const { baseURL } = require("../../config");
 
 const AddMediaContainer = ({}) => {
   const [cameraColor, setCameraColor] = useState("black");
@@ -92,7 +93,9 @@ const AddMediaContainer = ({}) => {
       {/* {imageData && ( */}
       <Image
         source={{
-          uri: "http://192.168.10.125:3000/uploads/1699732294614-540F258C-1ED9-486F-81DE-336C9D9D08A8.jpg",
+          uri:
+            baseURL +
+            "/uploads/1699732294614-540F258C-1ED9-486F-81DE-336C9D9D08A8.jpg",
         }}
         style={styles.image}
       />
