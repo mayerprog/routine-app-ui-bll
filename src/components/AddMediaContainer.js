@@ -14,6 +14,8 @@ import * as ImagePicker from "expo-image-picker";
 import { addImages, removeImages } from "../redux/slices/taskSlice";
 import CustomButton from "./CustomButton";
 import { tasksAPI } from "../api/tasksAPI";
+import * as FileSystem from "expo-file-system";
+
 const { baseURL } = require("../../config");
 
 const AddMediaContainer = ({}) => {
@@ -28,6 +30,7 @@ const AddMediaContainer = ({}) => {
 
   const selectImage = async (useLibrary) => {
     let result;
+    const MAX_SIZE = 7 * 1024 * 1024;
 
     const options = {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -47,8 +50,16 @@ const AddMediaContainer = ({}) => {
 
       if (!result.canceled) {
         const pickedImages = result.assets;
-        pickedImages.forEach((image) => {
-          dispatch(addImages(image.uri));
+        pickedImages.forEach(async (image) => {
+          const imageURI = image.uri;
+          const fileInfo = await FileSystem.getInfoAsync(imageURI);
+          console.log("image size", fileInfo.size);
+          if (fileInfo.size > MAX_SIZE) {
+            alert(
+              "File is too large. Please upload an image smaller than 7 MB."
+            );
+          }
+          dispatch(addImages(imageURI));
         });
       }
     } catch (error) {
@@ -68,7 +79,7 @@ const AddMediaContainer = ({}) => {
   //   return formData;
   // };
 
-  const postImage = async ({ uri }) => {
+  const postImage = async () => {
     const formData = new FormData();
 
     images.forEach((image) => {
@@ -81,7 +92,7 @@ const AddMediaContainer = ({}) => {
       });
     });
     console.log("data", formData);
-    // uploadedImage = await tasksAPI.uploadImage(data);
+    uploadedImage = await tasksAPI.uploadImage(formData);
     // console.log("imgName", uploadedImage);
   };
 
@@ -102,7 +113,7 @@ const AddMediaContainer = ({}) => {
           </View>
         </View>
       ))}
-      <CustomButton label="Add media" action={() => postImage(images)} />
+      <CustomButton label="Add media" action={() => postImage()} />
       {/* <Image
         source={{
           uri:

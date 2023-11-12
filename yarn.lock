@@ -4518,6 +4518,13 @@ expo-constants@~14.4.2:
     "@expo/config" "~8.1.0"
     uuid "^3.3.2"
 
+expo-file-system@^15.6.0:
+  version "15.6.0"
+  resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-15.6.0.tgz#03e483ef8f8f50039862580a8e88ac43e17dbc19"
+  integrity sha512-a2hvSWPQLgzw6/u7QuVjVs44Zqgkq3EQJ94tUpw9GbAxj2RsdS3tPnzakBb3Mc6VoQ2Aop6FIgSKeYCeYJAzsg==
+  dependencies:
+    uuid "^3.4.0"
+
 expo-file-system@~15.4.0, expo-file-system@~15.4.3:
   version "15.4.3"
   resolved "https://registry.npmjs.org/expo-file-system/-/expo-file-system-15.4.3.tgz"
