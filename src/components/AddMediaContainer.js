@@ -11,7 +11,7 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { addImages } from "../redux/slices/taskSlice";
+import { addImages, removeImages } from "../redux/slices/taskSlice";
 import CustomButton from "./CustomButton";
 import { tasksAPI } from "../api/tasksAPI";
 const { baseURL } = require("../../config");
@@ -20,7 +20,6 @@ const AddMediaContainer = ({}) => {
   const [cameraColor, setCameraColor] = useState("black");
   const [mediaColor, setMediaColor] = useState("black");
   const [docColor, setDocColor] = useState("black");
-  const [imageData, setImageData] = useState();
 
   const images = useSelector((state) => state.task.images);
   const dispatch = useDispatch();
@@ -32,7 +31,8 @@ const AddMediaContainer = ({}) => {
 
     const options = {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsEditing: false,
+      allowsMultipleSelection: true,
       aspect: [4, 3],
       quality: 1,
     };
@@ -44,32 +44,45 @@ const AddMediaContainer = ({}) => {
       } else {
         result = await ImagePicker.launchCameraAsync(options);
       }
+
       if (!result.canceled) {
-        setImageData(result.assets[0]);
+        const pickedImages = result.assets;
+        pickedImages.forEach((image) => {
+          dispatch(addImages(image.uri));
+        });
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const createFormData = (uri) => {
-    const fileName = uri.split("/").pop();
-    const fileType = fileName.split(".").pop();
-    const formData = new FormData();
-    formData.append("image", {
-      name: fileName,
-      uri,
-      type: `image/${fileType}`,
-    });
-    return formData;
-  };
+  // const createFormData = (uri) => {
+  //   const fileName = uri.split("/").pop();
+  //   const fileType = fileName.split(".").pop();
+  //   const formData = new FormData();
+  //   formData.append("image", {
+  //     name: fileName,
+  //     uri,
+  //     type: `image/${fileType}`,
+  //   });
+  //   return formData;
+  // };
 
   const postImage = async ({ uri }) => {
-    const data = createFormData(uri);
-    // console.log("data", data._parts);
+    const formData = new FormData();
 
-    uploadedImage = await tasksAPI.uploadImage(data);
-    console.log("imgName", uploadedImage);
+    images.forEach((image) => {
+      const fileName = image.split("/").pop();
+      const fileType = fileName.split(".").pop();
+      formData.append("image", {
+        name: fileName,
+        image,
+        type: `image/${fileType}`,
+      });
+    });
+    console.log("data", formData);
+    // uploadedImage = await tasksAPI.uploadImage(data);
+    // console.log("imgName", uploadedImage);
   };
 
   return (
@@ -78,28 +91,26 @@ const AddMediaContainer = ({}) => {
         <View style={{ alignItems: "center" }} key={index}>
           <View style={{ flexDirection: "row" }}>
             <AntDesign name="link" size={17} color="#D4D4D4" />
-            <Text style={styles.linkText}>{image}</Text>
+            <Text style={styles.linkText}>{image.split("/").pop()}</Text>
             <TouchableOpacity
               style={{ marginTop: 1 }}
-              onPress={() => handleRemoveItem(l.id)}
-              hitSlop={5}
+              onPress={() => dispatch(removeImages(image))}
+              hitSlop={3}
             >
               <MaterialIcons name="cancel" size={18} color="#800B35" />
             </TouchableOpacity>
           </View>
         </View>
       ))}
-      <CustomButton label="Add media" action={() => postImage(imageData)} />
-      {/* {imageData && ( */}
-      <Image
+      <CustomButton label="Add media" action={() => postImage(images)} />
+      {/* <Image
         source={{
           uri:
             baseURL +
             "/uploads/1699732294614-540F258C-1ED9-486F-81DE-336C9D9D08A8.jpg",
         }}
         style={styles.image}
-      />
-      {/* )} */}
+      /> */}
 
       <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
         <PressableContainer
@@ -204,10 +215,10 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontFamily: "Roboto-Medium",
-    fontSize: 16,
+    fontSize: 15,
     color: "#EEEEEE",
     marginLeft: 7,
-    marginBottom: 5,
+    marginBottom: 15,
     marginRight: 12,
   },
   image: {

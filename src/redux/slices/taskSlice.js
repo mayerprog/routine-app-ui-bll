@@ -13,8 +13,10 @@ export const taskSlice = createSlice({
   reducers: {
     addImages: (state, action) => {
       state.images = [...state.images, action.payload];
-      state.images.map((img, index) => (img.id = index));
-      // console.log(state.images);
+      console.log(state.images);
+    },
+    removeImages: (state, action) => {
+      state.images = state.images.filter((image) => image !== action.payload);
     },
     addLinks: (state, action) => {
       state.links = [...state.links, action.payload];
@@ -58,6 +60,7 @@ export const {
   editTask,
   addInTaskLinks,
   addImages,
+  removeImages,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;
