@@ -67,35 +67,6 @@ const AddMediaContainer = ({}) => {
     }
   };
 
-  // const createFormData = (uri) => {
-  //   const fileName = uri.split("/").pop();
-  //   const fileType = fileName.split(".").pop();
-  //   const formData = new FormData();
-  //   formData.append("image", {
-  //     name: fileName,
-  //     uri,
-  //     type: `image/${fileType}`,
-  //   });
-  //   return formData;
-  // };
-
-  const postImage = async () => {
-    const formData = new FormData();
-
-    images.forEach((image) => {
-      const fileName = image.split("/").pop();
-      const fileType = fileName.split(".").pop();
-      formData.append("image", {
-        name: fileName,
-        image,
-        type: `image/${fileType}`,
-      });
-    });
-    console.log("data", formData);
-    // uploadedImage = await tasksAPI.uploadImage(formData);
-    // console.log("imgName", uploadedImage);
-  };
-
   return (
     <>
       {images.map((image, index) => (
@@ -113,7 +84,6 @@ const AddMediaContainer = ({}) => {
           </View>
         </View>
       ))}
-      <CustomButton label="Add media" action={() => postImage()} />
       {/* <Image
         source={{
           uri:

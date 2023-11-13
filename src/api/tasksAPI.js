@@ -18,9 +18,6 @@ export const tasksAPI = {
       formData.append("title", title);
       formData.append("description", description);
       formData.append("date", selectedDate);
-      // links.forEach((link, index) => {
-      //   formData.append(`links[${index}]`, link);
-      // });
       formData.append("links", JSON.stringify(links));
       const response = await instance.post(`/createTask`, formData);
       return response.data;

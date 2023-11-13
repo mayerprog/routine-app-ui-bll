@@ -55,8 +55,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
       });
     });
     return formData;
-    // uploadedImage = await tasksAPI.uploadImage(formData);
-    // console.log("imgName", uploadedImage);
   };
 
   async function createTask() {
