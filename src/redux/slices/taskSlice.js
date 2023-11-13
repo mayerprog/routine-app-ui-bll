@@ -13,7 +13,6 @@ export const taskSlice = createSlice({
   reducers: {
     addImages: (state, action) => {
       state.images = [...state.images, action.payload];
-      console.log(state.images);
     },
     removeImages: (state, action) => {
       state.images = state.images.filter((image) => image !== action.payload);

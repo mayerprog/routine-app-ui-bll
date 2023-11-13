@@ -53,11 +53,11 @@ const AddMediaContainer = ({}) => {
         pickedImages.forEach(async (image) => {
           const imageURI = image.uri;
           const fileInfo = await FileSystem.getInfoAsync(imageURI);
-          console.log("image size", fileInfo.size);
           if (fileInfo.size > MAX_SIZE) {
             alert(
               "File is too large. Please upload an image smaller than 7 MB."
             );
+            return;
           }
           dispatch(addImages(imageURI));
         });
@@ -92,7 +92,7 @@ const AddMediaContainer = ({}) => {
       });
     });
     console.log("data", formData);
-    uploadedImage = await tasksAPI.uploadImage(formData);
+    // uploadedImage = await tasksAPI.uploadImage(formData);
     // console.log("imgName", uploadedImage);
   };
 

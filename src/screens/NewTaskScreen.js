@@ -32,6 +32,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
   const [linkName, setLinkName] = useState("");
 
   const links = useSelector((state) => state.task.links);
+  const images = useSelector((state) => state.task.images);
 
   const dispatch = useDispatch();
 
@@ -39,7 +40,29 @@ const NewTaskScreen = ({ setModalVisible }) => {
     dispatch(removeAllLinks());
   }, []);
 
+  const postImage = async () => {
+    const formData = new FormData();
+
+    console.log("Images", images);
+
+    images.forEach((image) => {
+      const fileName = image.split("/").pop();
+      const fileType = fileName.split(".").pop();
+      formData.append("image", {
+        name: fileName,
+        image,
+        type: `image/${fileType}`,
+      });
+    });
+    return formData;
+    // uploadedImage = await tasksAPI.uploadImage(formData);
+    // console.log("imgName", uploadedImage);
+  };
+
   async function createTask() {
+    const formData = await postImage();
+
+    console.log("formData", formData);
     if (title === "") alert("Please add title");
     else if (description === "") alert("Please add description");
     else if (selectedDate === "") alert("Please choose date");
@@ -49,7 +72,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
         title,
         description,
         selectedDate,
-        links
+        links,
+        formData
       );
       dispatch(addTasks(newSavedTask));
       setModalVisible(false);

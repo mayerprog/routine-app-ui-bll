@@ -6,19 +6,23 @@ const path = "/tasks";
 const instance = axios.create({
   baseURL: baseURL + path,
   withCredentials: true,
-  headers: { "Content-Type": "multipart/form-data" },
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "multipart/form-data",
+  },
 });
 
 export const tasksAPI = {
-  async createTask(title, description, selectedDate, links, image) {
+  async createTask(title, description, selectedDate, links, formData) {
     try {
-      const response = await instance.post(`/createTask`, {
-        title: title,
-        description: description,
-        links: links,
-        date: selectedDate,
-        image: image,
-      });
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("date", selectedDate);
+      // links.forEach((link, index) => {
+      //   formData.append(`links[${index}]`, link);
+      // });
+      formData.append("links", JSON.stringify(links));
+      const response = await instance.post(`/createTask`, formData);
       return response.data;
     } catch (err) {
       alert(err);
