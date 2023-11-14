@@ -13,6 +13,7 @@ import {
   addLinks,
   addTasks,
   removeAllLinks,
+  removeAllImages,
 } from "../redux/slices/taskSlice";
 
 import CustomButton from "../components/CustomButton";
@@ -38,6 +39,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
 
   useEffect(() => {
     dispatch(removeAllLinks());
+    dispatch(removeAllImages());
   }, []);
 
   const postImage = async () => {
