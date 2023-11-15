@@ -26,8 +26,6 @@ const AddMediaContainer = ({}) => {
   const images = useSelector((state) => state.task.images);
   const dispatch = useDispatch();
 
-  let uploadedImage;
-
   const selectImage = async (useLibrary) => {
     let result;
     const MAX_SIZE = 7 * 1024 * 1024;
@@ -50,6 +48,8 @@ const AddMediaContainer = ({}) => {
 
       if (!result.canceled) {
         const pickedImages = result.assets;
+        console.log(pickedImages);
+
         pickedImages.forEach(async (image) => {
           const imageURI = image.uri;
           const fileInfo = await FileSystem.getInfoAsync(imageURI);
@@ -66,6 +66,28 @@ const AddMediaContainer = ({}) => {
       console.log(error);
     }
   };
+
+  // const postImage = async () => {
+  //   const formData = new FormData();
+
+  //   console.log("Images", images);
+
+  //   images.forEach((image) => {
+  //     const fileName = image.split("/").pop();
+  //     const fileType = fileName.split(".").pop();
+  //     formData.append("image", {
+  //       name: fileName,
+  //       image,
+  //       type: `image/${fileType}`,
+  //     });
+  //   });
+  //   return formData;
+  // };
+
+  // const addImage = async () => {
+  //   const formData = await postImage();
+  //   await tasksAPI.uploadImage(formData);
+  // };
 
   return (
     <>
@@ -84,15 +106,13 @@ const AddMediaContainer = ({}) => {
           </View>
         </View>
       ))}
-      {/* <Image
+      <Image
         source={{
-          uri:
-            baseURL +
-            "/uploads/1699732294614-540F258C-1ED9-486F-81DE-336C9D9D08A8.jpg",
+          uri: "http://192.168.10.125:3000/uploads/1700036526569-1044FE4F-F662-4F21-AAC9-C2C4C5F22583.jpg",
         }}
         style={styles.image}
-      /> */}
-
+      />
+      {/* <CustomButton action={addImage} label="add image" /> */}
       <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
         <PressableContainer
           icon={

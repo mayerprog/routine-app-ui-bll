@@ -26,6 +26,45 @@ import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { tasksAPI } from "../api/tasksAPI";
 
+const TaskListComponent = ({
+  tasks,
+  setModalVisible,
+  removeTasks,
+  navigation,
+}) => {
+  const scrollRef = useRef(null);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
+  return (
+    <>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+        ref={scrollRef}
+        scrollEnabled={scrollEnabled}
+      >
+        {tasks.map((task, index) => (
+          <TaskListItem
+            task={task}
+            key={task._id}
+            simultaneousHandlers={scrollRef}
+            setScrollEnabled={setScrollEnabled}
+            removeTasks={removeTasks}
+            navigation={navigation}
+          />
+        ))}
+        <View style={styles.sumIconStyle}>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Ionicons name="add-circle" size={70} color="#1B57B8" />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </>
+  );
+};
+
 const TaskListItem = ({
   task,
   simultaneousHandlers,
@@ -151,45 +190,6 @@ const TaskListItem = ({
         </PanGestureHandler>
       </Animated.View>
     </TapGestureHandler>
-  );
-};
-
-const TaskListComponent = ({
-  tasks,
-  setModalVisible,
-  removeTasks,
-  navigation,
-}) => {
-  const scrollRef = useRef(null);
-  const [scrollEnabled, setScrollEnabled] = useState(true);
-  return (
-    <>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-        ref={scrollRef}
-        scrollEnabled={scrollEnabled}
-      >
-        {tasks.map((task, index) => (
-          <TaskListItem
-            task={task}
-            key={task._id}
-            simultaneousHandlers={scrollRef}
-            setScrollEnabled={setScrollEnabled}
-            removeTasks={removeTasks}
-            navigation={navigation}
-          />
-        ))}
-        <View style={styles.sumIconStyle}>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Ionicons name="add-circle" size={70} color="#1B57B8" />
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </>
   );
 };
 

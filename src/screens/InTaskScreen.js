@@ -13,11 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {
-  addInTaskLinks,
-  removeLinks,
-  addLinks,
-} from "../redux/slices/taskSlice";
+import { addInTaskLinks, addInTaskImages } from "../redux/slices/taskSlice";
 import ChooseTimeComponent from "../components/ChooseTimeComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
@@ -28,6 +24,7 @@ import { tasksAPI } from "../api/tasksAPI";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ModalAddLinks from "../components/ModalAddLinks";
 import InTaskLinks from "../components/InTaskLinks";
+import InTaskImages from "../components/InTaskImages";
 
 const InTaskScreen = ({ route, navigation }) => {
   const { task } = route.params;
@@ -36,12 +33,14 @@ const InTaskScreen = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const links = useSelector((state) => state.task.links);
+  const images = useSelector((state) => state.task.images);
   const [selectedDate, setSelectedDate] = useState(task.date);
 
   let updatedTask = { ...task, links: [...task.links] }; //deep copy
 
   useEffect(() => {
     dispatch(addInTaskLinks(task.links));
+    dispatch(addInTaskImages(task.images));
   }, []);
 
   const checkIfURLCanBeOpened = async (url) => {
@@ -112,7 +111,7 @@ const InTaskScreen = ({ route, navigation }) => {
         <View style={styles.contentContainer}>
           <Text style={styles.labelText}>Media</Text>
           <View style={styles.shadowedUnderline} />
-          <Text style={styles.nothingAddedText}>No Media added</Text>
+          <InTaskImages dispatch={dispatch} images={images} />
         </View>
 
         <View style={[styles.contentContainer, { zIndex: 1000 }]}>

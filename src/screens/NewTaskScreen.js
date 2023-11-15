@@ -52,7 +52,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
       const fileType = fileName.split(".").pop();
       formData.append("image", {
         name: fileName,
-        image,
+        uri: image,
         type: `image/${fileType}`,
       });
     });

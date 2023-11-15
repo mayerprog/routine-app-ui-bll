@@ -63,7 +63,7 @@ const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
           </View>
         ))
       ) : (
-        <Text style={styles.nothingAddedText}>{"No Links added"}</Text>
+        <Text style={styles.nothingAddedText}>{"No links added"}</Text>
       )}
       <Modal
         visible={modalVisible}
