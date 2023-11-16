@@ -8,9 +8,14 @@ const instance = axios.create({
   withCredentials: true,
   headers: {
     Accept: "application/json",
-    "Content-Type": "multipart/form-data",
   },
 });
+
+const configHeaders = {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+};
 
 export const tasksAPI = {
   async createTask(title, description, selectedDate, links, formData) {
@@ -19,10 +24,21 @@ export const tasksAPI = {
       formData.append("description", description);
       formData.append("date", selectedDate);
       formData.append("links", JSON.stringify(links));
-      const response = await instance.post(`/createTask`, formData);
+
+      console.log("formdata to api", formData);
+
+      const response = await instance.post(
+        `/createTask`,
+        formData,
+        configHeaders
+      );
       return response.data;
     } catch (err) {
-      alert(err);
+      console.error(
+        "Error creating task:",
+        err.response ? err.response.data : err
+      );
+      alert("Failed to create task. Check console for details.");
     }
   },
   async uploadImage(formData) {
@@ -42,9 +58,9 @@ export const tasksAPI = {
       alert(err);
     }
   },
-  async deleteOne(id) {
+  async deleteOne(id, images) {
     try {
-      const response = await instance.delete(`/deleteOne/${id}`);
+      const response = await instance.delete(`/deleteOne/${id}`, images);
       return response.data;
     } catch (err) {
       alert(err);

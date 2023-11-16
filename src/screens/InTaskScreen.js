@@ -62,6 +62,7 @@ const InTaskScreen = ({ route, navigation }) => {
     updatedTask.description = description;
     updatedTask.links = links;
     updatedTask.date = selectedDate;
+    console.log("updatedtask", updatedTask);
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask);
     navigation.goBack();

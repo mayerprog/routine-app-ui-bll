@@ -106,12 +106,12 @@ const AddMediaContainer = ({}) => {
           </View>
         </View>
       ))}
-      <Image
+      {/* <Image
         source={{
           uri: "http://192.168.10.125:3000/uploads/1700036526569-1044FE4F-F662-4F21-AAC9-C2C4C5F22583.jpg",
         }}
         style={styles.image}
-      />
+      /> */}
       {/* <CustomButton action={addImage} label="add image" /> */}
       <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
         <PressableContainer
