@@ -6,9 +6,9 @@ const path = "/tasks";
 const instance = axios.create({
   baseURL: baseURL + path,
   withCredentials: true,
-  headers: {
-    Accept: "application/json",
-  },
+  // headers: {
+  //   Accept: "application/json",
+  // },
 });
 
 const configHeaders = {
@@ -25,8 +25,6 @@ export const tasksAPI = {
       formData.append("date", selectedDate);
       formData.append("links", JSON.stringify(links));
 
-      console.log("formdata to api", formData);
-
       const response = await instance.post(
         `/createTask`,
         formData,
@@ -41,15 +39,15 @@ export const tasksAPI = {
       alert("Failed to create task. Check console for details.");
     }
   },
-  async uploadImage(formData) {
-    try {
-      const response = await instance.post(`/uploadImage`, formData);
-      console.log("Image uploaded", response.data.image.data);
-      return response.data.image.name;
-    } catch (err) {
-      alert(err);
-    }
-  },
+  // async uploadImage(formData) {
+  //   try {
+  //     const response = await instance.post(`/uploadImage`, formData);
+  //     console.log("Image uploaded", response.data.image.data);
+  //     return response.data.image.name;
+  //   } catch (err) {
+  //     alert(err);
+  //   }
+  // },
   async getAll() {
     try {
       const response = await instance.get(`/getAll`);
@@ -58,9 +56,9 @@ export const tasksAPI = {
       alert(err);
     }
   },
-  async deleteOne(id, images) {
+  async deleteOne(id) {
     try {
-      const response = await instance.delete(`/deleteOne/${id}`, images);
+      const response = await instance.delete(`/deleteOne/${id}`);
       return response.data;
     } catch (err) {
       alert(err);

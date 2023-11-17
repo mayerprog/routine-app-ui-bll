@@ -86,8 +86,7 @@ const TaskListItem = ({
   const SCROLLING_THRESHOLD = SCREEN_WIDTH * 0.01;
 
   const handleRemoveTask = async () => {
-    await tasksAPI.deleteOne(task._id, task.images);
-    console.log("taskimages", task.images);
+    await tasksAPI.deleteOne(task._id);
     dispatch(removeTasks(task._id));
   };
 

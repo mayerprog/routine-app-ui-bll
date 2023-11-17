@@ -45,7 +45,6 @@ export const taskSlice = createSlice({
     },
     setTasks: (state, action) => {
       state.tasks = action.payload;
-      console.log(state.tasks[0].images[0].name);
     },
     addTasks: (state, action) => {
       state.tasks = [...state.tasks, action.payload];
