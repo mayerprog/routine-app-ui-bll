@@ -25,6 +25,7 @@ import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ModalAddLinks from "../components/ModalAddLinks";
 import InTaskLinks from "../components/InTaskLinks";
 import InTaskImages from "../components/InTaskImages";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const InTaskScreen = ({ route, navigation }) => {
   const { task } = route.params;
