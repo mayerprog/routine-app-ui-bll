@@ -113,7 +113,9 @@ const InTaskScreen = ({ route, navigation }) => {
         <View style={styles.contentContainer}>
           <Text style={styles.labelText}>Media</Text>
           <View style={styles.shadowedUnderline} />
-          <InTaskImages dispatch={dispatch} images={images} />
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <InTaskImages dispatch={dispatch} images={images} />
+          </GestureHandlerRootView>
         </View>
 
         <View style={[styles.contentContainer, { zIndex: 1000 }]}>

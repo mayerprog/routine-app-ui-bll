@@ -5,15 +5,23 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Animated,
 } from "react-native";
 import { removeLinks } from "../redux/slices/taskSlice";
 const { baseURL } = require("../../config");
-import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import CustomButton from "./CustomButton";
 import { useRef, useState } from "react";
-import { PinchGestureHandler, State } from "react-native-gesture-handler";
-// import Animated from "react-native-reanimated";
+import {
+  PanGestureHandler,
+  PinchGestureHandler,
+  State,
+} from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 const InTaskImages = ({ images, dispatch }) => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -27,6 +35,42 @@ const InTaskImages = ({ images, dispatch }) => {
   const handleRemoveItem = (linkIdToRemove) => {
     dispatch(removeLinks(linkIdToRemove));
   };
+
+  const panRef = useRef();
+  const pinchRef = useRef();
+  const scale = useSharedValue(1);
+  const offsetX = useSharedValue(0);
+  const offsetY = useSharedValue(0);
+
+  const onPinchEvent = useAnimatedGestureHandler({
+    onActive: (event) => {
+      scale.value = event.scale;
+    },
+    onEnd: () => {
+      scale.value = withSpring(1);
+    },
+  });
+
+  const onPanEvent = useAnimatedGestureHandler({
+    onActive: (event) => {
+      offsetX.value = event.translationX;
+      offsetY.value = event.translationY;
+    },
+    onEnd: () => {
+      offsetX.value = withSpring(0);
+      offsetY.value = withSpring(0);
+    },
+  });
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: offsetX.value },
+        { translateY: offsetY.value },
+        { scale: scale.value },
+      ],
+    };
+  });
 
   return (
     <View
@@ -79,16 +123,28 @@ const InTaskImages = ({ images, dispatch }) => {
       >
         <TouchableOpacity
           style={styles.modalBackground}
-          activeOpacity={1} // Keeps the background from visually responding to touches
-          onPress={() => setModalVisible(false)} // Closes modal when background is pressed
+          activeOpacity={1}
+          onPress={() => setModalVisible(false)}
         >
-          <View style={styles.modalView}>
-            <Image
-              source={{ uri: baseURL + `/uploads/${selectedImage?.name}` }}
-              style={styles.fullImage}
-              resizeMode="contain"
-            />
-          </View>
+          <PanGestureHandler
+            onGestureEvent={onPanEvent}
+            ref={panRef}
+            simultaneousHandlers={[pinchRef]}
+          >
+            <Animated.View style={styles.modalView}>
+              <PinchGestureHandler
+                ref={pinchRef}
+                onGestureEvent={onPinchEvent}
+                simultaneousHandlers={[panRef]}
+              >
+                <Animated.Image
+                  source={{ uri: baseURL + `/uploads/${selectedImage?.name}` }}
+                  style={[styles.fullImage, animatedStyle]}
+                  resizeMode="contain"
+                />
+              </PinchGestureHandler>
+            </Animated.View>
+          </PanGestureHandler>
         </TouchableOpacity>
       </Modal>
 
