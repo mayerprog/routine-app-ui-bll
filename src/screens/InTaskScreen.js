@@ -31,7 +31,8 @@ const InTaskScreen = ({ route, navigation }) => {
   const { task } = route.params;
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
-  const [loading, setLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
+
   const dispatch = useDispatch();
   const links = useSelector((state) => state.task.links);
   const images = useSelector((state) => state.task.images);
@@ -58,7 +59,7 @@ const InTaskScreen = ({ route, navigation }) => {
   };
 
   const updateTask = async () => {
-    setLoading(true);
+    setButtonLoading(true);
     updatedTask.title = title;
     updatedTask.description = description;
     updatedTask.links = links;
@@ -67,7 +68,7 @@ const InTaskScreen = ({ route, navigation }) => {
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask);
     navigation.goBack();
-    setLoading(false);
+    setButtonLoading(false);
   };
 
   return (
@@ -146,7 +147,7 @@ const InTaskScreen = ({ route, navigation }) => {
             action={() => navigation.goBack()}
             underlayColor="#5884CD"
           />
-          {loading ? (
+          {buttonLoading ? (
             <ActivityIndicator size="large" color="#0000ff" style={{}} />
           ) : (
             <CustomButton

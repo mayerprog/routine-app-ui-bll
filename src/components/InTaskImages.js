@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   Modal,
   StyleSheet,
@@ -82,39 +83,17 @@ const InTaskImages = ({ images, dispatch }) => {
     >
       {images.length ? (
         images.map((image, index) => (
-          <View
+          <ImageComponent
             key={index}
-            style={{
-              flexDirection: "row",
-              paddingStart: 20,
-            }}
-          >
-            <TouchableOpacity
-              style={{}}
-              onPress={() => handleImagePress(image)}
-            >
-              <Image
-                source={{
-                  uri: baseURL + `/uploads/${image.name}`,
-                }}
-                style={styles.image}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => console.log("click")}
-              hitSlop={7}
-              style={{
-                alignSelf: "center",
-                marginLeft: 15,
-              }}
-            >
-              <MaterialIcons name="cancel" size={23} color="#C73232" />
-            </TouchableOpacity>
-          </View>
+            image={image}
+            baseURL={baseURL}
+            handleImagePress={handleImagePress}
+          />
         ))
       ) : (
         <Text style={styles.nothingAddedText}>{"No media added"}</Text>
       )}
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -160,6 +139,42 @@ const InTaskImages = ({ images, dispatch }) => {
   );
 };
 
+const ImageComponent = ({ image, baseURL, handleImagePress }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  return (
+    <View style={{ flexDirection: "row", paddingStart: 20 }}>
+      <TouchableOpacity
+        style={{ paddingVertical: 5 }}
+        onPress={() => handleImagePress(image)}
+      >
+        {isLoading && (
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            style={styles.activityIndicator}
+          />
+        )}
+        <Image
+          source={{ uri: baseURL + `/uploads/${image.name}` }}
+          style={styles.image}
+          onLoadStart={() => setIsLoading(true)}
+          onLoadEnd={() => setIsLoading(false)}
+        />
+      </TouchableOpacity>
+      {!isLoading ? (
+        <TouchableOpacity
+          onPress={() => console.log("deleted")}
+          hitSlop={7}
+          style={{ alignSelf: "center", marginLeft: 15 }}
+        >
+          <MaterialIcons name="cancel" size={23} color="#C73232" />
+        </TouchableOpacity>
+      ) : null}
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   modalBackground: {
     flex: 1,
@@ -191,6 +206,15 @@ const styles = StyleSheet.create({
   fullImage: {
     width: "90%",
     height: "90%",
+  },
+  activityIndicator: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
