@@ -43,6 +43,7 @@ const AddMediaContainer = ({}) => {
         await ImagePicker.requestMediaLibraryPermissionsAsync();
         result = await ImagePicker.launchImageLibraryAsync(options);
       } else {
+        await ImagePicker.requestCameraPermissionsAsync();
         result = await ImagePicker.launchCameraAsync(options);
       }
 
