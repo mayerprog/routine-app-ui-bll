@@ -20,6 +20,7 @@ import {
 } from "../redux/slices/taskSlice";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as Notifications from "expo-notifications";
+import { Button } from "@react-native-material/core";
 
 // Show notifications when the app is in the foreground
 Notifications.setNotificationHandler({
@@ -68,6 +69,36 @@ const HomeScreen = ({ navigation }) => {
     });
   }, []);
 
+  useEffect(() => {
+    const receivedSubscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log("Notification Received!");
+        console.log(notification);
+      }
+    );
+
+    const responseSubscription =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log("Notification Clicked!");
+        console.log(response.notification.request.content);
+      });
+    return () => {
+      // unsubscribe when component unmounts
+      receivedSubscription.remove();
+      responseSubscription.remove();
+    };
+  }, []);
+
+  const triggerLocalNotificationHandler = () => {
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Local Notification",
+        body: "Hello this is a local notification!",
+      },
+      trigger: { seconds: 1 },
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Header />
@@ -91,6 +122,11 @@ const HomeScreen = ({ navigation }) => {
         >
           <NewTaskScreen setModalVisible={setModalVisible} />
         </Modal>
+
+        <Button
+          title="Trigger Local Notification"
+          onPress={triggerLocalNotificationHandler}
+        />
       </View>
     </SafeAreaView>
   );
