@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Fonts from "../hooks/fonts-hook";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -8,10 +8,68 @@ import NewTaskScreen from "../screens/NewTaskScreen";
 import InTaskScreen from "../screens/InTaskScreen";
 import { useSelector } from "react-redux";
 
-const Stack = createNativeStackNavigator();
+import * as Notifications from "expo-notifications";
+import { useEffect } from "react";
+import Constants from "expo-constants";
 
 const AppStack = () => {
-  const isAuthSelector = useSelector((state) => state.auth.isAuth);
+  const Stack = createNativeStackNavigator();
+
+  // Notifications.setNotificationHandler({
+  //   handleNotification: async () => ({
+  //     shouldShowAlert: true,
+  //     shouldPlaySound: true,
+  //     shouldSetBadge: false,
+  //   }),
+  // });
+
+  useEffect(() => {
+    async function handleNotificationPermissions() {
+      console.log("handle permissions fired");
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      const deviceToken = (
+        await Notifications.getExpoPushTokenAsync({
+          projectId: Constants.expoConfig.slug,
+        })
+      ).data;
+      console.log("deviceToken:", deviceToken);
+    }
+
+    handleNotificationPermissions().catch((error) => {
+      alert(error);
+    });
+  }, []);
+
+  useEffect(() => {
+    const receivedSubscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log("Notification Received!");
+        // console.log(notification);
+      }
+    );
+
+    const responseSubscription =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log("Notification Clicked!");
+        // console.log(response.notification.request.content);
+      });
+    return () => {
+      // unsubscribe when component unmounts
+      receivedSubscription.remove();
+      responseSubscription.remove();
+    };
+  }, []);
 
   if (!Fonts()) {
     return <ActivityIndicator size="large" color="#0000ff" style={{}} />;

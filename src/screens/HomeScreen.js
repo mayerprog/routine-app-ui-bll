@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
+  TextInput,
   View,
 } from "react-native";
 import Header from "../components/Header";
@@ -22,21 +23,14 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as Notifications from "expo-notifications";
 import { Button } from "@react-native-material/core";
 
-// Show notifications when the app is in the foreground
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldShowAlert: true,
-      // shouldPlaySound: false,
-      // shouldSetBadge: false,
-    };
-  },
-});
-
 const HomeScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.task.tasks);
+
+  const [title, setTitle] = useState();
+  const [body, setBody] = useState();
+  const [token, setToken] = useState();
 
   useEffect(() => {
     (async () => {
@@ -49,46 +43,6 @@ const HomeScreen = ({ navigation }) => {
     })();
   }, []);
 
-  useEffect(() => {
-    async function handleNotificationPermissions() {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification!");
-        return;
-      }
-    }
-
-    handleNotificationPermissions().catch((error) => {
-      alert(error);
-    });
-  }, []);
-
-  useEffect(() => {
-    const receivedSubscription = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        console.log("Notification Received!");
-        console.log(notification);
-      }
-    );
-
-    const responseSubscription =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log("Notification Clicked!");
-        console.log(response.notification.request.content);
-      });
-    return () => {
-      // unsubscribe when component unmounts
-      receivedSubscription.remove();
-      responseSubscription.remove();
-    };
-  }, []);
-
   const triggerLocalNotificationHandler = () => {
     Notifications.scheduleNotificationAsync({
       content: {
@@ -97,6 +51,30 @@ const HomeScreen = ({ navigation }) => {
       },
       trigger: { seconds: 1 },
     });
+  };
+
+  const triggerPushNotificationHandler = async () => {
+    console.log("trigger push fired");
+
+    try {
+      const response = await fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Accept-Encoding": "gzip,deflate",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: "ExponentPushToken[j6nAOQE17T_8LpVXvUqY2M]",
+          title,
+          body,
+        }),
+      });
+
+      console.log("POST RESPONSE: " + JSON.stringify(response));
+    } catch (error) {
+      console.log("error in push", error);
+    }
   };
 
   return (
@@ -127,6 +105,28 @@ const HomeScreen = ({ navigation }) => {
           title="Trigger Local Notification"
           onPress={triggerLocalNotificationHandler}
         />
+        <TextInput
+          style={styles.textInput}
+          value={title}
+          placeholder="Title"
+          onChangeText={setTitle}
+        />
+        <TextInput
+          style={styles.textInput}
+          value={body}
+          placeholder="Body"
+          onChangeText={setBody}
+        />
+        {/* <TextInput
+          style={styles.textInput}
+          value={token}
+          placeholder="Token"
+          onChangeText={setToken}
+        /> */}
+        <Button
+          title="Trigger Push Notification"
+          onPress={triggerPushNotificationHandler}
+        />
       </View>
     </SafeAreaView>
   );
@@ -140,6 +140,12 @@ const styles = StyleSheet.create({
   },
   tasksArea: {
     flex: 1,
+  },
+  textInput: {
+    borderBottomWidth: 1,
+    padding: 5,
+    margin: 15,
+    width: "80%",
   },
 });
 
