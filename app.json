@@ -1,10 +1,15 @@
 {
   "expo": {
     "name": "my-app",
-    "slug": "9cd11928-a56a-468b-86c2-2a1629ddd56c",
+    "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "extra": {
+      "eas": {
+        "projectId": "9cd11928-a56a-468b-86c2-2a1629ddd56c"
+      }
+    },
     "splash": {
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"

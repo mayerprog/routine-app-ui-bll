@@ -6,22 +6,21 @@ import { ActivityIndicator, Text } from "react-native";
 import TabNavigator from "./TabNavigator";
 import NewTaskScreen from "../screens/NewTaskScreen";
 import InTaskScreen from "../screens/InTaskScreen";
-import { useSelector } from "react-redux";
 
 import * as Notifications from "expo-notifications";
 import { useEffect } from "react";
 import Constants from "expo-constants";
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+
 const AppStack = () => {
   const Stack = createNativeStackNavigator();
-
-  // Notifications.setNotificationHandler({
-  //   handleNotification: async () => ({
-  //     shouldShowAlert: true,
-  //     shouldPlaySound: true,
-  //     shouldSetBadge: false,
-  //   }),
-  // });
 
   useEffect(() => {
     async function handleNotificationPermissions() {
@@ -40,7 +39,7 @@ const AppStack = () => {
       }
       const deviceToken = (
         await Notifications.getExpoPushTokenAsync({
-          projectId: Constants.expoConfig.slug,
+          projectId: Constants.expoConfig.extra.eas.projectId,
         })
       ).data;
       console.log("deviceToken:", deviceToken);
