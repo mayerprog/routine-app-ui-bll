@@ -10,6 +10,7 @@ import InTaskScreen from "../screens/InTaskScreen";
 import * as Notifications from "expo-notifications";
 import { useEffect } from "react";
 import Constants from "expo-constants";
+import { authAPI } from "../api/usersAPI";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -42,6 +43,12 @@ const AppStack = () => {
           projectId: Constants.expoConfig.extra.eas.projectId,
         })
       ).data;
+      try {
+        await authAPI.updateToken(deviceToken);
+      } catch (err) {
+        console.log(err);
+      }
+
       console.log("deviceToken:", deviceToken);
     }
 

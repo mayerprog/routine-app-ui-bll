@@ -8,6 +8,12 @@ const instance = axios.create({
   withCredentials: true,
 });
 
+// const configHeaders = {
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// };
+
 export const authAPI = {
   async login(username, password) {
     try {
@@ -47,6 +53,16 @@ export const authAPI = {
       return response.data;
     } catch (err) {
       console.log("register error", err);
+    }
+  },
+  async updateToken(expoPushToken) {
+    try {
+      const response = await instance.post(`/updateToken`, {
+        expoPushToken,
+      });
+      return response.data;
+    } catch (err) {
+      console.log("update token error", err);
     }
   },
 };
