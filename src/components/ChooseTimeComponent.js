@@ -12,8 +12,7 @@ const ChooseTimeComponent = ({
     { label: "Every day", value: "everyday" },
     { label: "Every weekday", value: "everyweekday" },
     { label: "Every weekend", value: "everyweekend" },
-    { label: "Once", value: "once" },
-    { label: "Other", value: "other" },
+    // { label: "Other", value: "other" },
   ]);
   const [open, setOpen] = useState(false);
 

@@ -63,7 +63,7 @@ const InTaskScreen = ({ route, navigation }) => {
     updatedTask.title = title;
     updatedTask.description = description;
     updatedTask.links = links;
-    updatedTask.date = selectedDate;
+    updatedTask.notificationDate = selectedDate;
     console.log("updatedtask", updatedTask);
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask);
@@ -126,7 +126,7 @@ const InTaskScreen = ({ route, navigation }) => {
             <ChooseTimeComponent
               setSelectedDate={setSelectedDate}
               dropDownDirection="BOTTOM"
-              placeholderValue={task.date}
+              placeholderValue={task.notificationDate}
             />
           </View>
         </View>

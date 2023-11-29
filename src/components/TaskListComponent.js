@@ -185,7 +185,7 @@ const TaskListItem = ({
             </Text>
             <View style={styles.shadowedUnderline} />
 
-            <Text style={styles.text}>{task.date}</Text>
+            <Text style={styles.text}>{task.notificationDate}</Text>
           </Animated.View>
         </PanGestureHandler>
       </Animated.View>

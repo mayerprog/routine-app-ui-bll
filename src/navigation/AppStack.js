@@ -48,8 +48,6 @@ const AppStack = () => {
       } catch (err) {
         console.log(err);
       }
-
-      console.log("deviceToken:", deviceToken);
     }
 
     handleNotificationPermissions().catch((error) => {
