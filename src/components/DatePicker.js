@@ -23,6 +23,8 @@ const DatePicker = ({
   iconColor,
   mode,
   cancelButtonColor,
+  maximumDate,
+  minimumDate,
 }) => {
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
@@ -66,8 +68,8 @@ const DatePicker = ({
             mode={mode}
             display={displayType}
             onChange={onChange}
-            maximumDate={new Date("2023-1-1")}
-            minimumDate={new Date("1930-1-1")}
+            maximumDate={maximumDate}
+            minimumDate={minimumDate}
             style={[styles.datePicker, { height: datePickerHeight }]}
           />
         )}

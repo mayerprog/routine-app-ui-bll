@@ -39,6 +39,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
   const images = useSelector((state) => state.task.images);
   const birthdate = useSelector((state) => state.auth.birthdate);
 
+  const currentTime = new Date();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -138,6 +140,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
               iconColor="white"
               mode="datetime"
               cancelButtonColor="#DAD9D9"
+              maximumDate={null}
+              minimumDate={currentTime}
             />
             <ChooseTimeComponent
               setSelectedDate={setSelectedDate}

@@ -109,6 +109,8 @@ const RegisterScreen = ({ navigation }) => {
             iconColor="grey"
             mode="date"
             cancelButtonColor="#11182711"
+            maximumDate={new Date("2023-1-1")}
+            minimumDate={new Date("1930-1-1")}
           />
 
           {loading ? (
