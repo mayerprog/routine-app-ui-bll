@@ -30,6 +30,7 @@ import { removeBirthDate } from "../redux/slices/authSlice";
 const NewTaskScreen = ({ setModalVisible }) => {
   const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
+  const [taskDate, setTaskDate] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [linkData, setLinkData] = useState("");
@@ -37,7 +38,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
 
   const links = useSelector((state) => state.task.links);
   const images = useSelector((state) => state.task.images);
-  const birthdate = useSelector((state) => state.auth.birthdate);
 
   const currentTime = new Date();
 
@@ -131,8 +131,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
             <Text style={styles.text}>When?</Text>
 
             <DatePicker
-              valueDate={birthdate}
-              dateAction={(date) => dispatch(setBirthDate(date))}
+              valueDate={taskDate}
+              dateAction={setTaskDate}
               displayType="inline"
               dateInputStyle={styles.dateInputStyle}
               placeholderTextColor="white"

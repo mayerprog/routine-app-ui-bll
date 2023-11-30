@@ -49,7 +49,10 @@ const DatePicker = ({
   };
 
   const confirmIOSDate = () => {
-    const resDate = moment(date).format("YYYY-MM-DD");
+    let resDate;
+    if (mode === "datetime") resDate = moment(date).format("YYYY-MM-DD HH:mm");
+    else resDate = moment(date).format("YYYY-MM-DD");
+
     dateAction(resDate);
     toggleDatePicker();
   };
