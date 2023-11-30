@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const ChooseTimeComponent = ({
   setSelectedDate,
@@ -12,7 +13,7 @@ const ChooseTimeComponent = ({
     { label: "Every day", value: "everyday" },
     { label: "Every weekday", value: "everyweekday" },
     { label: "Every weekend", value: "everyweekend" },
-    // { label: "Other", value: "other" },
+    { label: "Once", value: "once" },
   ]);
   const [open, setOpen] = useState(false);
 

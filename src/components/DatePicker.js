@@ -12,7 +12,18 @@ import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment/moment";
 
-const DatePicker = ({ valueDate, dateAction }) => {
+const DatePicker = ({
+  valueDate,
+  dateAction,
+  displayType,
+  datePickerHeight,
+  dateInputStyle,
+  placeholderTextColor,
+  placeholder,
+  iconColor,
+  mode,
+  cancelButtonColor,
+}) => {
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
 
@@ -29,9 +40,10 @@ const DatePicker = ({ valueDate, dateAction }) => {
         toggleDatePicker();
         dateAction(currentDate.toDateString());
       }
-    } else {
-      toggleDatePicker();
     }
+    // else {
+    //   toggleDatePicker();
+    // }
   };
 
   const confirmIOSDate = () => {
@@ -41,40 +53,40 @@ const DatePicker = ({ valueDate, dateAction }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <MaterialIcons name="date-range" size={17} style={styles.iconStyle} />
+    <View style={[styles.container, dateInputStyle]}>
+      <MaterialIcons
+        name="date-range"
+        size={17}
+        style={[styles.iconStyle, { color: iconColor }]}
+      />
       <View>
         {showPicker && (
           <DateTimePicker
             value={date}
-            mode="date"
-            display="spinner"
+            mode={mode}
+            display={displayType}
             onChange={onChange}
             maximumDate={new Date("2023-1-1")}
             minimumDate={new Date("1930-1-1")}
-            style={styles.datePicker}
+            style={[styles.datePicker, { height: datePickerHeight }]}
           />
         )}
         {showPicker && Platform.OS === "ios" && (
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              paddingTop: 15,
+            }}
           >
             <TouchableOpacity
-              style={[
-                styles.button,
-                styles.pickerButton,
-                { backgroundColor: "#11182711" },
-              ]}
+              style={[styles.button, { backgroundColor: cancelButtonColor }]}
               onPress={toggleDatePicker}
             >
               <Text style={styles.buttonText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[
-                styles.button,
-                styles.pickerButton,
-                { backgroundColor: "#21A098" },
-              ]}
+              style={[styles.button, { backgroundColor: "#21A098" }]}
               onPress={confirmIOSDate}
             >
               <Text style={(styles.buttonText, { color: "white" })}>
@@ -86,10 +98,13 @@ const DatePicker = ({ valueDate, dateAction }) => {
         {!showPicker && (
           <Pressable onPress={toggleDatePicker}>
             <TextInput
-              placeholder="Date of birth"
+              placeholder={placeholder}
               value={valueDate}
               editable={false}
               onPressIn={toggleDatePicker}
+              placeholderTextColor={
+                placeholderTextColor ? placeholderTextColor : null
+              }
               style={{ marginTop: 6 }}
             />
           </Pressable>
@@ -111,7 +126,6 @@ const styles = StyleSheet.create({
     marginRight: 5,
     paddingTop: 6,
     paddingBottom: 3,
-    color: "grey",
     marginBottom: 2,
   },
   input: {
@@ -120,7 +134,6 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   datePicker: {
-    height: 150,
     marginTop: -10,
   },
   button: {
@@ -129,8 +142,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 15,
     borderRadius: 50,
-  },
-  pickerButton: {
     paddingHorizontal: 20,
   },
   buttonText: {

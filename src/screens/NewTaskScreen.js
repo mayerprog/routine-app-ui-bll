@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -23,6 +24,8 @@ import { setTasks } from "../redux/slices/taskSlice";
 
 import { useEffect, useState } from "react";
 import TaskAttachments from "../components/TaskAttachments";
+import DatePicker from "../components/DatePicker";
+import { removeBirthDate } from "../redux/slices/authSlice";
 
 const NewTaskScreen = ({ setModalVisible }) => {
   const [loading, setLoading] = useState(false);
@@ -34,11 +37,13 @@ const NewTaskScreen = ({ setModalVisible }) => {
 
   const links = useSelector((state) => state.task.links);
   const images = useSelector((state) => state.task.images);
+  const birthdate = useSelector((state) => state.auth.birthdate);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(removeAllLinks());
+    dispatch(removeBirthDate());
     dispatch(removeAllImages());
   }, []);
 
@@ -122,10 +127,22 @@ const NewTaskScreen = ({ setModalVisible }) => {
 
           <>
             <Text style={styles.text}>When?</Text>
+
+            <DatePicker
+              valueDate={birthdate}
+              dateAction={(date) => dispatch(setBirthDate(date))}
+              displayType="inline"
+              dateInputStyle={styles.dateInputStyle}
+              placeholderTextColor="white"
+              placeholder="Choose date"
+              iconColor="white"
+              mode="datetime"
+              cancelButtonColor="#DAD9D9"
+            />
             <ChooseTimeComponent
               setSelectedDate={setSelectedDate}
               dropDownDirection="BOTTOM"
-              placeholderValue="Choose the time"
+              placeholderValue="Repeat"
             />
           </>
 
@@ -260,6 +277,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 4,
     backgroundColor: "#0447B3",
+  },
+  dateInputStyle: {
+    marginTop: 15,
+    marginBottom: 15,
+    width: 380,
+    paddingLeft: 15,
+    margin: 10,
   },
 });
 

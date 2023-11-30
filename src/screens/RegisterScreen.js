@@ -103,6 +103,12 @@ const RegisterScreen = ({ navigation }) => {
           <DatePicker
             valueDate={birthdate}
             dateAction={(date) => dispatch(setBirthDate(date))}
+            displayType="spinner"
+            datePickerHeight={150}
+            placeholder="Date of birth"
+            iconColor="grey"
+            mode="date"
+            cancelButtonColor="#11182711"
           />
 
           {loading ? (

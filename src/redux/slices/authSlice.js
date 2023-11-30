@@ -24,10 +24,18 @@ export const authSlice = createSlice({
     setBirthDate: (state, action) => {
       state.birthdate = action.payload;
     },
+    removeBirthDate: (state, action) => {
+      state.birthdate = null;
+    },
   },
 });
 
-export const { setIsAuth, setBirthDate, setEmail, setFullName } =
-  authSlice.actions;
+export const {
+  setIsAuth,
+  setBirthDate,
+  setEmail,
+  setFullName,
+  removeBirthDate,
+} = authSlice.actions;
 
 export default authSlice.reducer;
