@@ -146,7 +146,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
             <ChooseTimeComponent
               setSelectedDate={setSelectedDate}
               dropDownDirection="BOTTOM"
-              placeholderValue="Repeat"
+              placeholderValue="Repeat..."
             />
           </>
 
