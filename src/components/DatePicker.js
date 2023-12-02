@@ -50,8 +50,9 @@ const DatePicker = ({
 
   const confirmIOSDate = () => {
     let resDate;
-    if (mode === "datetime") resDate = moment(date).format("YYYY-MM-DD HH:mm");
+    if (mode === "datetime") resDate = moment(date).format("YYYY-MM-DDTHH:mm");
     else resDate = moment(date).format("YYYY-MM-DD");
+    console.log(resDate);
 
     dateAction(resDate);
     toggleDatePicker();

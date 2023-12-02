@@ -18,11 +18,24 @@ const configHeaders = {
 };
 
 export const tasksAPI = {
-  async createTask(title, description, selectedDate, links, formData) {
+  async createTask(
+    title,
+    description,
+    selectedDate,
+    timeZone,
+    links,
+    formData
+  ) {
     try {
       formData.append("title", title);
       formData.append("description", description);
-      formData.append("date", selectedDate);
+      formData.append(
+        "date",
+        JSON.stringify({
+          date: selectedDate,
+          timeZone: timeZone,
+        })
+      );
       formData.append("links", JSON.stringify(links));
 
       const response = await instance.post(

@@ -29,12 +29,12 @@ import { removeBirthDate } from "../redux/slices/authSlice";
 
 const NewTaskScreen = ({ setModalVisible }) => {
   const [loading, setLoading] = useState(false);
-  const [selectedDate, setSelectedDate] = useState("");
-  const [taskDate, setTaskDate] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [linkData, setLinkData] = useState("");
   const [linkName, setLinkName] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [taskDate, setTaskDate] = useState("");
 
   const links = useSelector((state) => state.task.links);
   const images = useSelector((state) => state.task.images);
@@ -42,6 +42,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
   const currentTime = new Date();
 
   const dispatch = useDispatch();
+
+  const formattedDate = taskDate.replace("T", " ");
 
   useEffect(() => {
     dispatch(removeAllLinks());
@@ -68,17 +70,19 @@ const NewTaskScreen = ({ setModalVisible }) => {
 
   async function createTask() {
     const formData = await postImage();
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     console.log("formData", formData);
     if (title === "") alert("Please add title");
     else if (description === "") alert("Please add description");
-    else if (selectedDate === "") alert("Please choose date");
+    else if (taskDate === "") alert("Please choose date");
     else {
       setLoading(true);
       const newSavedTask = await tasksAPI.createTask(
         title,
         description,
-        selectedDate,
+        taskDate,
+        timeZone,
         links,
         formData
       );
@@ -131,7 +135,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
             <Text style={styles.text}>When?</Text>
 
             <DatePicker
-              valueDate={taskDate}
+              valueDate={formattedDate}
               dateAction={setTaskDate}
               displayType="inline"
               dateInputStyle={styles.dateInputStyle}
