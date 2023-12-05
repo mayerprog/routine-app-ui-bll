@@ -85,7 +85,9 @@ const TaskListItem = ({
   const TRANSLATE_X_THRESHOLD = -SCREEN_WIDTH * 0.3;
   const SCROLLING_THRESHOLD = SCREEN_WIDTH * 0.01;
 
-  const dateTaskList = task.specificDate.replace("T", " ").slice(0, 16);
+  const dateTaskList = new Date(task.specificDate)
+    .toLocaleString()
+    .slice(0, 17);
 
   const handleRemoveTask = async () => {
     await tasksAPI.deleteOne(task._id);
