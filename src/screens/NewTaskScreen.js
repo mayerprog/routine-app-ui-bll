@@ -35,6 +35,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
   const [linkName, setLinkName] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [taskDate, setTaskDate] = useState("");
+  const [dateForDisplay, setDateForDisplay] = useState();
 
   const links = useSelector((state) => state.task.links);
   const images = useSelector((state) => state.task.images);
@@ -42,8 +43,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
   const currentTime = new Date();
 
   const dispatch = useDispatch();
-
-  const formattedDate = taskDate.replace("T", " ");
 
   useEffect(() => {
     dispatch(removeAllLinks());
@@ -135,7 +134,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
             <Text style={styles.text}>When?</Text>
 
             <DatePicker
-              valueDate={formattedDate}
+              valueDate={dateForDisplay}
               dateAction={setTaskDate}
               displayType="inline"
               dateInputStyle={styles.dateInputStyle}
@@ -146,6 +145,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
               cancelButtonColor="#DAD9D9"
               maximumDate={null}
               minimumDate={currentTime}
+              setDateForDisplay={setDateForDisplay}
             />
             <ChooseTimeComponent
               setSelectedDate={setSelectedDate}

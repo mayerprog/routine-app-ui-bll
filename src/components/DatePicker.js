@@ -25,6 +25,7 @@ const DatePicker = ({
   cancelButtonColor,
   maximumDate,
   minimumDate,
+  setDateForDisplay,
 }) => {
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
@@ -37,7 +38,6 @@ const DatePicker = ({
     if (type === "set") {
       const currentDate = selectedDate;
       setDate(currentDate);
-
       if (Platform.OS === "android") {
         toggleDatePicker();
         dateAction(currentDate.toDateString());
@@ -52,7 +52,7 @@ const DatePicker = ({
     let resDate;
     if (mode === "datetime") resDate = moment(date).format("YYYY-MM-DDTHH:mm");
     else resDate = moment(date).format("YYYY-MM-DD");
-    console.log(resDate);
+    setDateForDisplay(new Date(date).toLocaleString().slice(0, 17));
 
     dateAction(resDate);
     toggleDatePicker();

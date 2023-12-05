@@ -34,6 +34,7 @@ const InTaskScreen = ({ route, navigation }) => {
   const [description, setDescription] = useState(task.description);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [taskDate, setTaskDate] = useState("");
+  const [dateForDisplay, setDateForDisplay] = useState();
 
   const dispatch = useDispatch();
   const links = useSelector((state) => state.task.links);
@@ -41,10 +42,8 @@ const InTaskScreen = ({ route, navigation }) => {
   const [selectedDate, setSelectedDate] = useState(task.date);
 
   let updatedTask = { ...task, links: [...task.links] }; //deep copy
-  // const formattedDate = taskDate.replace("T", " ");
-  // const formattedDate = new Date(taskDate).slice(0, 17);
+
   const currentTime = new Date();
-  const formattedDate = new Date(taskDate);
   const dateInTask = new Date(task.specificDate).toLocaleString().slice(0, 17);
 
   useEffect(() => {
@@ -131,7 +130,7 @@ const InTaskScreen = ({ route, navigation }) => {
           <View style={styles.shadowedUnderline} />
           <View>
             <DatePicker
-              valueDate={formattedDate}
+              valueDate={dateForDisplay}
               dateAction={setTaskDate}
               displayType="inline"
               dateInputStyle={styles.dateInputStyle}
@@ -142,6 +141,7 @@ const InTaskScreen = ({ route, navigation }) => {
               cancelButtonColor="#DAD9D9"
               maximumDate={null}
               minimumDate={currentTime}
+              setDateForDisplay={setDateForDisplay}
             />
           </View>
           <View style={{ marginTop: 15 }}>
