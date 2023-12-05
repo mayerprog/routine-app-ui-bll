@@ -26,12 +26,14 @@ import ModalAddLinks from "../components/ModalAddLinks";
 import InTaskLinks from "../components/InTaskLinks";
 import InTaskImages from "../components/InTaskImages";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import DatePicker from "../components/DatePicker";
 
 const InTaskScreen = ({ route, navigation }) => {
   const { task } = route.params;
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [taskDate, setTaskDate] = useState("");
 
   const dispatch = useDispatch();
   const links = useSelector((state) => state.task.links);
@@ -39,6 +41,9 @@ const InTaskScreen = ({ route, navigation }) => {
   const [selectedDate, setSelectedDate] = useState(task.date);
 
   let updatedTask = { ...task, links: [...task.links] }; //deep copy
+  const formattedDate = taskDate.replace("T", " ");
+  const currentTime = new Date();
+  let dateInTask = task.specificDate.replace("T", " ").slice(0, 16);
 
   useEffect(() => {
     dispatch(addInTaskLinks(task.links));
@@ -122,11 +127,26 @@ const InTaskScreen = ({ route, navigation }) => {
         <View style={[styles.contentContainer, { zIndex: 1000 }]}>
           <Text style={styles.labelText}>When?</Text>
           <View style={styles.shadowedUnderline} />
+          <View>
+            <DatePicker
+              valueDate={formattedDate}
+              dateAction={setTaskDate}
+              displayType="inline"
+              dateInputStyle={styles.dateInputStyle}
+              placeholderTextColor="black"
+              placeholder={dateInTask}
+              iconColor="white"
+              mode="datetime"
+              cancelButtonColor="#DAD9D9"
+              maximumDate={null}
+              minimumDate={currentTime}
+            />
+          </View>
           <View style={{ marginTop: 15 }}>
             <ChooseTimeComponent
               setSelectedDate={setSelectedDate}
               dropDownDirection="BOTTOM"
-              placeholderValue={task.notificationDate}
+              placeholderValue="Repeat..."
             />
           </View>
         </View>
@@ -222,6 +242,14 @@ const styles = StyleSheet.create({
   textInputStyle: {
     borderRadius: 30,
     width: 200,
+  },
+  dateInputStyle: {
+    alignSelf: "center",
+    marginTop: 25,
+    marginBottom: 15,
+    width: 380,
+    borderColor: "black",
+    backgroundColor: "white",
   },
 });
 
