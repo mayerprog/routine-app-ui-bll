@@ -43,7 +43,7 @@ const InTaskScreen = ({ route, navigation }) => {
   let updatedTask = { ...task, links: [...task.links] }; //deep copy
   const formattedDate = taskDate.replace("T", " ");
   const currentTime = new Date();
-  let dateInTask = task.specificDate.replace("T", " ").slice(0, 16);
+  const dateInTask = task.specificDate.replace("T", " ").slice(0, 16);
 
   useEffect(() => {
     dispatch(addInTaskLinks(task.links));

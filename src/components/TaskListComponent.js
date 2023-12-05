@@ -85,6 +85,8 @@ const TaskListItem = ({
   const TRANSLATE_X_THRESHOLD = -SCREEN_WIDTH * 0.3;
   const SCROLLING_THRESHOLD = SCREEN_WIDTH * 0.01;
 
+  const dateInTaskList = task.specificDate.replace("T", " ").slice(0, 16);
+
   const handleRemoveTask = async () => {
     await tasksAPI.deleteOne(task._id);
     dispatch(removeTasks(task._id));
@@ -185,7 +187,7 @@ const TaskListItem = ({
             </Text>
             <View style={styles.shadowedUnderline} />
 
-            <Text style={styles.text}>{task.notificationDate}</Text>
+            <Text style={styles.text}>{dateInTaskList}</Text>
           </Animated.View>
         </PanGestureHandler>
       </Animated.View>
