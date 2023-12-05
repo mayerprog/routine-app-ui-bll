@@ -41,8 +41,10 @@ const InTaskScreen = ({ route, navigation }) => {
   const [selectedDate, setSelectedDate] = useState(task.date);
 
   let updatedTask = { ...task, links: [...task.links] }; //deep copy
-  const formattedDate = taskDate.replace("T", " ");
+  // const formattedDate = taskDate.replace("T", " ");
+  // const formattedDate = new Date(taskDate).slice(0, 17);
   const currentTime = new Date();
+  const formattedDate = new Date(taskDate);
   const dateInTask = new Date(task.specificDate).toLocaleString().slice(0, 17);
 
   useEffect(() => {
