@@ -34,6 +34,7 @@ const RegisterScreen = ({ navigation }) => {
   const fullname = useSelector((state) => state.auth.fullname);
   const birthdate = useSelector((state) => state.auth.birthdate);
   const dispatch = useDispatch();
+  const [dateForDisplay, setDateForDisplay] = useState();
 
   const [password, setPassword] = useState("");
 
@@ -101,7 +102,7 @@ const RegisterScreen = ({ navigation }) => {
             actionOnChange={(userPassword) => setPassword(userPassword)}
           />
           <DatePicker
-            valueDate={birthdate}
+            valueDate={dateForDisplay}
             dateAction={(date) => dispatch(setBirthDate(date))}
             displayType="spinner"
             datePickerHeight={150}
@@ -111,6 +112,7 @@ const RegisterScreen = ({ navigation }) => {
             cancelButtonColor="#11182711"
             maximumDate={new Date("2023-1-1")}
             minimumDate={new Date("1930-1-1")}
+            setDateForDisplay={setDateForDisplay}
           />
 
           {loading ? (

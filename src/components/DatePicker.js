@@ -50,9 +50,13 @@ const DatePicker = ({
 
   const confirmIOSDate = () => {
     let resDate;
-    if (mode === "datetime") resDate = moment(date).format("YYYY-MM-DDTHH:mm");
-    else resDate = moment(date).format("YYYY-MM-DD");
-    setDateForDisplay(new Date(date).toLocaleString().slice(0, 17));
+    if (mode === "datetime") {
+      resDate = moment(date).format("YYYY-MM-DDTHH:mm");
+      setDateForDisplay(new Date(date).toLocaleString().slice(0, 17));
+    } else {
+      resDate = moment(date).format("YYYY-MM-DD");
+      setDateForDisplay(new Date(date).toLocaleString().slice(0, 10));
+    }
 
     dateAction(resDate);
     toggleDatePicker();

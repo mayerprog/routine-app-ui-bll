@@ -53,8 +53,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
   const postImage = async () => {
     const formData = new FormData();
 
-    console.log("Images", images);
-
     images.forEach((image) => {
       const fileName = image.split("/").pop();
       const fileType = fileName.split(".").pop();
@@ -64,6 +62,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
         type: `image/${fileType}`,
       });
     });
+    console.log("formData", formData._parts);
+
     return formData;
   };
 
