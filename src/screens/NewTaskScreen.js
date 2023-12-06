@@ -35,7 +35,7 @@ const NewTaskScreen = ({ setModalVisible }) => {
   const [linkName, setLinkName] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [taskDate, setTaskDate] = useState("");
-  const [dateForDisplay, setDateForDisplay] = useState();
+  const [dateForDisplay, setDateForDisplay] = useState("");
 
   const links = useSelector((state) => state.task.links);
   const images = useSelector((state) => state.task.images);
@@ -62,7 +62,6 @@ const NewTaskScreen = ({ setModalVisible }) => {
         type: `image/${fileType}`,
       });
     });
-    console.log("formData", formData._parts);
 
     return formData;
   };
