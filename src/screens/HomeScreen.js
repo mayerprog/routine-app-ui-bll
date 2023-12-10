@@ -43,39 +43,39 @@ const HomeScreen = ({ navigation }) => {
     })();
   }, []);
 
-  const triggerLocalNotificationHandler = () => {
-    Notifications.scheduleNotificationAsync({
-      content: {
-        title: "Local Notification",
-        body: "Hello this is a local notification!",
-      },
-      trigger: { seconds: 1 },
-    });
-  };
+  // const triggerLocalNotificationHandler = () => {
+  //   Notifications.scheduleNotificationAsync({
+  //     content: {
+  //       title: "Local Notification",
+  //       body: "Hello this is a local notification!",
+  //     },
+  //     trigger: { seconds: 1 },
+  //   });
+  // };
 
-  const triggerPushNotificationHandler = async () => {
-    console.log("trigger push fired");
+  // const triggerPushNotificationHandler = async () => {
+  //   console.log("trigger push fired");
 
-    try {
-      const response = await fetch("https://exp.host/--/api/v2/push/send", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Accept-Encoding": "gzip,deflate",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          to: "ExponentPushToken[j6nAOQE17T_8LpVXvUqY2M]",
-          title,
-          body,
-        }),
-      });
+  //   try {
+  //     const response = await fetch("https://exp.host/--/api/v2/push/send", {
+  //       method: "POST",
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Accept-Encoding": "gzip,deflate",
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         to: "ExponentPushToken[j6nAOQE17T_8LpVXvUqY2M]",
+  //         title,
+  //         body,
+  //       }),
+  //     });
 
-      console.log("POST RESPONSE: " + JSON.stringify(response));
-    } catch (error) {
-      console.log("error in push", error);
-    }
-  };
+  //     console.log("POST RESPONSE: " + JSON.stringify(response));
+  //   } catch (error) {
+  //     console.log("error in push", error);
+  //   }
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -101,7 +101,7 @@ const HomeScreen = ({ navigation }) => {
           <NewTaskScreen setModalVisible={setModalVisible} />
         </Modal>
 
-        <Button
+        {/* <Button
           title="Trigger Local Notification"
           onPress={triggerLocalNotificationHandler}
         />
@@ -117,16 +117,10 @@ const HomeScreen = ({ navigation }) => {
           placeholder="Body"
           onChangeText={setBody}
         />
-        {/* <TextInput
-          style={styles.textInput}
-          value={token}
-          placeholder="Token"
-          onChangeText={setToken}
-        /> */}
         <Button
           title="Trigger Push Notification"
           onPress={triggerPushNotificationHandler}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );

@@ -11,6 +11,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { addInTaskLinks, addInTaskImages } from "../redux/slices/taskSlice";
@@ -77,112 +78,128 @@ const InTaskScreen = ({ route, navigation }) => {
     setButtonLoading(false);
   };
 
+  const [open, setOpen] = useState(false);
+
+  const handleOutsidePress = () => {
+    Keyboard.dismiss();
+    setOpen(false);
+  };
+
   return (
-    <SafeAreaView style={styles.container} edges={["top", "right", "left"]}>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingBottom: 70,
-        }}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View>
-          <TextInput
-            style={[
-              styles.textStyle,
-              { fontFamily: "Roboto-Medium", fontSize: 24 },
-            ]}
-            placeholder="Title"
-            defaultValue={title}
-            onChangeText={(taskTitle) => setTitle(taskTitle)}
-          />
-
-          <TextInput
-            style={[styles.textStyle, { paddingHorizontal: 12 }]}
-            multiline={true}
-            maxLength={2000}
-            placeholder="Description"
-            defaultValue={description}
-            onChangeText={(taskDescription) => setDescription(taskDescription)}
-          />
-        </View>
-
-        <View style={styles.contentContainer}>
-          <Text style={styles.labelText}>Links</Text>
-          <View style={styles.shadowedUnderline} />
-          <InTaskLinks
-            checkIfURLCanBeOpened={checkIfURLCanBeOpened}
-            dispatch={dispatch}
-            links={links}
-          />
-        </View>
-
-        <View style={styles.contentContainer}>
-          <Text style={styles.labelText}>Media</Text>
-          <View style={styles.shadowedUnderline} />
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <InTaskImages dispatch={dispatch} images={images} />
-          </GestureHandlerRootView>
-        </View>
-
-        <View style={[styles.contentContainer, { zIndex: 1000 }]}>
-          <Text style={styles.labelText}>When?</Text>
-          <View style={styles.shadowedUnderline} />
-          <View>
-            <DatePicker
-              valueDate={dateForDisplay}
-              dateAction={setTaskDate}
-              displayType="inline"
-              dateInputStyle={styles.dateInputStyle}
-              placeholderTextColor="black"
-              placeholder={dateInTask}
-              iconColor="white"
-              mode="datetime"
-              cancelButtonColor="#DAD9D9"
-              maximumDate={null}
-              minimumDate={currentTime}
-              setDateForDisplay={setDateForDisplay}
-            />
-          </View>
-          <View style={{ marginTop: 15 }}>
-            <ChooseTimeComponent
-              setSelectedDate={setSelectedDate}
-              dropDownDirection="BOTTOM"
-              placeholderValue="Repeat..."
-            />
-          </View>
-        </View>
-
-        <View
-          style={{
+    <TouchableWithoutFeedback onPress={handleOutsidePress}>
+      <SafeAreaView style={styles.container} edges={["top", "right", "left"]}>
+        <ScrollView
+          contentContainerStyle={{
             flexGrow: 1,
-            flexDirection: "row",
-            justifyContent: "space-around",
-            paddingTop: 25,
-            paddingBottom: 10,
+            paddingBottom: 70,
           }}
+          keyboardShouldPersistTaps="handled"
         >
-          <CustomButton
-            label="Cancel"
-            buttonStyle={styles.buttonStyle}
-            textButtonStyle={styles.textButtonStyle}
-            action={() => navigation.goBack()}
-            underlayColor="#5884CD"
-          />
-          {buttonLoading ? (
-            <ActivityIndicator size="large" color="#0000ff" style={{}} />
-          ) : (
-            <CustomButton
-              label="Save"
-              buttonStyle={[styles.buttonStyle, { backgroundColor: "#D1E0F9" }]}
-              textButtonStyle={[styles.textButtonStyle, { color: "#5884CD" }]}
-              underlayColor="#002594"
-              action={updateTask}
+          <View>
+            <TextInput
+              style={[
+                styles.textStyle,
+                { fontFamily: "Roboto-Medium", fontSize: 24 },
+              ]}
+              placeholder="Title"
+              defaultValue={title}
+              onChangeText={(taskTitle) => setTitle(taskTitle)}
             />
-          )}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+
+            <TextInput
+              style={[styles.textStyle, { paddingHorizontal: 12 }]}
+              multiline={true}
+              maxLength={2000}
+              placeholder="Description"
+              defaultValue={description}
+              onChangeText={(taskDescription) =>
+                setDescription(taskDescription)
+              }
+            />
+          </View>
+
+          <View style={styles.contentContainer}>
+            <Text style={styles.labelText}>Links</Text>
+            <View style={styles.shadowedUnderline} />
+            <InTaskLinks
+              checkIfURLCanBeOpened={checkIfURLCanBeOpened}
+              dispatch={dispatch}
+              links={links}
+            />
+          </View>
+
+          <View style={styles.contentContainer}>
+            <Text style={styles.labelText}>Media</Text>
+            <View style={styles.shadowedUnderline} />
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <InTaskImages dispatch={dispatch} images={images} />
+            </GestureHandlerRootView>
+          </View>
+
+          <View style={[styles.contentContainer, { zIndex: 1000 }]}>
+            <Text style={styles.labelText}>When?</Text>
+            <View style={styles.shadowedUnderline} />
+            <View>
+              <DatePicker
+                valueDate={dateForDisplay}
+                dateAction={setTaskDate}
+                displayType="inline"
+                dateInputStyle={styles.dateInputStyle}
+                placeholderTextColor="black"
+                placeholder={dateInTask}
+                iconColor="white"
+                mode="datetime"
+                cancelButtonColor="#DAD9D9"
+                maximumDate={null}
+                minimumDate={currentTime}
+                setDateForDisplay={setDateForDisplay}
+              />
+            </View>
+            <View style={{ marginTop: 15 }}>
+              <ChooseTimeComponent
+                setSelectedDate={setSelectedDate}
+                dropDownDirection="BOTTOM"
+                placeholderValue="Repeat..."
+                setOpen={setOpen}
+                open={open}
+              />
+            </View>
+          </View>
+
+          <View
+            style={{
+              flexGrow: 1,
+              flexDirection: "row",
+              justifyContent: "space-around",
+              paddingTop: 25,
+              paddingBottom: 10,
+            }}
+          >
+            <CustomButton
+              label="Cancel"
+              buttonStyle={styles.buttonStyle}
+              textButtonStyle={styles.textButtonStyle}
+              action={() => navigation.goBack()}
+              underlayColor="#5884CD"
+            />
+            {buttonLoading ? (
+              <ActivityIndicator size="large" color="#0000ff" style={{}} />
+            ) : (
+              <CustomButton
+                label="Save"
+                buttonStyle={[
+                  styles.buttonStyle,
+                  { backgroundColor: "#D1E0F9" },
+                ]}
+                textButtonStyle={[styles.textButtonStyle, { color: "#5884CD" }]}
+                underlayColor="#002594"
+                action={updateTask}
+              />
+            )}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
