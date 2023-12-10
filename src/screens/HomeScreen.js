@@ -1,10 +1,12 @@
 import {
+  Keyboard,
   Modal,
   Platform,
   SafeAreaView,
   StatusBar,
   StyleSheet,
   TextInput,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import Header from "../components/Header";
@@ -28,10 +30,6 @@ const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.task.tasks);
 
-  const [title, setTitle] = useState();
-  const [body, setBody] = useState();
-  const [token, setToken] = useState();
-
   useEffect(() => {
     (async () => {
       try {
@@ -42,6 +40,9 @@ const HomeScreen = ({ navigation }) => {
       }
     })();
   }, []);
+  // const [title, setTitle] = useState();
+  // const [body, setBody] = useState();
+  // const [token, setToken] = useState();
 
   // const triggerLocalNotificationHandler = () => {
   //   Notifications.scheduleNotificationAsync({

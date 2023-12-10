@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Keyboard,
   Modal,
   ScrollView,
   StyleSheet,
@@ -26,6 +27,7 @@ import { useEffect, useState } from "react";
 import TaskAttachments from "../components/TaskAttachments";
 import DatePicker from "../components/DatePicker";
 import { removeBirthDate } from "../redux/slices/authSlice";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const NewTaskScreen = ({ setModalVisible }) => {
   const [loading, setLoading] = useState(false);
@@ -89,115 +91,127 @@ const NewTaskScreen = ({ setModalVisible }) => {
       setLoading(false);
     }
   }
+  const [open, setOpen] = useState(false);
+
+  const handleOutsidePress = () => {
+    Keyboard.dismiss();
+    setOpen(false);
+  };
 
   return (
-    <ScrollView
-      style={styles.scrollContainer}
-      automaticallyAdjustKeyboardInsets={true}
-      keyboardShouldPersistTaps="handled"
-    >
-      <View style={styles.container}>
-        <View style={{ top: 15 }}>
-          <View>
-            <Text style={styles.header}>New Task</Text>
-            <View style={styles.underLine} />
-          </View>
+    <TouchableWithoutFeedback onPress={handleOutsidePress}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView
+          style={styles.scrollContainer}
+          automaticallyAdjustKeyboardInsets={true}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.container}>
+            <View style={{ top: 15 }}>
+              <View>
+                <Text style={styles.header}>New Task</Text>
+                <View style={styles.underLine} />
+              </View>
 
-          <View>
-            <Text style={styles.text}>Task Title</Text>
-            <TextInput
-              style={[styles.textInput, { height: 50 }]}
-              placeholder="Name the task"
-              placeholderTextColor="#ccc"
-              value={title}
-              onChangeText={(taskTitle) => setTitle(taskTitle)}
-            />
-          </View>
+              <View>
+                <Text style={styles.text}>Task Title</Text>
+                <TextInput
+                  style={[styles.textInput, { height: 50 }]}
+                  placeholder="Name the task"
+                  placeholderTextColor="#ccc"
+                  value={title}
+                  onChangeText={(taskTitle) => setTitle(taskTitle)}
+                />
+              </View>
 
-          <View>
-            <Text style={styles.text}>Description</Text>
-            <TextInput
-              style={[styles.textInput, { height: 150, paddingTop: 10 }]}
-              maxLength={2000}
-              multiline={true}
-              placeholder="Add description..."
-              placeholderTextColor="#ccc"
-              value={description}
-              onChangeText={(taskDescription) =>
-                setDescription(taskDescription)
-              }
-            />
-          </View>
+              <View>
+                <Text style={styles.text}>Description</Text>
+                <TextInput
+                  style={[styles.textInput, { height: 150, paddingTop: 10 }]}
+                  maxLength={2000}
+                  multiline={true}
+                  placeholder="Add description..."
+                  placeholderTextColor="#ccc"
+                  value={description}
+                  onChangeText={(taskDescription) =>
+                    setDescription(taskDescription)
+                  }
+                />
+              </View>
 
-          <>
-            <Text style={styles.text}>When?</Text>
+              <>
+                <Text style={styles.text}>When?</Text>
 
-            <DatePicker
-              valueDate={dateForDisplay}
-              dateAction={setTaskDate}
-              displayType="inline"
-              dateInputStyle={styles.dateInputStyle}
-              placeholderTextColor="white"
-              placeholder="Choose date"
-              iconColor="white"
-              mode="datetime"
-              cancelButtonColor="#DAD9D9"
-              maximumDate={null}
-              minimumDate={currentTime}
-              setDateForDisplay={setDateForDisplay}
-            />
-            <ChooseTimeComponent
-              setSelectedDate={setSelectedDate}
-              dropDownDirection="BOTTOM"
-              placeholderValue="Repeat..."
-            />
-          </>
+                <DatePicker
+                  valueDate={dateForDisplay}
+                  dateAction={setTaskDate}
+                  displayType="inline"
+                  dateInputStyle={styles.dateInputStyle}
+                  placeholderTextColor="white"
+                  placeholder="Choose date"
+                  iconColor="white"
+                  mode="datetime"
+                  cancelButtonColor="#DAD9D9"
+                  maximumDate={null}
+                  minimumDate={currentTime}
+                  setDateForDisplay={setDateForDisplay}
+                />
+                <ChooseTimeComponent
+                  setSelectedDate={setSelectedDate}
+                  dropDownDirection="BOTTOM"
+                  placeholderValue="Repeat..."
+                  setOpen={setOpen}
+                  open={open}
+                />
+              </>
 
-          <View style={styles.shadowedUnderline} />
+              <View style={styles.shadowedUnderline} />
 
-          <TaskAttachments
-            linkData={linkData}
-            linkName={linkName}
-            setLinkData={setLinkData}
-            setLinkName={setLinkName}
-            addLinks={addLinks}
-            removeLinks={removeLinks}
-            dispatch={dispatch}
-            links={links}
-          />
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              paddingVertical: 13,
-            }}
-          >
-            <CustomButton
-              label="Cancel"
-              buttonStyle={styles.buttonStyle}
-              textButtonStyle={styles.textButtonStyle}
-              action={() => setModalVisible(false)}
-              underlayColor="#5884CD"
-            />
-            {loading ? (
-              <ActivityIndicator size="large" color="#0000ff" style={{}} />
-            ) : (
-              <CustomButton
-                label="Create"
-                buttonStyle={[
-                  styles.buttonStyle,
-                  { backgroundColor: "#002594" },
-                ]}
-                textButtonStyle={styles.textButtonStyle}
-                underlayColor="#5884CD"
-                action={createTask}
+              <TaskAttachments
+                linkData={linkData}
+                linkName={linkName}
+                setLinkData={setLinkData}
+                setLinkName={setLinkName}
+                addLinks={addLinks}
+                removeLinks={removeLinks}
+                dispatch={dispatch}
+                links={links}
               />
-            )}
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  paddingVertical: 13,
+                }}
+              >
+                <CustomButton
+                  label="Cancel"
+                  buttonStyle={styles.buttonStyle}
+                  textButtonStyle={styles.textButtonStyle}
+                  action={() => setModalVisible(false)}
+                  underlayColor="#5884CD"
+                />
+                {loading ? (
+                  <ActivityIndicator size="large" color="#0000ff" style={{}} />
+                ) : (
+                  <CustomButton
+                    label="Create"
+                    buttonStyle={[
+                      styles.buttonStyle,
+                      { backgroundColor: "#002594" },
+                    ]}
+                    textButtonStyle={styles.textButtonStyle}
+                    underlayColor="#5884CD"
+                    action={createTask}
+                  />
+                )}
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-    </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
