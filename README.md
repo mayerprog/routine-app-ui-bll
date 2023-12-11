@@ -21,6 +21,12 @@ An app that helps to create and track routine and not only routine tasks. You ca
 
 # Get Started
 
+To run this web app you need (if not installed yet):
+
+- [NodeJS](https://nodejs.org/en/)
+- [Yarn](https://yarnpkg.com/)
+- [Expo](https://docs.expo.dev/get-started/installation/)
+
 - Clone the repository with `git clone https://github.com/mayerprog/routine-app-ui-bll`
 - Install dependencies `npm i`
 - Run `npm start` or `yarn start` to run the project on Expo GO app
