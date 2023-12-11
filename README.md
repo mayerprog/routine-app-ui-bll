@@ -27,6 +27,8 @@ To run this web app you need (if not installed yet):
 - [Yarn](https://yarnpkg.com/)
 - [Expo](https://docs.expo.dev/get-started/installation/)
 
+Then:
+
 - Clone the repository with `git clone https://github.com/mayerprog/routine-app-ui-bll`
 - Install dependencies `npm i`
 - Run `npm start` or `yarn start` to run the project on Expo GO app
