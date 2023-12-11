@@ -48,6 +48,7 @@ You can find my [server code here](https://github.com/mayerprog/routine-app-api)
 
 ## Contacts
 
-Mayra Tulegenova
-Telegram: [mayerprog](https://t.me/mayerprog)
-Email: [supermayerehs@gmail.com](supermayerehs@gmail.com)
+<p>Mayra Tulegenova</p>
+
+- Telegram: [mayerprog](https://t.me/mayerprog)
+- Email: [supermayerehs@gmail.com](supermayerehs@gmail.com)
