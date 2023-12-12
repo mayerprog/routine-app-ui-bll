@@ -1,4 +1,4 @@
-<h1 align='center'>Routine App UI</h1>
+<h1 align='center'>Routine App - UI Overview</h1>
 
 <div align='center'>
     <img width='200px' src='/.github/photo_2_2023-12-11_21-13-55.jpg' alt='scr1'>
@@ -16,7 +16,7 @@
 
 # Description
 
-Routine App combines the power of React Native, Expo, and a robust back-end to deliver a seamless task management experience. Users can create, customize, and schedule tasks with rich media attachments and flexible reminders. The upcoming features will introduce social media logins, enhanced notification flexibility, and document support, making Routine App an even more versatile tool for personal organization and productivity.
+Routine App UI combines the power of React Native, Expo, and a robust back-end to deliver a seamless task management experience. Users can create, customize, and schedule tasks with rich media attachments and flexible reminders. The upcoming features will introduce social media logins, enhanced notification flexibility, and document support, making Routine App an even more versatile tool for personal organization and productivity.
 
 ### **Existing Features**
 
