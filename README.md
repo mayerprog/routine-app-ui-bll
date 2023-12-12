@@ -20,52 +20,27 @@ The Routine App combines the power of React Native, Expo, and a robust back-end 
 
 ### **Existing Features**
 
-#### **User Authentication:**
+- #### **User Authentication**
 
-- Secure user registration and login process.
+- #### **Task Creation**
 
-#### **Task Creation:**
+- #### **Media and Links Integration**
 
-- Personalized task management with title, description, and scheduling.
+- #### **Task Notification Scheduling**
 
-#### **Media and Links Integration:**
-
-- Attach pictures and links to tasks for enhanced information sharing.
-
-#### **Task Notification Scheduling:**
-
-- Set specific dates and times for task reminders.
-
-#### **Task Modification:**
-
-- Update or delete tasks for ongoing task management.
-
-#### **Technological Backbone:**
-
-- Built with React Native and Expo for cross-platform mobile development.
-- Utilizes Redux and Redux Toolkit for efficient state management.
-- Expo Notifications provide integrated notification system for timely alerts.
-- React Native Reanimated and React Native Gesture Handler provide fluid UI interactions.
-- Layouts designed with CSS Flexbox for a responsive interface.
-- Supported by a dedicated server and database for reliable data handling.
+- #### **Task Modification**
 
 ### **Upcoming Features**
 
-#### **Social Media Authorization:**
+- #### **Social Media Authorization**
 
-- Sign in with Google or Facebook for quick access.
+- #### **Flexible Notification Settings (receive notifications daily, weekly, or on chosen weekdays)**
 
-#### **Flexible Notification Settings:**
+#### **Document Support**
 
-- Receive notifications daily, weekly, or on chosen weekdays.
+#### **Integrated Calendar View**
 
-#### **Document Support:**
-
-- Add PDF files to tasks for detailed documentation.
-
-#### **Integrated Calendar View:**
-
-- Calendar interface to visualize tasks on selected dates.
+#### **Connect and share daily routines directly with friends on Facebook**
 
 > The app can be run only on iOS
 
