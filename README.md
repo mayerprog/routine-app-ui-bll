@@ -40,7 +40,7 @@ The Routine App combines the power of React Native, Expo, and a robust back-end 
 
 - #### **Integrated Calendar View**
 
-- #### **Connect and share daily routines directly with friends on Facebook**
+- #### **Share With Friends (сonnect and share daily routines directly with friends on Facebook)**
 
 > The app can be run only on iOS
 
