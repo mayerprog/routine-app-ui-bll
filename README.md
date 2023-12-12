@@ -16,7 +16,7 @@
 
 # Description
 
-Routine App UI combines the power of React Native, Expo, and a robust back-end to deliver a seamless task management experience. Users can create, customize, and schedule tasks with rich media attachments and flexible reminders. The upcoming features will introduce social media logins, enhanced notification flexibility, and document support, making Routine App an even more versatile tool for personal organization and productivity.
+Routine App UI combines the power of React Native and Redux, with help of a robust back-end it delivers a seamless task management experience. Users can create, customize, and schedule tasks with rich media attachments and flexible reminders. The upcoming features will introduce social media logins, enhanced notification flexibility, and document support, making Routine App an even more versatile tool for personal organization and productivity.
 
 ### **Existing Features**
 
