@@ -28,7 +28,7 @@ The Routine App combines the power of React Native, Expo, and a robust back-end 
 
 - #### **Task Notification Scheduling**
 
-- #### **Task Modification**
+- #### **Task Modification (update or delete tasks)**
 
 ### **Upcoming Features**
 
@@ -36,11 +36,11 @@ The Routine App combines the power of React Native, Expo, and a robust back-end 
 
 - #### **Flexible Notification Settings (receive notifications daily, weekly, or on chosen weekdays)**
 
-#### **Document Support**
+- #### **Document Support**
 
-#### **Integrated Calendar View**
+- #### **Integrated Calendar View**
 
-#### **Connect and share daily routines directly with friends on Facebook**
+- #### **Connect and share daily routines directly with friends on Facebook**
 
 > The app can be run only on iOS
 
