@@ -78,7 +78,6 @@ const InTaskImages = ({ images, dispatch }) => {
       style={{
         flex: 1,
         alignItems: "center",
-        paddingTop: 20,
       }}
     >
       {images.length ? (
