@@ -42,7 +42,11 @@ const InTaskScreen = ({ route, navigation }) => {
   const images = useSelector((state) => state.task.images);
   const [selectedDate, setSelectedDate] = useState(task.date);
 
-  let updatedTask = { ...task, links: [...task.links] }; //deep copy
+  let updatedTask = {
+    ...task,
+    links: [...task.links],
+    images: [...task.images],
+  };
 
   const currentTime = new Date();
   const dateInTask = new Date(task.specificDate).toLocaleString().slice(0, 17);
@@ -50,6 +54,8 @@ const InTaskScreen = ({ route, navigation }) => {
   useEffect(() => {
     dispatch(addInTaskLinks(task.links));
     dispatch(addInTaskImages(task.images));
+    // console.log("images", images);
+    // console.log("links", links);
   }, []);
 
   const checkIfURLCanBeOpened = async (url) => {
@@ -70,6 +76,7 @@ const InTaskScreen = ({ route, navigation }) => {
     updatedTask.title = title;
     updatedTask.description = description;
     updatedTask.links = links;
+    updatedTask.images = images;
     updatedTask.notificationDate = selectedDate;
     console.log("updatedtask", updatedTask);
     dispatch(editTask(updatedTask));

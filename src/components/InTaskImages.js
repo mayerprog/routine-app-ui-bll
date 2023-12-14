@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { removeLinks } from "../redux/slices/taskSlice";
+import { removeInTaskImages } from "../redux/slices/taskSlice";
 const { baseURL } = require("../../config");
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import CustomButton from "./CustomButton";
@@ -33,8 +33,8 @@ const InTaskImages = ({ images, dispatch }) => {
     setModalVisible(true);
   };
 
-  const handleRemoveItem = (linkIdToRemove) => {
-    dispatch(removeLinks(linkIdToRemove));
+  const handleRemoveItem = (imageIdToRemove) => {
+    dispatch(removeInTaskImages(imageIdToRemove));
   };
 
   const panRef = useRef();
@@ -87,6 +87,7 @@ const InTaskImages = ({ images, dispatch }) => {
             image={image}
             baseURL={baseURL}
             handleImagePress={handleImagePress}
+            handleRemoveItem={handleRemoveItem}
           />
         ))
       ) : (
@@ -138,7 +139,12 @@ const InTaskImages = ({ images, dispatch }) => {
   );
 };
 
-const ImageComponent = ({ image, baseURL, handleImagePress }) => {
+const ImageComponent = ({
+  image,
+  baseURL,
+  handleImagePress,
+  handleRemoveItem,
+}) => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
@@ -163,7 +169,7 @@ const ImageComponent = ({ image, baseURL, handleImagePress }) => {
       </TouchableOpacity>
       {!isLoading ? (
         <TouchableOpacity
-          onPress={() => console.log("deleted")}
+          onPress={() => handleRemoveItem(image._id)}
           hitSlop={7}
           style={{ alignSelf: "center", marginLeft: 15 }}
         >
