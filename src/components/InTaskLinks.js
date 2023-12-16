@@ -5,6 +5,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -17,15 +18,29 @@ import {
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ModalAddLinks from "./ModalAddLinks";
 import { useState } from "react";
+import CustomButton from "./CustomButton";
 
 const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [linkData, setLinkData] = useState("");
   const [linkName, setLinkName] = useState("");
+  let isButtonDisabled;
 
   const handleRemoveItem = (linkIdToRemove) => {
     dispatch(removeLinks(linkIdToRemove));
   };
+
+  const makeLinkObj = () => {
+    const newObject = { name: linkName, link: linkData };
+    dispatch(addLinks(newObject));
+    setModalVisible(!modalVisible);
+    setLinkName("");
+    setLinkData("");
+  };
+
+  if (linkData === "" || linkName === "") {
+    isButtonDisabled = true;
+  }
   return (
     <View style={{ flex: 1 }}>
       {links.length ? (
@@ -35,6 +50,7 @@ const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
             style={{
               flexDirection: "row",
               paddingStart: 30,
+              marginTop: 15,
             }}
           >
             <TouchableOpacity
@@ -65,32 +81,28 @@ const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
       ) : (
         <Text style={styles.nothingAddedText}>{"No links added"}</Text>
       )}
-      <Modal
-        visible={modalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <ModalAddLinks
-            dispatch={dispatch}
-            setModalVisible={setModalVisible}
-            modalVisible={modalVisible}
-            addLinks={addLinks}
-            linkData={linkData}
-            linkName={linkName}
-            setLinkData={setLinkData}
-            setLinkName={setLinkName}
-          />
-        </View>
-      </Modal>
-      <View style={styles.addIconStyle}>
-        <TouchableOpacity onPress={() => setModalVisible(true)} hitSlop={45}>
-          <Ionicons name="add-circle-sharp" size={45} color="black" />
-        </TouchableOpacity>
+      <View style={styles.centeredView}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Link name"
+          placeholderTextColor="#ccc"
+          value={linkName}
+          onChangeText={(taskLinkName) => setLinkName(taskLinkName)}
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Link"
+          placeholderTextColor="#ccc"
+          value={linkData}
+          onChangeText={(taskLinkData) => setLinkData(taskLinkData)}
+        />
+        <CustomButton
+          label="Add"
+          buttonStyle={[styles.buttonStyle, { backgroundColor: "#F5F9FF" }]}
+          textButtonStyle={styles.textButtonStyle}
+          action={() => makeLinkObj()}
+          buttonDisabled={isButtonDisabled}
+        />
       </View>
     </View>
   );
@@ -118,7 +130,39 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 150,
+    marginTop: 30,
+  },
+  linkText: {
+    fontFamily: "Roboto-Medium",
+    fontSize: 16,
+    color: "#686868",
+  },
+  textInput: {
+    fontSize: 15,
+    fontFamily: "Lexend-Regular",
+    borderWidth: 1,
+    borderColor: "#A1A1A1",
+    backgroundColor: "white",
+    width: 300,
+    paddingLeft: 15,
+    height: 40,
+    marginBottom: 5,
+    borderRadius: 10,
+  },
+  buttonStyle: {
+    width: 90,
+    height: 40,
+    marginTop: 7,
+    paddingBottom: 5,
+    paddingTop: 11,
+    paddingHorizontal: 5,
+    borderWidth: 0.5,
+    borderColor: "#A1A1A1",
+  },
+  textButtonStyle: {
+    fontSize: 14,
+    fontFamily: "Lexend-Regular",
+    color: "#1B57B8",
   },
 });
 

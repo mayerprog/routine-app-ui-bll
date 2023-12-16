@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { removeInTaskImages } from "../redux/slices/taskSlice";
+import {
+  removeInTaskImages,
+  addDeletedImages,
+} from "../redux/slices/taskSlice";
 const { baseURL } = require("../../config");
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import CustomButton from "./CustomButton";
@@ -23,6 +26,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { useSelector } from "react-redux";
 
 const InTaskImages = ({ images, dispatch }) => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -33,8 +37,10 @@ const InTaskImages = ({ images, dispatch }) => {
     setModalVisible(true);
   };
 
-  const handleRemoveItem = (imageIdToRemove) => {
+  const handleRemoveItem = (imageIdToRemove, imageName) => {
+    console.log("imageName", imageName);
     dispatch(removeInTaskImages(imageIdToRemove));
+    dispatch(addDeletedImages(imageName));
   };
 
   const panRef = useRef();
@@ -169,7 +175,7 @@ const ImageComponent = ({
       </TouchableOpacity>
       {!isLoading ? (
         <TouchableOpacity
-          onPress={() => handleRemoveItem(image._id)}
+          onPress={() => handleRemoveItem(image._id, image.name)}
           hitSlop={7}
           style={{ alignSelf: "center", marginLeft: 15 }}
         >

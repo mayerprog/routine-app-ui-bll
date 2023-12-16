@@ -40,6 +40,8 @@ const InTaskScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const links = useSelector((state) => state.task.links);
   const images = useSelector((state) => state.task.images);
+  const deletedImages = useSelector((state) => state.task.deletedImages);
+
   const [selectedDate, setSelectedDate] = useState(task.date);
 
   let updatedTask = {
@@ -80,7 +82,7 @@ const InTaskScreen = ({ route, navigation }) => {
     updatedTask.notificationDate = selectedDate;
     console.log("updatedtask", updatedTask);
     dispatch(editTask(updatedTask));
-    await tasksAPI.updateTask(task._id, updatedTask);
+    await tasksAPI.updateTask(task._id, updatedTask, deletedImages);
     navigation.goBack();
     setButtonLoading(false);
   };
