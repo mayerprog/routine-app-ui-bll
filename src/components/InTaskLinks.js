@@ -15,7 +15,7 @@ import {
   addLinks,
 } from "../redux/slices/taskSlice";
 
-import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { useState } from "react";
 import CustomButton from "./CustomButton";
 
@@ -58,17 +58,19 @@ const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
               style={{
                 alignSelf: "flex-end",
                 marginEnd: 30,
-                marginBottom: -3,
+                marginBottom: -2,
               }}
             >
-              <MaterialIcons name="cancel" size={23} color="#ccc" />
+              <MaterialIcons name="cancel" size={21} color="#C73232" />
             </TouchableOpacity>
-            <AntDesign
+
+            <Entypo
               name="link"
-              size={17}
-              color="#474B57"
+              size={18}
+              color="black"
               style={{ alignSelf: "flex-end", marginEnd: 10 }}
             />
+
             <TouchableOpacity
               onPress={() => checkIfURLCanBeOpened(link.link)}
               hitSlop={{ top: 10, bottom: 10, left: 45, right: 45 }}
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
   linkText: {
     fontFamily: "Roboto-Medium",
     fontSize: 16,
-    color: "#686868",
+    color: "#1B57B8",
   },
   textInput: {
     fontSize: 15,
