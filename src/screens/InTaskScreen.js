@@ -23,7 +23,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { editTask } from "../redux/slices/taskSlice";
 import { tasksAPI } from "../api/tasksAPI";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import ModalAddLinks from "../components/ModalAddLinks";
 import InTaskLinks from "../components/InTaskLinks";
 import InTaskImages from "../components/InTaskImages";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
