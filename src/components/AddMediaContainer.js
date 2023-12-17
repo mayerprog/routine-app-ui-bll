@@ -68,28 +68,6 @@ const AddMediaContainer = ({}) => {
     }
   };
 
-  // const postImage = async () => {
-  //   const formData = new FormData();
-
-  //   console.log("Images", images);
-
-  //   images.forEach((image) => {
-  //     const fileName = image.split("/").pop();
-  //     const fileType = fileName.split(".").pop();
-  //     formData.append("image", {
-  //       name: fileName,
-  //       image,
-  //       type: `image/${fileType}`,
-  //     });
-  //   });
-  //   return formData;
-  // };
-
-  // const addImage = async () => {
-  //   const formData = await postImage();
-  //   await tasksAPI.uploadImage(formData);
-  // };
-
   return (
     <>
       {images.map((image, index) => (

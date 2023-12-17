@@ -27,6 +27,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { useSelector } from "react-redux";
+import AddMediaContainer from "./AddMediaContainer";
 
 const InTaskImages = ({ images, dispatch }) => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -133,14 +134,7 @@ const InTaskImages = ({ images, dispatch }) => {
         </TouchableOpacity>
       </Modal>
 
-      <View style={styles.addIconStyle}>
-        <TouchableOpacity
-          onPress={() => console.log("clickclick")}
-          hitSlop={45}
-        >
-          <Ionicons name="add-circle-sharp" size={45} color="black" />
-        </TouchableOpacity>
-      </View>
+      {/* <AddMediaContainer /> */}
     </View>
   );
 };

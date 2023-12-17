@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableHighlight,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -97,13 +98,15 @@ const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
           value={linkData}
           onChangeText={(taskLinkData) => setLinkData(taskLinkData)}
         />
-        <CustomButton
-          label="Add"
-          buttonStyle={[styles.buttonStyle, { backgroundColor: "#F5F9FF" }]}
-          textButtonStyle={styles.textButtonStyle}
-          action={() => makeLinkObj()}
-          buttonDisabled={isButtonDisabled}
-        />
+        <TouchableHighlight
+          onPress={() => makeLinkObj()}
+          style={styles.buttonStyle}
+          activeOpacity={0.5}
+          disabled={isButtonDisabled}
+          underlayColor="#759AD6"
+        >
+          <Text style={styles.textButtonStyle}>Add</Text>
+        </TouchableHighlight>
       </View>
     </View>
   );
@@ -156,14 +159,18 @@ const styles = StyleSheet.create({
     marginTop: 7,
     paddingBottom: 5,
     paddingTop: 11,
-    paddingHorizontal: 5,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
     borderWidth: 0.5,
     borderColor: "#A1A1A1",
+    borderRadius: 14,
+    alignSelf: "center",
   },
   textButtonStyle: {
     fontSize: 14,
     fontFamily: "Lexend-Regular",
     color: "#1B57B8",
+    alignSelf: "center",
   },
 });
 

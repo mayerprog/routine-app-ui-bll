@@ -36,13 +36,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     width: 330,
     alignSelf: "center",
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
   },
   loginButtonText: {
     fontSize: 18,
