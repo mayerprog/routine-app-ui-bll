@@ -14,7 +14,11 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { addInTaskLinks, addInTaskImages } from "../redux/slices/taskSlice";
+import {
+  addInTaskLinks,
+  addInTaskImages,
+  removeDeletedImages,
+} from "../redux/slices/taskSlice";
 import ChooseTimeComponent from "../components/ChooseTimeComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
@@ -82,6 +86,7 @@ const InTaskScreen = ({ route, navigation }) => {
     console.log("updatedtask", updatedTask);
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask, deletedImages);
+    dispatch(removeDeletedImages());
     navigation.goBack();
     setButtonLoading(false);
   };

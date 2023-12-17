@@ -12,7 +12,13 @@ import {
   addDeletedImages,
 } from "../redux/slices/taskSlice";
 const { baseURL } = require("../../config");
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  MaterialIcons,
+  FontAwesome,
+  Ionicons,
+} from "@expo/vector-icons";
+
 import CustomButton from "./CustomButton";
 import { useRef, useState } from "react";
 import {
@@ -27,11 +33,14 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { useSelector } from "react-redux";
-import AddMediaContainer from "./AddMediaContainer";
+import PressableContainer from "./PressableContainer";
 
 const InTaskImages = ({ images, dispatch }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [cameraColor, setCameraColor] = useState("black");
+  const [mediaColor, setMediaColor] = useState("black");
+  const [docColor, setDocColor] = useState("black");
 
   const handleImagePress = (image) => {
     setSelectedImage(image);
@@ -133,8 +142,39 @@ const InTaskImages = ({ images, dispatch }) => {
           </PanGestureHandler>
         </TouchableOpacity>
       </Modal>
-
-      {/* <AddMediaContainer /> */}
+      <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
+        <PressableContainer
+          icon={
+            <FontAwesome
+              name="camera"
+              size={23}
+              style={{ color: cameraColor }}
+            />
+          }
+          containerText="Take a picture"
+          setIconColor={setCameraColor}
+          selectItem={() => selectImage(false)}
+        />
+        <PressableContainer
+          icon={
+            <FontAwesome name="image" size={23} style={{ color: mediaColor }} />
+          }
+          containerText="Media"
+          setIconColor={setMediaColor}
+          selectItem={() => selectImage(true)}
+        />
+        <PressableContainer
+          icon={
+            <Ionicons
+              name="document-attach"
+              size={24}
+              style={{ color: docColor }}
+            />
+          }
+          containerText="Document"
+          setIconColor={setDocColor}
+        />
+      </View>
     </View>
   );
 };
@@ -181,6 +221,11 @@ const ImageComponent = ({
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    margin: 20,
+  },
   modalBackground: {
     flex: 1,
     justifyContent: "center",

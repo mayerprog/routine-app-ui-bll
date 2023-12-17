@@ -32,6 +32,9 @@ export const taskSlice = createSlice({
       state.deletedImages = [...state.deletedImages, action.payload];
       console.log("deletedImages", state.deletedImages);
     },
+    removeDeletedImages: (state, action) => {
+      state.deletedImages = [];
+    },
     removeAllImages: (state, action) => {
       state.images = [];
     },
@@ -82,6 +85,7 @@ export const {
   addInTaskImages,
   removeInTaskImages,
   addDeletedImages,
+  removeDeletedImages,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;

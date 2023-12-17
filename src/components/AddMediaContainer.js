@@ -15,6 +15,8 @@ import { addImages, removeImages } from "../redux/slices/taskSlice";
 import CustomButton from "./CustomButton";
 import { tasksAPI } from "../api/tasksAPI";
 import * as FileSystem from "expo-file-system";
+import PressableContainer from "./PressableContainer";
+import { selectImage } from "../services/imagePickerHelper";
 
 const { baseURL } = require("../../config");
 
@@ -26,47 +28,47 @@ const AddMediaContainer = ({}) => {
   const images = useSelector((state) => state.task.images);
   const dispatch = useDispatch();
 
-  const selectImage = async (useLibrary) => {
-    let result;
-    const MAX_SIZE = 7 * 1024 * 1024;
+  // const selectImage = async (useLibrary) => {
+  //   let result;
+  //   const MAX_SIZE = 7 * 1024 * 1024;
 
-    const options = {
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: false,
-      allowsMultipleSelection: true,
-      aspect: [4, 3],
-      quality: 1,
-    };
+  //   const options = {
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: false,
+  //     allowsMultipleSelection: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   };
 
-    try {
-      if (useLibrary) {
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-        result = await ImagePicker.launchImageLibraryAsync(options);
-      } else {
-        await ImagePicker.requestCameraPermissionsAsync();
-        result = await ImagePicker.launchCameraAsync(options);
-      }
+  //   try {
+  //     if (useLibrary) {
+  //       await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //       result = await ImagePicker.launchImageLibraryAsync(options);
+  //     } else {
+  //       await ImagePicker.requestCameraPermissionsAsync();
+  //       result = await ImagePicker.launchCameraAsync(options);
+  //     }
 
-      if (!result.canceled) {
-        const pickedImages = result.assets;
-        console.log(pickedImages);
+  //     if (!result.canceled) {
+  //       const pickedImages = result.assets;
+  //       console.log(pickedImages);
 
-        pickedImages.forEach(async (image) => {
-          const imageURI = image.uri;
-          const fileInfo = await FileSystem.getInfoAsync(imageURI);
-          if (fileInfo.size > MAX_SIZE) {
-            alert(
-              "File is too large. Please upload an image smaller than 7 MB."
-            );
-            return;
-          }
-          dispatch(addImages(imageURI));
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //       pickedImages.forEach(async (image) => {
+  //         const imageURI = image.uri;
+  //         const fileInfo = await FileSystem.getInfoAsync(imageURI);
+  //         if (fileInfo.size > MAX_SIZE) {
+  //           alert(
+  //             "File is too large. Please upload an image smaller than 7 MB."
+  //           );
+  //           return;
+  //         }
+  //         dispatch(addImages(imageURI));
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <>
@@ -103,7 +105,7 @@ const AddMediaContainer = ({}) => {
           }
           containerText="Take a picture"
           setIconColor={setCameraColor}
-          selectItem={() => selectImage(false)}
+          selectItem={() => selectImage(false, dispatch)}
         />
         <PressableContainer
           icon={
@@ -111,7 +113,7 @@ const AddMediaContainer = ({}) => {
           }
           containerText="Media"
           setIconColor={setMediaColor}
-          selectItem={() => selectImage(true)}
+          selectItem={() => selectImage(true, dispatch)}
         />
         <PressableContainer
           icon={
@@ -129,69 +131,11 @@ const AddMediaContainer = ({}) => {
   );
 };
 
-const PressableContainer = ({
-  containerText,
-  icon,
-  setIconColor,
-  selectItem,
-}) => {
-  const handlePressIn = () => {
-    setIconColor("white");
-  };
-  const handlePressOut = () => {
-    setIconColor("black");
-  };
-  return (
-    <View
-      style={{
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <Pressable
-        hitSlop={10}
-        style={({ pressed }) => [
-          styles.pressableContainer,
-          { backgroundColor: pressed ? "#21A098" : "#1B57B8" },
-        ]}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        onPress={selectItem}
-      >
-        {icon}
-      </Pressable>
-      <Text style={styles.pressableContainerText}>{containerText}</Text>
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-around",
     margin: 20,
-  },
-  pressableContainer: {
-    width: 80,
-    height: 50,
-    paddingHorizontal: 26,
-    paddingVertical: 12,
-    borderRadius: 25,
-    borderColor: "black",
-    borderWidth: 1,
-    backgroundColor: "#1B57B8",
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-  },
-  pressableContainerText: {
-    fontFamily: "Roboto-Regular",
-    fontSize: 14,
-    marginTop: 6,
   },
   linkText: {
     fontFamily: "Roboto-Medium",
