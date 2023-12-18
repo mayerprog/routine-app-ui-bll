@@ -106,6 +106,10 @@ const AddMediaContainer = ({}) => {
           containerText="Take a picture"
           setIconColor={setCameraColor}
           selectItem={() => selectImage(false, dispatch)}
+          iconColorIn="white"
+          iconColorOut="black"
+          backgroundColor="#1B57B8"
+          shadowStyle={styles.shadowStyle}
         />
         <PressableContainer
           icon={
@@ -114,6 +118,10 @@ const AddMediaContainer = ({}) => {
           containerText="Media"
           setIconColor={setMediaColor}
           selectItem={() => selectImage(true, dispatch)}
+          iconColorIn="white"
+          iconColorOut="black"
+          backgroundColor="#1B57B8"
+          shadowStyle={styles.shadowStyle}
         />
         <PressableContainer
           icon={
@@ -125,6 +133,10 @@ const AddMediaContainer = ({}) => {
           }
           containerText="Document"
           setIconColor={setDocColor}
+          iconColorIn="white"
+          iconColorOut="black"
+          backgroundColor="#1B57B8"
+          shadowStyle={styles.shadowStyle}
         />
       </View>
     </>
@@ -150,6 +162,15 @@ const styles = StyleSheet.create({
     height: 100,
     marginBottom: 16,
     borderRadius: 50,
+  },
+  shadowStyle: {
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
   },
 });
 

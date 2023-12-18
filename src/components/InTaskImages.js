@@ -18,8 +18,7 @@ import {
   FontAwesome,
   Ionicons,
 } from "@expo/vector-icons";
-
-import CustomButton from "./CustomButton";
+import { selectImage } from "../services/imagePickerHelper";
 import { useRef, useState } from "react";
 import {
   PanGestureHandler,
@@ -90,25 +89,26 @@ const InTaskImages = ({ images, dispatch }) => {
   });
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-      }}
-    >
-      {images.length ? (
-        images.map((image, index) => (
-          <ImageComponent
-            key={index}
-            image={image}
-            baseURL={baseURL}
-            handleImagePress={handleImagePress}
-            handleRemoveItem={handleRemoveItem}
-          />
-        ))
-      ) : (
-        <Text style={styles.nothingAddedText}>{"No media added"}</Text>
-      )}
+    <View>
+      <View
+        style={{
+          alignSelf: "center",
+        }}
+      >
+        {images.length ? (
+          images.map((image, index) => (
+            <ImageComponent
+              key={index}
+              image={image}
+              baseURL={baseURL}
+              handleImagePress={handleImagePress}
+              handleRemoveItem={handleRemoveItem}
+            />
+          ))
+        ) : (
+          <Text style={styles.nothingAddedText}>{"No media added"}</Text>
+        )}
+      </View>
 
       <Modal
         animationType="fade"
@@ -142,7 +142,7 @@ const InTaskImages = ({ images, dispatch }) => {
           </PanGestureHandler>
         </TouchableOpacity>
       </Modal>
-      <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
+      <View style={styles.container}>
         <PressableContainer
           icon={
             <FontAwesome
@@ -153,7 +153,10 @@ const InTaskImages = ({ images, dispatch }) => {
           }
           containerText="Take a picture"
           setIconColor={setCameraColor}
-          selectItem={() => selectImage(false)}
+          selectItem={() => selectImage(false, dispatch)}
+          iconColorIn="white"
+          iconColorOut="black"
+          backgroundColor="white"
         />
         <PressableContainer
           icon={
@@ -161,7 +164,10 @@ const InTaskImages = ({ images, dispatch }) => {
           }
           containerText="Media"
           setIconColor={setMediaColor}
-          selectItem={() => selectImage(true)}
+          selectItem={() => selectImage(true, dispatch)}
+          iconColorIn="white"
+          iconColorOut="black"
+          backgroundColor="white"
         />
         <PressableContainer
           icon={
@@ -173,6 +179,9 @@ const InTaskImages = ({ images, dispatch }) => {
           }
           containerText="Document"
           setIconColor={setDocColor}
+          iconColorIn="white"
+          iconColorOut="black"
+          backgroundColor="white"
         />
       </View>
     </View>
@@ -223,8 +232,8 @@ const ImageComponent = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    margin: 20,
+    justifyContent: "space-evenly",
+    marginTop: 30,
   },
   modalBackground: {
     flex: 1,

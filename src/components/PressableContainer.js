@@ -5,12 +5,16 @@ const PressableContainer = ({
   icon,
   setIconColor,
   selectItem,
+  iconColorIn,
+  iconColorOut,
+  backgroundColor,
+  shadowStyle,
 }) => {
   const handlePressIn = () => {
-    setIconColor("white");
+    setIconColor(iconColorIn);
   };
   const handlePressOut = () => {
-    setIconColor("black");
+    setIconColor(iconColorOut);
   };
   return (
     <View
@@ -23,7 +27,8 @@ const PressableContainer = ({
         hitSlop={10}
         style={({ pressed }) => [
           styles.pressableContainer,
-          { backgroundColor: pressed ? "#21A098" : "#1B57B8" },
+          { backgroundColor: pressed ? "#21A098" : backgroundColor },
+          shadowStyle,
         ]}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
@@ -45,13 +50,13 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
     backgroundColor: "#1B57B8",
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
+    // shadowColor: "#000000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 5,
+    // },
+    // shadowOpacity: 0.4,
+    // shadowRadius: 4,
   },
   pressableContainerText: {
     fontFamily: "Roboto-Regular",
