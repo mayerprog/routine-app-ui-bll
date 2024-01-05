@@ -83,13 +83,12 @@ const InTaskScreen = ({ route, navigation }) => {
     updatedTask.title = title;
     updatedTask.description = description;
     updatedTask.links = links;
-    updatedTask.images = images;
     updatedTask.notificationDate = selectedDate;
     const formData = await postImage(addedImages);
     console.log("formData", formData);
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask, deletedImages, formData);
-    dispatch(removeDeletedImages());
+    // dispatch(removeDeletedImages());
     navigation.goBack();
     setButtonLoading(false);
   };
