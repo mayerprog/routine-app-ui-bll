@@ -27,7 +27,6 @@ export const taskSlice = createSlice({
       state.inTaskImages = state.inTaskImages.filter(
         (image) => image._id !== action.payload
       );
-      console.log("deletedImages", state.deletedImages);
     },
     addDeletedImages: (state, action) => {
       state.deletedImages = [...state.deletedImages, action.payload];

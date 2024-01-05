@@ -18,6 +18,7 @@ import {
   addInTaskLinks,
   addInTaskImages,
   removeDeletedImages,
+  removeAllImages,
 } from "../redux/slices/taskSlice";
 import ChooseTimeComponent from "../components/ChooseTimeComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -61,8 +62,10 @@ const InTaskScreen = ({ route, navigation }) => {
   useEffect(() => {
     dispatch(addInTaskLinks(task.links));
     dispatch(addInTaskImages(task.images));
-    // console.log("images", updatedTask.images);
-    // console.log("links", links);
+    dispatch(removeDeletedImages());
+    dispatch(removeAllImages());
+    // console.log("addedImages", addedImages);
+    // console.log("deletedImages", deletedImages);
   }, []);
 
   const checkIfURLCanBeOpened = async (url) => {
@@ -88,7 +91,6 @@ const InTaskScreen = ({ route, navigation }) => {
     console.log("formData", formData);
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask, deletedImages, formData);
-    // dispatch(removeDeletedImages());
     navigation.goBack();
     setButtonLoading(false);
   };
