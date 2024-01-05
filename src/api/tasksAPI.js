@@ -77,13 +77,17 @@ export const tasksAPI = {
       alert(err);
     }
   },
-  async updateTask(id, updatedTask, deletedImages) {
-    console.log("deletedImagesAPI", deletedImages);
+  async updateTask(id, updatedTask, imagesForDelete, formData) {
+    // console.log("deletedImagesAPI", deletedImages);
     try {
-      const response = await instance.put(`/updateTask/${id}`, {
-        updatedTask: updatedTask,
-        imagesName: deletedImages,
-      });
+      formData.append("updatedTask", JSON.stringify(updatedTask));
+      formData.append("imagesForDelete", JSON.stringify(imagesForDelete));
+
+      const response = await instance.put(
+        `/updateTask/${id}`,
+        formData,
+        configHeaders
+      );
       return response.data;
     } catch (err) {
       alert(err);

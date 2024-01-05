@@ -28,6 +28,7 @@ import TaskAttachments from "../components/TaskAttachments";
 import DatePicker from "../components/DatePicker";
 import { removeBirthDate } from "../redux/slices/authSlice";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { postImage } from "../services/postImage";
 
 const NewTaskScreen = ({ setModalVisible }) => {
   const [loading, setLoading] = useState(false);
@@ -52,24 +53,8 @@ const NewTaskScreen = ({ setModalVisible }) => {
     dispatch(removeAllImages());
   }, []);
 
-  const postImage = async () => {
-    const formData = new FormData();
-
-    images.forEach((image) => {
-      const fileName = image.split("/").pop();
-      const fileType = fileName.split(".").pop();
-      formData.append("image", {
-        name: fileName,
-        uri: image,
-        type: `image/${fileType}`,
-      });
-    });
-
-    return formData;
-  };
-
   async function createTask() {
-    const formData = await postImage();
+    const formData = await postImage(images);
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     console.log("formData", formData);

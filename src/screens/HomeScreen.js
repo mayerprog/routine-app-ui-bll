@@ -20,6 +20,7 @@ import {
   setTasks,
   removeTasks,
   removeAllLinks,
+  removeAllImages,
 } from "../redux/slices/taskSlice";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as Notifications from "expo-notifications";
@@ -35,6 +36,7 @@ const HomeScreen = ({ navigation }) => {
       try {
         const getAll = await tasksAPI.getAll();
         dispatch(setTasks(getAll));
+        dispatch(removeAllImages());
       } catch (err) {
         console.log(err);
       }

@@ -6,6 +6,7 @@ const initialState = {
   images: [],
   tasks: [],
   deletedImages: [],
+  inTaskImages: [],
 };
 
 export const taskSlice = createSlice({
@@ -14,15 +15,16 @@ export const taskSlice = createSlice({
   reducers: {
     addImages: (state, action) => {
       state.images = [...state.images, action.payload];
+      console.log("images", state.images);
     },
     removeImages: (state, action) => {
       state.images = state.images.filter((image) => image !== action.payload);
     },
     addInTaskImages: (state, action) => {
-      state.images = action.payload;
+      state.inTaskImages = action.payload;
     },
     removeInTaskImages: (state, action) => {
-      state.images = state.images.filter(
+      state.inTaskImages = state.inTaskImages.filter(
         (image) => image._id !== action.payload
       );
       console.log("deletedImages", state.deletedImages);

@@ -93,6 +93,7 @@ const InTaskImages = ({ images, dispatch }) => {
       <View
         style={{
           alignSelf: "center",
+          paddingTop: 15,
         }}
       >
         {images.length ? (
@@ -197,34 +198,37 @@ const ImageComponent = ({
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <View style={{ flexDirection: "row", paddingStart: 20 }}>
-      <TouchableOpacity
-        style={{ paddingVertical: 5 }}
-        onPress={() => handleImagePress(image)}
-      >
-        {isLoading && (
-          <ActivityIndicator
-            size="large"
-            color="#0000ff"
-            style={styles.activityIndicator}
+    <View
+      style={{ flexDirection: "row", paddingVertical: 5, paddingStart: 20 }}
+    >
+      <TouchableOpacity onPress={() => handleImagePress(image)}>
+        <View style={styles.imageContainer}>
+          {isLoading && (
+            <ActivityIndicator
+              size="large"
+              color="#0000ff"
+              style={styles.activityIndicator}
+            />
+          )}
+          <Image
+            source={{ uri: baseURL + `/uploads/${image.name}` }}
+            style={[styles.image, { opacity: isLoading ? 0 : 1 }]}
+            onLoadStart={() => setIsLoading(true)}
+            onLoadEnd={() => setIsLoading(false)}
           />
-        )}
-        <Image
-          source={{ uri: baseURL + `/uploads/${image.name}` }}
-          style={styles.image}
-          onLoadStart={() => setIsLoading(true)}
-          onLoadEnd={() => setIsLoading(false)}
-        />
+        </View>
       </TouchableOpacity>
-      {!isLoading ? (
-        <TouchableOpacity
-          onPress={() => handleRemoveItem(image._id, image.name)}
-          hitSlop={7}
-          style={{ alignSelf: "center", marginLeft: 15 }}
-        >
-          <MaterialIcons name="cancel" size={23} color="#C73232" />
-        </TouchableOpacity>
-      ) : null}
+      <View style={{ alignSelf: "center", paddingStart: 15 }}>
+        {!isLoading && (
+          <TouchableOpacity
+            onPress={() => handleRemoveItem(image._id, image.name)}
+            hitSlop={7}
+            style={styles.cancelIcon}
+          >
+            <MaterialIcons name="cancel" size={23} color="#C73232" />
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
@@ -253,8 +257,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   image: {
-    width: 300,
-    height: 300,
+    width: "100%",
+    height: "100%",
   },
   modalView: {
     width: "100%",
@@ -268,12 +272,16 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    alignItems: "center",
+  },
+  imageContainer: {
+    width: 300,
+    height: 300,
     justifyContent: "center",
+    alignItems: "center",
+  },
+  cancelIcon: {
+    position: "absolute",
+    paddingLeft: 10,
   },
 });
 

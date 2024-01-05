@@ -31,6 +31,7 @@ import InTaskLinks from "../components/InTaskLinks";
 import InTaskImages from "../components/InTaskImages";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import DatePicker from "../components/DatePicker";
+import { postImage } from "../services/postImage";
 
 const InTaskScreen = ({ route, navigation }) => {
   const { task } = route.params;
@@ -42,8 +43,9 @@ const InTaskScreen = ({ route, navigation }) => {
 
   const dispatch = useDispatch();
   const links = useSelector((state) => state.task.links);
-  const images = useSelector((state) => state.task.images);
+  const images = useSelector((state) => state.task.inTaskImages);
   const deletedImages = useSelector((state) => state.task.deletedImages);
+  const addedImages = useSelector((state) => state.task.images);
 
   const [selectedDate, setSelectedDate] = useState(task.date);
 
@@ -59,7 +61,7 @@ const InTaskScreen = ({ route, navigation }) => {
   useEffect(() => {
     dispatch(addInTaskLinks(task.links));
     dispatch(addInTaskImages(task.images));
-    // console.log("images", images);
+    // console.log("images", updatedTask.images);
     // console.log("links", links);
   }, []);
 
@@ -83,9 +85,10 @@ const InTaskScreen = ({ route, navigation }) => {
     updatedTask.links = links;
     updatedTask.images = images;
     updatedTask.notificationDate = selectedDate;
-    console.log("updatedtask", updatedTask);
+    const formData = await postImage(addedImages);
+    console.log("formData", formData);
     dispatch(editTask(updatedTask));
-    await tasksAPI.updateTask(task._id, updatedTask, deletedImages);
+    await tasksAPI.updateTask(task._id, updatedTask, deletedImages, formData);
     dispatch(removeDeletedImages());
     navigation.goBack();
     setButtonLoading(false);

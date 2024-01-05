@@ -25,7 +25,7 @@ export const selectImage = async (useLibrary, dispatch) => {
 
     if (!result.canceled) {
       const pickedImages = result.assets;
-      console.log(pickedImages);
+      // console.log(pickedImages);
 
       pickedImages.forEach(async (image) => {
         const imageURI = image.uri;
