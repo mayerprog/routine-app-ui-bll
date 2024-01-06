@@ -64,6 +64,7 @@ const InTaskScreen = ({ route, navigation }) => {
     dispatch(addInTaskImages(task.images));
     dispatch(removeDeletedImages());
     dispatch(removeAllImages());
+    console.log("inTaskImages", images);
     // console.log("addedImages", addedImages);
     // console.log("deletedImages", deletedImages);
   }, []);
@@ -86,6 +87,7 @@ const InTaskScreen = ({ route, navigation }) => {
     updatedTask.title = title;
     updatedTask.description = description;
     updatedTask.links = links;
+    updatedTask.images = images;
     updatedTask.notificationDate = selectedDate;
     const formData = await postImage(addedImages);
     console.log("formData", formData);

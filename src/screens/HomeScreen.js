@@ -16,13 +16,7 @@ import { useEffect, useState } from "react";
 import TaskListComponent from "../components/TaskListComponent";
 import { tasksAPI } from "../api/tasksAPI";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setTasks,
-  removeTasks,
-  removeAllLinks,
-  removeAllImages,
-  removeDeletedImages,
-} from "../redux/slices/taskSlice";
+import { setTasks, removeTasks } from "../redux/slices/taskSlice";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as Notifications from "expo-notifications";
 import { Button } from "@react-native-material/core";
@@ -37,8 +31,6 @@ const HomeScreen = ({ navigation }) => {
       try {
         const getAll = await tasksAPI.getAll();
         dispatch(setTasks(getAll));
-        dispatch(removeAllImages());
-        dispatch(removeDeletedImages());
       } catch (err) {
         console.log(err);
       }
