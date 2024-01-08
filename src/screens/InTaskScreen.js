@@ -64,7 +64,7 @@ const InTaskScreen = ({ route, navigation }) => {
     dispatch(addInTaskImages(task.images));
     dispatch(removeDeletedImages());
     dispatch(removeAllImages());
-    console.log("inTaskImages", images);
+    console.log("images length", addedImages.length);
     // console.log("addedImages", addedImages);
     // console.log("deletedImages", deletedImages);
   }, []);
@@ -90,7 +90,6 @@ const InTaskScreen = ({ route, navigation }) => {
     updatedTask.images = images;
     updatedTask.notificationDate = selectedDate;
     const formData = await postImage(addedImages);
-    console.log("formData", formData);
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask, deletedImages, formData);
     navigation.goBack();
@@ -149,7 +148,11 @@ const InTaskScreen = ({ route, navigation }) => {
           <Text style={styles.labelText}>Media</Text>
           <View style={styles.shadowedUnderline} />
           <GestureHandlerRootView style={{ flex: 1 }}>
-            <InTaskImages dispatch={dispatch} images={images} />
+            <InTaskImages
+              dispatch={dispatch}
+              images={images}
+              addedImages={addedImages}
+            />
           </GestureHandlerRootView>
         </View>
 

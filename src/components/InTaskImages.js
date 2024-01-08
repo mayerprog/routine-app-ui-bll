@@ -34,7 +34,7 @@ import Animated, {
 import { useSelector } from "react-redux";
 import PressableContainer from "./PressableContainer";
 
-const InTaskImages = ({ images, dispatch }) => {
+const InTaskImages = ({ images, dispatch, addedImages }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [cameraColor, setCameraColor] = useState("black");
@@ -104,11 +104,33 @@ const InTaskImages = ({ images, dispatch }) => {
               baseURL={baseURL}
               handleImagePress={handleImagePress}
               handleRemoveItem={handleRemoveItem}
+              isFromDB={true}
             />
           ))
         ) : (
           <Text style={styles.nothingAddedText}>{"No media added"}</Text>
         )}
+        {/* {addedImages.length &&
+          addedImages.map((uri, index) => (
+            <ImageComponent
+              key={index}
+              image={uri}
+              baseURL={baseURL}
+              handleImagePress={handleImagePress}
+              handleRemoveItem={handleRemoveItem}
+              isFromDB={false}
+            />
+          ))} */}
+        {addedImages.length > 0 &&
+          addedImages.map((uri, index) => (
+            <ImageComponent
+              key={`gallery-${index}`}
+              image={{ name: uri.split("/").pop(), uri }}
+              handleImagePress={handleImagePress}
+              handleRemoveItem={handleRemoveItem}
+              isFromDB={false}
+            />
+          ))}
       </View>
 
       <Modal
@@ -194,6 +216,7 @@ const ImageComponent = ({
   baseURL,
   handleImagePress,
   handleRemoveItem,
+  isFromDB,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -211,7 +234,9 @@ const ImageComponent = ({
             />
           )}
           <Image
-            source={{ uri: baseURL + `/uploads/${image.name}` }}
+            source={{
+              uri: isFromDB ? baseURL + `/uploads/${image.name}` : image.uri,
+            }}
             style={[styles.image, { opacity: isLoading ? 0 : 1 }]}
             onLoadStart={() => setIsLoading(true)}
             onLoadEnd={() => setIsLoading(false)}
