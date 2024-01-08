@@ -12,12 +12,7 @@ import {
   addDeletedImages,
 } from "../redux/slices/taskSlice";
 const { baseURL } = require("../../config");
-import {
-  AntDesign,
-  MaterialIcons,
-  FontAwesome,
-  Ionicons,
-} from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { selectImage } from "../services/imagePickerHelper";
 import { useRef, useState } from "react";
 import {
@@ -31,7 +26,6 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { useSelector } from "react-redux";
 import PressableContainer from "./PressableContainer";
 
 const InTaskImages = ({ images, dispatch, addedImages }) => {
@@ -110,22 +104,12 @@ const InTaskImages = ({ images, dispatch, addedImages }) => {
         ) : (
           <Text style={styles.nothingAddedText}>{"No media added"}</Text>
         )}
-        {/* {addedImages.length &&
+
+        {addedImages.length > 0 &&
           addedImages.map((uri, index) => (
             <ImageComponent
               key={index}
               image={uri}
-              baseURL={baseURL}
-              handleImagePress={handleImagePress}
-              handleRemoveItem={handleRemoveItem}
-              isFromDB={false}
-            />
-          ))} */}
-        {addedImages.length > 0 &&
-          addedImages.map((uri, index) => (
-            <ImageComponent
-              key={`gallery-${index}`}
-              image={{ name: uri.split("/").pop(), uri }}
               handleImagePress={handleImagePress}
               handleRemoveItem={handleRemoveItem}
               isFromDB={false}
@@ -235,7 +219,7 @@ const ImageComponent = ({
           )}
           <Image
             source={{
-              uri: isFromDB ? baseURL + `/uploads/${image.name}` : image.uri,
+              uri: isFromDB ? baseURL + `/uploads/${image.name}` : image,
             }}
             style={[styles.image, { opacity: isLoading ? 0 : 1 }]}
             onLoadStart={() => setIsLoading(true)}

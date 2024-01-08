@@ -19,10 +19,11 @@ import {
   addInTaskImages,
   removeDeletedImages,
   removeAllImages,
+  setTasks,
 } from "../redux/slices/taskSlice";
 import ChooseTimeComponent from "../components/ChooseTimeComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CustomButton from "../components/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { editTask } from "../redux/slices/taskSlice";
@@ -33,6 +34,7 @@ import InTaskImages from "../components/InTaskImages";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import DatePicker from "../components/DatePicker";
 import { postImage } from "../services/postImage";
+import { useFocusEffect } from "@react-navigation/native";
 
 const InTaskScreen = ({ route, navigation }) => {
   const { task } = route.params;
@@ -64,7 +66,6 @@ const InTaskScreen = ({ route, navigation }) => {
     dispatch(addInTaskImages(task.images));
     dispatch(removeDeletedImages());
     dispatch(removeAllImages());
-    console.log("images length", addedImages.length);
     // console.log("addedImages", addedImages);
     // console.log("deletedImages", deletedImages);
   }, []);
@@ -92,6 +93,8 @@ const InTaskScreen = ({ route, navigation }) => {
     const formData = await postImage(addedImages);
     dispatch(editTask(updatedTask));
     await tasksAPI.updateTask(task._id, updatedTask, deletedImages, formData);
+    const getAll = await tasksAPI.getAll();
+    dispatch(setTasks(getAll));
     navigation.goBack();
     setButtonLoading(false);
   };
