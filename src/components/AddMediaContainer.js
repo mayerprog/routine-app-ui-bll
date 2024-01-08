@@ -28,72 +28,25 @@ const AddMediaContainer = ({}) => {
   const images = useSelector((state) => state.task.images);
   const dispatch = useDispatch();
 
-  // const selectImage = async (useLibrary) => {
-  //   let result;
-  //   const MAX_SIZE = 7 * 1024 * 1024;
-
-  //   const options = {
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: false,
-  //     allowsMultipleSelection: true,
-  //     aspect: [4, 3],
-  //     quality: 1,
-  //   };
-
-  //   try {
-  //     if (useLibrary) {
-  //       await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //       result = await ImagePicker.launchImageLibraryAsync(options);
-  //     } else {
-  //       await ImagePicker.requestCameraPermissionsAsync();
-  //       result = await ImagePicker.launchCameraAsync(options);
-  //     }
-
-  //     if (!result.canceled) {
-  //       const pickedImages = result.assets;
-  //       console.log(pickedImages);
-
-  //       pickedImages.forEach(async (image) => {
-  //         const imageURI = image.uri;
-  //         const fileInfo = await FileSystem.getInfoAsync(imageURI);
-  //         if (fileInfo.size > MAX_SIZE) {
-  //           alert(
-  //             "File is too large. Please upload an image smaller than 7 MB."
-  //           );
-  //           return;
-  //         }
-  //         dispatch(addImages(imageURI));
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   return (
     <>
-      {images.map((image, index) => (
-        <View style={{ alignItems: "center" }} key={index}>
-          <View style={{ flexDirection: "row" }}>
-            <AntDesign name="link" size={17} color="#D4D4D4" />
-            <Text style={styles.linkText}>{image.split("/").pop()}</Text>
-            <TouchableOpacity
-              style={{ marginTop: 1 }}
-              onPress={() => dispatch(removeImages(image))}
-              hitSlop={3}
-            >
-              <MaterialIcons name="cancel" size={18} color="#800B35" />
-            </TouchableOpacity>
+      <View style={styles.imageContainer}>
+        {images.map((image, index) => (
+          <View style={{ margin: 5 }} key={index}>
+            <View style={{ flexDirection: "row" }}>
+              <Image source={{ uri: image }} style={styles.image} />
+
+              <TouchableOpacity
+                style={{}}
+                onPress={() => dispatch(removeImages(image))}
+                hitSlop={3}
+              >
+                <MaterialIcons name="cancel" size={18} color="#800B35" />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      ))}
-      {/* <Image
-        source={{
-          uri: "http://192.168.10.125:3000/uploads/1700036526569-1044FE4F-F662-4F21-AAC9-C2C4C5F22583.jpg",
-        }}
-        style={styles.image}
-      /> */}
-      {/* <CustomButton action={addImage} label="add image" /> */}
+        ))}
+      </View>
       <View style={[styles.container, { marginBottom: 17, marginTop: 25 }]}>
         <PressableContainer
           icon={
@@ -148,6 +101,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     margin: 20,
+  },
+  imageContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap", // Wrap to next line if there's no space
+    justifyContent: "center", // Center the images (optional)
+    alignItems: "center", // Align items center vertically (optional)
   },
   linkText: {
     fontFamily: "Roboto-Medium",
