@@ -48,6 +48,7 @@ const InTaskImages = ({ images, dispatch, addedImages }) => {
       dispatch(addDeletedImages(image.name));
     } else {
       dispatch(removeImages(image));
+      console.log("addedImages", addedImages);
     }
   };
 
@@ -95,31 +96,31 @@ const InTaskImages = ({ images, dispatch, addedImages }) => {
           paddingTop: 15,
         }}
       >
-        {images.length ? (
-          images.map((image, index) => (
-            <ImageComponent
-              key={index}
-              image={image}
-              baseURL={baseURL}
-              handleImagePress={handleImagePress}
-              handleRemoveItem={handleRemoveItem}
-              isFromDB={true}
-            />
-          ))
-        ) : (
+        {images.length === 0 && addedImages.length === 0 ? (
           <Text style={styles.nothingAddedText}>{"No media added"}</Text>
+        ) : (
+          <>
+            {images.map((image, index) => (
+              <ImageComponent
+                key={`db-${index}`}
+                image={image}
+                baseURL={baseURL}
+                handleImagePress={handleImagePress}
+                handleRemoveItem={handleRemoveItem}
+                isFromDB={true}
+              />
+            ))}
+            {addedImages.map((uri, index) => (
+              <ImageComponent
+                key={`local-${index}`}
+                image={uri}
+                handleImagePress={handleImagePress}
+                handleRemoveItem={handleRemoveItem}
+                isFromDB={false}
+              />
+            ))}
+          </>
         )}
-
-        {addedImages.length > 0 &&
-          addedImages.map((uri, index) => (
-            <ImageComponent
-              key={index}
-              image={uri}
-              handleImagePress={handleImagePress}
-              handleRemoveItem={handleRemoveItem}
-              isFromDB={false}
-            />
-          ))}
       </View>
 
       <Modal

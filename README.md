@@ -9,6 +9,7 @@
     <img width='200px' src='/.github/photo_3_2023-12-11_21-13-55.jpg' alt='scr3'>
     <img width='200px' src='/.github/photo_5_2023-12-11_21-13-55.jpg' alt='scr3'>
     <img width='200px' src='/.github/photo_4_2023-12-11_21-13-55.jpg' alt='scr3'>
+    <img width='200px' src='/.github/photo_2024-01-09_20-29-45.jpg' alt='scr3'>
     <img width='200px' src='/.github/photo_7_2023-12-11_21-13-55.jpg' alt='scr3'>
     <img width='200px' src='/.github/photo_8_2023-12-11_21-13-55.jpg' alt='scr3'>
     <img width='200px' src='/.github/photo_2023-12-12_09-51-59.jpg' alt='scr3'>
