@@ -10,6 +10,7 @@ import {
 import {
   removeInTaskImages,
   addDeletedImages,
+  removeImages,
 } from "../redux/slices/taskSlice";
 const { baseURL } = require("../../config");
 import { MaterialIcons, FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -35,15 +36,19 @@ const InTaskImages = ({ images, dispatch, addedImages }) => {
   const [mediaColor, setMediaColor] = useState("black");
   const [docColor, setDocColor] = useState("black");
 
-  const handleImagePress = (image) => {
-    setSelectedImage(image);
+  const handleImagePress = (image, isFromDB) => {
+    const imageSource = isFromDB ? baseURL + `/uploads/${image.name}` : image;
+    setSelectedImage({ uri: imageSource });
     setModalVisible(true);
   };
 
-  const handleRemoveItem = (imageIdToRemove, imageName) => {
-    console.log("imageName", imageName);
-    dispatch(removeInTaskImages(imageIdToRemove));
-    dispatch(addDeletedImages(imageName));
+  const handleRemoveItem = (image, isFromDB) => {
+    if (isFromDB) {
+      dispatch(removeInTaskImages(image._id));
+      dispatch(addDeletedImages(image.name));
+    } else {
+      dispatch(removeImages(image));
+    }
   };
 
   const panRef = useRef();
@@ -140,7 +145,7 @@ const InTaskImages = ({ images, dispatch, addedImages }) => {
                 simultaneousHandlers={[panRef]}
               >
                 <Animated.Image
-                  source={{ uri: baseURL + `/uploads/${selectedImage?.name}` }}
+                  source={{ uri: selectedImage?.uri }}
                   style={[styles.fullImage, animatedStyle]}
                   resizeMode="contain"
                 />
@@ -208,7 +213,7 @@ const ImageComponent = ({
     <View
       style={{ flexDirection: "row", paddingVertical: 5, paddingStart: 20 }}
     >
-      <TouchableOpacity onPress={() => handleImagePress(image)}>
+      <TouchableOpacity onPress={() => handleImagePress(image, isFromDB)}>
         <View style={styles.imageContainer}>
           {isLoading && (
             <ActivityIndicator
@@ -230,7 +235,7 @@ const ImageComponent = ({
       <View style={{ alignSelf: "center", paddingStart: 15 }}>
         {!isLoading && (
           <TouchableOpacity
-            onPress={() => handleRemoveItem(image._id, image.name)}
+            onPress={() => handleRemoveItem(image, isFromDB)}
             hitSlop={7}
             style={styles.cancelIcon}
           >
