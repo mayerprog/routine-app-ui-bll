@@ -49,7 +49,7 @@ const InTaskLinks = ({ links, checkIfURLCanBeOpened, dispatch }) => {
             key={index}
             style={{
               flexDirection: "row",
-              paddingStart: 30,
+              paddingStart: 40,
               marginTop: 15,
             }}
           >
