@@ -1,10 +1,12 @@
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+import * as ImageManipulator from "expo-image-manipulator";
+
 import { addImages } from "../redux/slices/taskSlice";
 
 export const selectImage = async (useLibrary, dispatch) => {
   let result;
-  const MAX_SIZE = 7 * 1024 * 1024;
+  const MAX_SIZE = 4 * 1024 * 1024;
 
   const options = {
     mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -30,8 +32,12 @@ export const selectImage = async (useLibrary, dispatch) => {
         const imageURI = image.uri;
         const fileInfo = await FileSystem.getInfoAsync(imageURI);
         if (fileInfo.size > MAX_SIZE) {
-          alert("File is too large. Please upload an image smaller than 7 MB.");
-          return;
+          const resizedImage = await ImageManipulator.manipulateAsync(
+            imageURI,
+            [{ resize: { width: 1024 } }],
+            { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+          );
+          dispatch(addImages(resizedImage.uri));
         }
         dispatch(addImages(imageURI));
       });
