@@ -38,8 +38,9 @@ export const selectImage = async (useLibrary, dispatch) => {
             { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
           );
           dispatch(addImages(resizedImage.uri));
+        } else {
+          dispatch(addImages(imageURI));
         }
-        dispatch(addImages(imageURI));
       });
     }
   } catch (error) {
