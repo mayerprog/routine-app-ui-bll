@@ -104,9 +104,9 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flexDirection: "row",
-    flexWrap: "wrap", // Wrap to next line if there's no space
-    justifyContent: "center", // Center the images (optional)
-    alignItems: "center", // Align items center vertically (optional)
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
   },
   linkText: {
     fontFamily: "Roboto-Medium",

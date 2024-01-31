@@ -61,7 +61,7 @@ export const tasksAPI = {
         "Error getting tasks:",
         err.response ? err.response.data : err
       );
-      alert("Failed to get all tasks");
+      alert("Failed to get all tasks. Check console for details.");
     }
   },
   async deleteOne(id) {
@@ -73,7 +73,7 @@ export const tasksAPI = {
         "Error deleting a task:",
         err.response ? err.response.data : err
       );
-      alert("Failed to delete a task");
+      alert("Failed to delete a task. Check console for details.");
     }
   },
   async updateTask(id, updatedTask, imagesForDelete, formData) {
@@ -93,7 +93,7 @@ export const tasksAPI = {
         "Error updating a task:",
         err.response ? err.response.data : err
       );
-      alert("Failed to update a task");
+      alert("Failed to update a task. Check console for details.");
     }
   },
 };
