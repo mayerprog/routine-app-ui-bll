@@ -52,21 +52,16 @@ export const tasksAPI = {
       alert("Failed to create task. Check console for details.");
     }
   },
-  // async uploadImage(formData) {
-  //   try {
-  //     const response = await instance.post(`/uploadImage`, formData);
-  //     console.log("Image uploaded", response.data.image.data);
-  //     return response.data.image.name;
-  //   } catch (err) {
-  //     alert(err);
-  //   }
-  // },
   async getAll() {
     try {
       const response = await instance.get(`/getAll`);
       return response.data;
     } catch (err) {
-      alert(err);
+      console.error(
+        "Error getting tasks:",
+        err.response ? err.response.data : err
+      );
+      alert("Failed to get all tasks");
     }
   },
   async deleteOne(id) {
@@ -74,7 +69,11 @@ export const tasksAPI = {
       const response = await instance.delete(`/deleteOne/${id}`);
       return response.data;
     } catch (err) {
-      alert(err);
+      console.error(
+        "Error deleting a task:",
+        err.response ? err.response.data : err
+      );
+      alert("Failed to delete a task");
     }
   },
   async updateTask(id, updatedTask, imagesForDelete, formData) {
@@ -90,7 +89,11 @@ export const tasksAPI = {
       );
       return response.data;
     } catch (err) {
-      alert(err);
+      console.error(
+        "Error updating a task:",
+        err.response ? err.response.data : err
+      );
+      alert("Failed to update a task");
     }
   },
 };
