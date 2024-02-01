@@ -45,7 +45,7 @@ const InTaskImages = ({ images, dispatch, addedImages }) => {
   const handleRemoveItem = (image, isFromDB) => {
     if (isFromDB) {
       dispatch(removeInTaskImages(image._id));
-      dispatch(addDeletedImages(image.name));
+      dispatch(addDeletedImages(image.name)); //to delete from DB
     } else {
       dispatch(removeImages(image));
       console.log("addedImages", addedImages);

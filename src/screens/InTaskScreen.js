@@ -28,7 +28,6 @@ import CustomButton from "../components/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { editTask } from "../redux/slices/taskSlice";
 import { tasksAPI } from "../api/tasksAPI";
-import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import InTaskLinks from "../components/InTaskLinks";
 import InTaskImages from "../components/InTaskImages";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -46,9 +45,9 @@ const InTaskScreen = ({ route, navigation }) => {
 
   const dispatch = useDispatch();
   const links = useSelector((state) => state.task.links);
-  const images = useSelector((state) => state.task.inTaskImages);
+  const images = useSelector((state) => state.task.inTaskImages); //images came from the server
   const deletedImages = useSelector((state) => state.task.deletedImages);
-  const addedImages = useSelector((state) => state.task.images);
+  const addedImages = useSelector((state) => state.task.images); //images from gallery
 
   const [selectedDate, setSelectedDate] = useState(task.date);
 
