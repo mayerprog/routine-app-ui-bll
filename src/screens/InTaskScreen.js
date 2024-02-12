@@ -83,19 +83,32 @@ const InTaskScreen = ({ route, navigation }) => {
   };
 
   const updateTask = async () => {
-    setButtonLoading(true);
-    updatedTask.title = title;
-    updatedTask.description = description;
-    updatedTask.links = links;
-    updatedTask.images = images;
-    updatedTask.notificationDate = selectedDate;
-    const formData = await postImage(addedImages);
-    dispatch(editTask(updatedTask));
-    await tasksAPI.updateTask(task._id, updatedTask, deletedImages, formData);
-    const getAll = await tasksAPI.getAll();
-    dispatch(setTasks(getAll));
-    navigation.goBack();
-    setButtonLoading(false);
+    if (title.trim().length === 0) {
+      Alert.alert("Please add title");
+      return;
+    } else if (description.trim().length === 0) {
+      Alert.alert("Please add description");
+      return;
+    } 
+    // else if (taskDate.trim().length === 0) {
+    //   Alert.alert("Please choose date");
+    //   return;
+    // }
+    else {
+      setButtonLoading(true);
+      updatedTask.title = title;
+      updatedTask.description = description;
+      updatedTask.links = links;
+      updatedTask.images = images;
+      updatedTask.notificationDate = selectedDate;
+      const formData = await postImage(addedImages);
+      dispatch(editTask(updatedTask));
+      await tasksAPI.updateTask(task._id, updatedTask, deletedImages, formData);
+      const getAll = await tasksAPI.getAll();
+      dispatch(setTasks(getAll));
+      navigation.goBack();
+      setButtonLoading(false);
+    }
   };
 
   const [open, setOpen] = useState(false);
