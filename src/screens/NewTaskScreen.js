@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Alert,
   Keyboard,
   Modal,
   ScrollView,
@@ -58,9 +59,16 @@ const NewTaskScreen = ({ setModalVisible }) => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     console.log("formData", formData);
-    if (title === "") alert("Please add title");
-    // else if (description === "") alert("Please add description");
-    else if (taskDate === "") alert("Please choose date");
+    if (title.trim().length === 0) {
+      Alert.alert("Please add title");
+      return;
+    } else if (description.trim().length === 0) {
+      Alert.alert("Please add description");
+      return;
+    } else if (taskDate.trim().length === 0) {
+      Alert.alert("Please choose date");
+      return;
+    }
     else {
       setLoading(true);
       const newSavedTask = await tasksAPI.createTask(
